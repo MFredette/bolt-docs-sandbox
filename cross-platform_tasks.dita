@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//PUPPET//DTD DITA Puppet Concept//EN" "concept.dtd">
+<concept id="cross-platform-tasks" class="- topic/topic concept/concept "><title class="- topic/title ">Cross-platform tasks</title><shortdesc class="- topic/shortdesc ">A task can  have multiple implementations, with metadata that explains when to use each one. A primary use case for this is to support different implementations for different target platforms, referred to as <term class="- topic/term ">cross-platform tasks</term>.</shortdesc><prolog class="- topic/prolog "><author translate="no" type="creator" class="- topic/author ">Melissa Amos &lt;melissa.amos@puppet.com&gt;</author></prolog><conbody class="- topic/body  concept/conbody "><p class="- topic/p ">
+         <draft-comment class="- topic/draft-comment ">Shared between Bolt and PE 2019.0+</draft-comment>
+      </p><p class="- topic/p ">A task can also have multiple implementations, with metadata that explains when to use each one. A primary use case for this is to support different implementations for different target platforms, referred to as <codeph translate="no" class="+ topic/ph pr-d/codeph ">cross-platform tasks</codeph>. For instance, consider a module with the following files:<codeblock translate="no" xml:space="preserve" class="+ topic/pre pr-d/codeblock ">- tasks
+  - sql_linux.sh
+  - sql_linux.json
+  - sql_windows.ps1
+  - sql_windows.json
+  - sql.json</codeblock></p><p class="- topic/p ">This task has two executables (<codeph translate="no" class="+ topic/ph pr-d/codeph ">sql_linux.sh</codeph> and <codeph translate="no" class="+ topic/ph pr-d/codeph ">sql_windows.ps1</codeph>), each with an implementation metadata file and a task metadata file. The executables have distinct names and are compatible with older task runners such as 
+
+            <ph conkeyref="ProductNames/pe_long" class="- topic/ph "/> 2018.1 and earlier. Each implementation has it's own metadata which documents how to use the implementation directly or marks it as private to hide it from UI lists.</p><p class="- topic/p ">An implementation metadata example: <codeblock translate="no" xml:space="preserve" class="+ topic/pre pr-d/codeblock ">{
+  "name": "SQL Linux",
+  "description": "A task to perform sql operations on linux targets",
+  "private": true
+}</codeblock></p><p class="- topic/p ">The task metadata file contains an implementations section: </p><codeblock translate="no" xml:space="preserve" class="+ topic/pre pr-d/codeblock ">{
+  "implementations": [
+    {"name": "sql_linux.sh", "requirements": ["shell"]},
+    {"name": "sql_windows.ps1", "requirements": ["powershell"]}
+  ]
+}</codeblock><p class="- topic/p ">Each implementations has a <codeph translate="no" class="+ topic/ph pr-d/codeph ">name</codeph> and a list of <codeph translate="no" class="+ topic/ph pr-d/codeph ">requirements</codeph>. The requirements are the set of <i class="+ topic/ph hi-d/i ">features</i> which must be available on the target in order for that implementation to be used. In this case, the <codeph translate="no" class="+ topic/ph pr-d/codeph ">sql_linux.sh</codeph> implementation requires the <codeph translate="no" class="+ topic/ph pr-d/codeph ">shell</codeph> feature, and the <codeph translate="no" class="+ topic/ph pr-d/codeph ">sql_windows.ps1</codeph> implementations requires the  
+
+            <ph conkeyref="ProductNames/powershell" class="- topic/ph "/> feature.</p><p class="- topic/p ">The set of features available on the target is determined by the task runner. You can specify additional features for a target via <codeph translate="no" class="+ topic/ph pr-d/codeph ">set_feature</codeph> or by adding <codeph translate="no" class="+ topic/ph pr-d/codeph ">features</codeph> in the inventory. The task runner chooses the <i class="+ topic/ph hi-d/i ">first </i>implementation whose requirements are satisfied.</p><p class="- topic/p ">The following features are defined by default:</p><ul class="- topic/ul "><li class="- topic/li "><codeph translate="no" class="+ topic/ph pr-d/codeph ">puppet-agent</codeph>: Present if the target has the
+               <ph conkeyref="ProductNames/puppet" class="- topic/ph "/> agent package installed. This feature is automatically added to hosts with the name <codeph class="+ topic/ph pr-d/codeph ">localhost</codeph>.</li><li class="- topic/li "><codeph translate="no" class="+ topic/ph pr-d/codeph ">shell</codeph>: Present if the target has a posix shell.</li><li class="- topic/li "><codeph translate="no" class="+ topic/ph pr-d/codeph ">powershell</codeph>: Present if the target has
+               <ph conkeyref="ProductNames/powershell" class="- topic/ph "/>.</li></ul></conbody></concept>

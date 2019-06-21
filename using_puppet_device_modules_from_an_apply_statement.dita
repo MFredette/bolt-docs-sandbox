@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//PUPPET//DTD DITA Puppet Concept//EN" "concept.dtd">
+<concept id="puppet_device_modules_apply" class="- topic/topic concept/concept "><title class="- topic/title ">Using 
+
+      <ph conkeyref="ProductNames/puppet" class="- topic/ph "/> device modules from an apply statement</title><shortdesc class="- topic/shortdesc ">
+      <ph conkeyref="ProductNames/puppet" class="- topic/ph "/> device modules based on remote transports allow network devices and
+other targets that can't run a 
+
+      <ph conkeyref="ProductNames/puppet" class="- topic/ph "/>agent to be managed from a proxy.</shortdesc><prolog class="- topic/prolog "><author translate="no" type="creator" class="- topic/author ">Melissa Amos &lt;melissa.amos@puppet.com&gt;</author></prolog><conbody class="- topic/body  concept/conbody "><p class="- topic/p ">
+         <note class="- topic/note ">Support for device modules is experimental and might change in future minor (y) releases.</note>
+      </p><p class="- topic/p ">To use
+device modules from an apply statement, the devices must be added to the
+
+
+         <ph conkeyref="ProductNames/bolt" class="- topic/ph "/> inventory as remote targets. The <codeph class="+ topic/ph pr-d/codeph ">name</codeph> of the target will be used to
+auto-populate the <codeph class="+ topic/ph pr-d/codeph ">name</codeph>, <codeph class="+ topic/ph pr-d/codeph ">uri</codeph>, <codeph class="+ topic/ph pr-d/codeph ">user</codeph>, <codeph class="+ topic/ph pr-d/codeph ">password</codeph>, <codeph class="+ topic/ph pr-d/codeph ">host</codeph>, and <codeph class="+ topic/ph pr-d/codeph ">port</codeph> fields
+of the remote transport's connnection info. You must set the <codeph class="+ topic/ph pr-d/codeph ">remote-transport</codeph>
+option and any other connnection info under the <codeph class="+ topic/ph pr-d/codeph ">remote</codeph> section of config.</p><codeblock class="+ topic/pre pr-d/codeblock ">---
+nodes:
+  - name: "https://username:password@panos-device.example.com"
+    config:
+      transport: remote
+      remote:
+       remote-transport: panos</codeblock><p class="- topic/p ">When you set the <codeph class="+ topic/ph pr-d/codeph ">run-on</codeph> option with a device module, the puppet-resource_api
+gem be must installed with the puppet agent on the proxy target and it must be version 1.8.1 or later.</p></conbody></concept>

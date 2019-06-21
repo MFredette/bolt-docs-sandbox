@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//PUPPET//DTD DITA Puppet Task//EN" "task.dtd">
+<task xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" ditaarch:DITAArchVersion="1.2" domains="(topic task)                            (topic hi-d)                            (topic ut-d)                            (topic indexing-d)                              (topic pr-d)                            (topic sw-d)                            (topic ui-d)                            (topic task strictTaskbody-c)   " id="task-1894" class="- topic/topic task/task "><title class="- topic/title ">Install 
+
+      
+
+      
+
+      <ph conkeyref="ProductNames/bolt" class="- topic/ph "/> with 
+
+      <ph conkeyref="ProductNames/macos" class="- topic/ph "/> installer&#160;</title><shortdesc class="- topic/shortdesc ">Use the Apple Disk Image (DMG)  to install 
+
+      
+
+      
+
+      <ph conkeyref="ProductNames/bolt" class="- topic/ph "/> on 
+
+      <ph conkeyref="ProductNames/macos" class="- topic/ph "/>. </shortdesc><prolog class="- topic/prolog "><author translate="no" type="creator" class="- topic/author ">Kate Lopresti &lt;kate.lopresti@puppet.com&gt;</author></prolog><taskbody class="- topic/body task/taskbody "><context class="- topic/section task/context ">
+         <p class="- topic/p "/>
+      </context><steps class="- topic/ol task/steps "><step class="- topic/li task/step "><cmd class="- topic/ph task/cmd ">Download the 
+
+               <ph conkeyref="ProductNames/bolt" class="- topic/ph "/> installer package for your 
+
+               <ph conkeyref="ProductNames/macos" class="- topic/ph "/> version.</cmd><info class="- topic/itemgroup task/info ">
+               <note type="tip" class="- topic/note ">To find the macOS version number on your Mac, go to the Apple () menu in the corner of your screen and choose <uicontrol class="+ topic/ph ui-d/uicontrol ">About This Mac</uicontrol>.</note>
+            </info><choices class="- topic/ul task/choices "><choice class="- topic/li task/choice ">10.11 (El Capitan) <xref format="html" href="https://downloads.puppet.com/mac/puppet6/10.11/x86_64/puppet-bolt-latest.dmg" scope="external" class="- topic/xref ">https://downloads.puppet.com/mac/puppet6/10.11/x86_64/puppet-bolt-latest.dmg</xref></choice><choice class="- topic/li task/choice ">10.12 (Sierra) <xref format="html" href="https://downloads.puppet.com/mac/puppet6/10.12/x86_64/puppet-bolt-latest.dmg" scope="external" class="- topic/xref ">https://downloads.puppet.com/mac/puppet6/10.12/x86_64/puppet-bolt-latest.dmg</xref></choice><choice class="- topic/li task/choice ">10.13 (High Sierra) <xref format="html" href="https://downloads.puppet.com/mac/puppet6/10.13/x86_64/puppet-bolt-latest.dmg" scope="external" class="- topic/xref ">https://downloads.puppet.com/mac/puppet6/10.13/x86_64/puppet-bolt-latest.dmg</xref></choice><choice class="- topic/li task/choice ">10.14 (Mojave) <xref format="html" href="https://downloads.puppet.com/mac/puppet6/10.14/x86_64/puppet-bolt-latest.dmg" scope="external" class="- topic/xref ">https://downloads.puppet.com/mac/puppet6/10.14/x86_64/puppet-bolt-latest.dmg</xref></choice></choices></step><step class="- topic/li task/step "><cmd class="- topic/ph task/cmd ">Double-click the <codeph translate="no" class="+ topic/ph pr-d/codeph ">puppet-bolt-latest.dmg</codeph> file to mount it and then double-click the <codeph translate="no" class="+ topic/ph pr-d/codeph ">puppet-bolt-[version]-installer.pkg</codeph> to run the installation. </cmd></step><step conref="conref_install_task.dita#task-7419/step-1521741230878" class="- topic/li task/step "><cmd class="- topic/ph task/cmd "/></step></steps></taskbody></task>

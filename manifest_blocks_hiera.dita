@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//PUPPET//DTD DITA Puppet Concept//EN" "concept.dtd">
+<concept xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" id="concept-4446" domains="(topic concept)                            (topic hi-d)                            (topic ut-d)                            (topic indexing-d)                             (topic pr-d)                            (topic sw-d)                            (topic ui-d)   " ditaarch:DITAArchVersion="1.2" class="- topic/topic concept/concept "><title class="- topic/title ">Using <ph conkeyref="ProductNames/hiera" class="- topic/ph "/> data
+    in a manifest block</title><shortdesc class="- topic/shortdesc ">Use <ph conkeyref="ProductNames/hiera" class="- topic/ph "/>
+    to separate configuration from context-specific data, where context may be fact-based or the
+    name of a target.</shortdesc><prolog class="- topic/prolog "><author type="creator" translate="no" class="- topic/author ">Kate Lopresti
+      &lt;kate.lopresti@puppet.com&gt;</author></prolog><conbody class="- topic/body  concept/conbody "><note type="note" class="- topic/note ">Only <ph conkeyref="ProductNames/hiera" class="- topic/ph "/> version 5 is supported in <ph conkeyref="ProductNames/bolt" class="- topic/ph "/>.</note><p class="- topic/p "><ph conkeyref="ProductNames/hiera" class="- topic/ph "/> is a 
+      key-value configuration data lookup system, used for separating data from <ph conkeyref="ProductNames/puppet" class="- topic/ph "/> code. You use
+        <ph conkeyref="ProductNames/hiera" class="- topic/ph "/> data to implicitly override default
+      class parameters. You can also explicitly lookup data from <ph conkeyref="ProductNames/hiera" class="- topic/ph "/> via lookup, for example:
+      <codeblock translate="no" xml:space="preserve" class="+ topic/pre pr-d/codeblock ">plan do_thing() {
+  apply('localhost') {
+    notice("Some data in Hiera: ${lookup('mydata')}")
+  }
+}</codeblock></p><p class="- topic/p ">Manifest block compilation can access <ph conkeyref="ProductNames/hiera" class="- topic/ph "/> data that you add to your <ph conkeyref="ProductNames/bolt" class="- topic/ph "/> configuration. The default location for <ph conkeyref="ProductNames/hiera" class="- topic/ph "/> config is <codeph translate="no" class="+ topic/ph pr-d/codeph ">$BOLTDIR/hiera.yaml</codeph>; you can change this with the <codeph translate="no" class="+ topic/ph pr-d/codeph ">hiera-config </codeph>key in a <ph conkeyref="ProductNames/bolt" class="- topic/ph "/> config file. </p><p class="- topic/p ">Following the <ph conkeyref="ProductNames/hiera" class="- topic/ph "/> 5
+      convention, the default data dir is relative to <codeph translate="no" class="+ topic/ph pr-d/codeph ">hiera.yaml</codeph> at <codeph translate="no" class="+ topic/ph pr-d/codeph ">$BOLTDIR/data</codeph>. For config file examples, see <xref href="https://puppet.com/docs/puppet/latest/hiera_config_yaml_5.html" format="html" scope="external" class="- topic/xref ">Configuring Hiera</xref>. </p><p class="- topic/p "> If a custom data provider is used (such as <codeph translate="no" class="+ topic/ph pr-d/codeph ">hiera-eyaml</codeph>, which allows you to encrypt your data)
+      the gem dependencies must be available to <ph conkeyref="ProductNames/bolt" class="- topic/ph "/>. See <xref href="bolt_install_package_gems.dita" class="- topic/xref "/>.</p></conbody></concept>

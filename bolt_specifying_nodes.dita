@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//PUPPET//DTD DITA Puppet Concept//EN" "concept.dtd">
+<concept xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" id="concept-743" domains="(topic concept)                            (topic hi-d)                            (topic ut-d)                            (topic indexing-d)                             (topic pr-d)                            (topic sw-d)                            (topic ui-d)   " ditaarch:DITAArchVersion="1.2" class="- topic/topic concept/concept "><title class="- topic/title ">Specify  target nodes</title><shortdesc class="- topic/shortdesc ">Specify the nodes that you want <ph conkeyref="ProductNames/bolt" class="- topic/ph "/> to target.</shortdesc><prolog class="- topic/prolog "><author type="creator" translate="no" class="- topic/author ">Jean Bond &lt;jean@puppet.com&gt;</author></prolog><conbody class="- topic/body  concept/conbody "><p class="- topic/p ">For most&#160;
+
+         
+
+         
+
+         <ph conkeyref="ProductNames/bolt" class="- topic/ph "/>&#160;commands, you specify target nodes with the&#160;<codeph translate="no" class="+ topic/ph pr-d/codeph ">--nodes</codeph>&#160;flag, for example, <codeph translate="no" class="+ topic/ph pr-d/codeph ">--nodes mercury</codeph>.  For plans, you specify nodes as a list within the task plan itself or specify them as regular parameters, like&#160;<codeph translate="no" class="+ topic/ph pr-d/codeph ">nodes=neptune</codeph>.</p><p class="- topic/p ">When targeting systems with the <codeph translate="no" class="+ topic/ph pr-d/codeph ">--nodes</codeph> flag, you can specify  the transport either in the node URL for each host, such as <codeph translate="no" class="+ topic/ph pr-d/codeph ">--nodes winrm://mywindowsnode.mydomain</codeph>, or set a default transport for the operation with the<codeph translate="no" class="+ topic/ph pr-d/codeph "> --transport</codeph> option. If you do not specify a transport it will
+default to <codeph translate="no" class="+ topic/ph pr-d/codeph ">ssh</codeph>.</p><section class="- topic/section "><title class="- topic/title ">Specify  nodes in the command line</title><ul class="- topic/ul "><li class="- topic/li ">
+               <p class="- topic/p ">To specify multiple nodes with the <codeph translate="no" class="+ topic/ph pr-d/codeph ">--nodes</codeph> flag, use a comma-separated list of nodes:
+					<codeblock translate="no" xml:space="preserve" class="+ topic/pre pr-d/codeblock ">--nodes neptune,saturn,mars</codeblock></p>
+            </li><li class="- topic/li ">
+               <p class="- topic/p ">To generate a node list with brace expansion, specify the node list with an equals sign (<codeph translate="no" class="+ topic/ph pr-d/codeph ">=</codeph>), such as <codeph translate="no" class="+ topic/ph pr-d/codeph ">--nodes=web{1,2}</codeph>. </p>
+
+               <codeblock translate="no" xml:space="preserve" class="+ topic/pre pr-d/codeblock "> bolt command run --nodes={web{5,6,7},elasticsearch{1,2,3}.subdomain}.mydomain.edu  </codeblock>
+
+               <p class="- topic/p ">
+            This command runs 
+
+                  
+
+                  <ph conkeyref="ProductNames/bolt" class="- topic/ph "/> on the following hosts:</p>
+
+               <p class="- topic/p ">
+                  <ul class="- topic/ul "><li class="- topic/li ">
+                        <p class="- topic/p ">elasticsearch1.subdomain.mydomain.edu</p>
+                     </li><li class="- topic/li ">
+                        <p class="- topic/p ">elasticsearch2.subdomain.mydomain.edu </p>
+                     </li><li class="- topic/li ">
+                        <p class="- topic/p ">elasticsearch3.subdomain.mydomain.edu</p>
+                     </li><li class="- topic/li ">
+                        <p class="- topic/p ">web5.mydomain.edu</p>
+                     </li><li class="- topic/li ">
+                        <p class="- topic/p ">web6.mydomain.edu</p>
+                     </li><li class="- topic/li ">
+                        <p class="- topic/p ">web7.mydomain.edu</p>
+                     </li></ul>
+               </p>
+            </li><li class="- topic/li ">
+               <p class="- topic/p ">To pass nodes to 
+
+                  
+
+                  <ph conkeyref="ProductNames/bolt" class="- topic/ph "/> in a file, pass the file name and relative location with the <codeph translate="no" class="+ topic/ph pr-d/codeph ">--nodes</codeph> flag and an <codeph translate="no" class="+ topic/ph pr-d/codeph ">@</codeph> symbol:</p>
+
+               <codeblock translate="no" xml:space="preserve" class="+ topic/pre pr-d/codeblock ">bolt command run --nodes @nodes.txt</codeblock>
+
+               <p class="- topic/p ">For <ph conkeyref="ProductNames/windows" class="- topic/ph "/> <ph conkeyref="ProductNames/powershell" class="- topic/ph "/>,  add single quotation marks  to define the file: 
+         <codeblock translate="no" xml:space="preserve" class="+ topic/pre pr-d/codeblock ">bolt command run --nodes '@nodes.txt'</codeblock></p>
+            </li><li class="- topic/li ">
+               <p class="- topic/p ">To pass nodes on <codeph translate="no" class="+ topic/ph pr-d/codeph ">stdin</codeph>, on the command line, use a command to generate a node list, and pipe the result to 
+
+                  
+
+                  <ph conkeyref="ProductNames/bolt" class="- topic/ph "/>  with <codeph translate="no" class="+ topic/ph pr-d/codeph ">-</codeph> after <codeph translate="no" class="+ topic/ph pr-d/codeph ">--nodes</codeph>: 
+
+            <codeblock translate="no" xml:space="preserve" class="+ topic/pre pr-d/codeblock ">&lt;COMMAND&gt; | bolt command run --nodes -</codeblock></p>
+
+               <p class="- topic/p ">For example, if you have a node list in a text file: 
+
+            <codeblock translate="no" xml:space="preserve" class="+ topic/pre pr-d/codeblock ">cat nodes.txt | bolt command run --nodes -</codeblock></p>
+            </li><li class="- topic/li ">
+               <p class="- topic/p ">To pass nodes as IP addresses, use  <codeph translate="no" class="+ topic/ph pr-d/codeph ">protocol://user:password@host:port</codeph> or inventory group name.  You can use a domain name or IP address for <codeph translate="no" class="+ topic/ph pr-d/codeph ">host</codeph>, which is required. Other parameters are optional.<codeblock translate="no" xml:space="preserve" class="+ topic/pre pr-d/codeblock ">bolt command run --nodes ssh://user:password@[fe80::34eb:ff1:b584:d7c0]:22,
+ssh://root:password@hostname, pcp://host01, winrm://Administrator:password@hostname</codeblock></p>
+            </li></ul></section><section class="- topic/section "><title class="- topic/title ">Specify nodes from an inventory file</title><p class="- topic/p ">To specify nodes from an inventory file, reference nodes by node name, a glob matching names in the file, or the name of a group of nodes.</p><p class="- topic/p ">
+            <ul class="- topic/ul "><li class="- topic/li ">
+                  <p class="- topic/p ">To match all nodes in both groups listed in the inventory file example: <codeblock translate="no" xml:space="preserve" class="+ topic/pre pr-d/codeblock ">--nodes elastic_search,web_app</codeblock></p>
+               </li><li class="- topic/li ">
+                  <p class="- topic/p ">To match all the nodes that start with elasticsearch in the inventory file example: <codeblock translate="no" xml:space="preserve" class="+ topic/pre pr-d/codeblock ">--nodes 'elasticsearch*' </codeblock></p>
+               </li></ul>
+         </p><p class="- topic/p ">
+  This inventory file  defines two top-level groups: elastic_search and web_app. 
+		</p><codeblock translate="no" xml:space="preserve" class="+ topic/pre pr-d/codeblock ">groups:
+  - name: elastic_search
+    nodes:
+      - elasticsearch1.subdomain.mydomain.edu
+      - elasticsearch2.subdomain.mydomain.edu
+      - elasticsearch3.subdomain.mydomain.edu
+  - name: web_app
+    nodes:
+      - web5.mydomain.edu
+      - web6.mydomain.edu
+      - web7.mydomain.edu</codeblock></section></conbody></concept>

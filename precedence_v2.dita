@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//PUPPET//DTD DITA Puppet Concept//EN" "concept.dtd">
+<concept id="precedence-v2" class="- topic/topic concept/concept "><title class="- topic/title ">Precedence</title><shortdesc class="- topic/shortdesc "/><prolog class="- topic/prolog "><author translate="no" type="creator" class="- topic/author ">Melissa Amos &lt;melissa.amos@puppet.com&gt;</author></prolog><conbody class="- topic/body  concept/conbody "><p class="- topic/p ">If a target specifies a <codeph class="+ topic/ph pr-d/codeph ">uri</codeph> or is created from a URI string any URI-based configuration information like host, transport or port will override config values even those defined in the same block. For config values, the first value found for a target is used. Node values take precedence over group values and are searched first. Values are searched for in a depth first order. The first item in an array is searched first.</p><p class="- topic/p ">Configure transport for targets.</p><codeblock translate="no" xml:space="preserve" class="+ topic/pre pr-d/codeblock ">groups:
+  - name: linux
+    targets:
+      - linux1.example.com
+      - linux2.example.com
+      - linux3.example.com
+  - name: win
+    targets:
+      - win1.example.com
+      - win2.example.com
+      - win3.example.com
+    config:
+      transport: winrm</codeblock><p class="- topic/p ">Configure login and escalation for a specific target.</p><codeblock translate="no" xml:space="preserve" class="+ topic/pre pr-d/codeblock ">targets:
+  - uri: host1.example.com
+    config:
+      ssh:
+          user: me
+          run-as: root</codeblock></conbody></concept>

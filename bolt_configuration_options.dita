@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE reference PUBLIC "-//PUPPET//DTD DITA Puppet Reference//EN" "reference.dtd">
+<reference xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" ditaarch:DITAArchVersion="1.2" domains="(topic reference)                            (topic hi-d)                            (topic ut-d)                            (topic indexing-d)                             (topic pr-d)                            (topic sw-d)                            (topic ui-d)   " id="reference-7615" class="- topic/topic       reference/reference "><title class="- topic/title "> <ph conkeyref="ProductNames/bolt" class="- topic/ph "/> configuration options</title><shortdesc class="- topic/shortdesc ">Your <ph conkeyref="ProductNames/bolt" class="- topic/ph "/> configuration file can contain global and transport options. </shortdesc><prolog class="- topic/prolog "><author translate="no" type="creator" class="- topic/author ">Michelle Fredette &lt;michelle.fredette@puppet.com&gt;</author></prolog><refbody class="- topic/body        reference/refbody "><section class="- topic/section ">
+            <title class="- topic/title ">Sample <ph conkeyref="ProductNames/bolt" class="- topic/ph "/> configuration file</title>
+            <p class="- topic/p ">
+                <codeblock translate="no" xml:space="preserve" class="+ topic/pre pr-d/codeblock ">modulepath: "~/.puppetlabs/bolt-code/modules:~/.puppetlabs/bolt-code/site-modules"
+inventoryfile: "~/.puppetlabs/bolt/inventory.yaml"
+concurrency: 10
+format: human
+ssh:
+  host-key-check: false
+  private-key: ~/.ssh/bolt_id
+  user: foo 
+  interpreters:
+     rb: /home/foo/.rbenv/versions/2.5.1/bin/ruby</codeblock>
+            </p>
+        </section><section class="- topic/section ">
+            <title class="- topic/title ">Global configuration options</title>
+            <ul class="- topic/ul "><li class="- topic/li ">
+                    <p class="- topic/p "> <codeph translate="no" class="+ topic/ph pr-d/codeph ">color</codeph>: Whether to use colored output when printing messages to the console.</p>
+                </li><li class="- topic/li ">
+                    <p class="- topic/p "> <codeph translate="no" class="+ topic/ph pr-d/codeph ">concurrency</codeph>: The number of threads to use when executing on remote nodes. Default is <codeph translate="no" class="+ topic/ph pr-d/codeph ">100</codeph>.</p>
+                </li><li class="- topic/li ">
+                    <p class="- topic/p "> <codeph translate="no" class="+ topic/ph pr-d/codeph ">format</codeph>: The format to use when printing results. Options are&#160;<codeph translate="no" class="+ topic/ph pr-d/codeph ">human</codeph>&#160;and&#160;<codeph translate="no" class="+ topic/ph pr-d/codeph ">json</codeph>. Default&#160;is <codeph translate="no" class="+ topic/ph pr-d/codeph ">human</codeph>.</p>
+                </li><li class="- topic/li ">
+                    <p class="- topic/p "> <codeph translate="no" class="+ topic/ph pr-d/codeph ">hiera-config</codeph>: Specify the path to your <ph conkeyref="ProductNames/hiera" class="- topic/ph "/> config. The default path is <codeph translate="no" class="+ topic/ph pr-d/codeph ">hiera.yaml</codeph> inside the <xref href="bolt_project_directories.dita" class="- topic/xref "><ph conkeyref="ProductNames/bolt" class="- topic/ph "/>&#160;project directory</xref>.</p>
+                </li><li class="- topic/li ">
+                    <p class="- topic/p "><codeph class="+ topic/ph pr-d/codeph ">interpreters</codeph>: A map of an extension name to the absolute path of an executable, enabling you to override the shebang defined in a task executable. The extension can optionally be specified with the <codeph class="+ topic/ph pr-d/codeph ">.</codeph> character (<codeph class="+ topic/ph pr-d/codeph ">.py</codeph> and <codeph class="+ topic/ph pr-d/codeph ">py</codeph> both map to a task executable <codeph class="+ topic/ph pr-d/codeph ">task.py</codeph>) and the extension is case sensitive. The transports that support interpreter configuration are <codeph class="+ topic/ph pr-d/codeph ">docker</codeph>, <codeph class="+ topic/ph pr-d/codeph ">local</codeph>, <codeph class="+ topic/ph pr-d/codeph ">ssh</codeph>, and <codeph class="+ topic/ph pr-d/codeph ">winrm</codeph>. When a node's name is <codeph class="+ topic/ph pr-d/codeph ">localhost</codeph>, <ph conkeyref="ProductNames/ruby" class="- topic/ph "/> tasks run with the <ph conkeyref="ProductNames/bolt" class="- topic/ph "/> <ph conkeyref="ProductNames/ruby" class="- topic/ph "/> interpreter by default. This example demonstrates configuring Python tasks to run with a <codeph class="+ topic/ph pr-d/codeph ">python3</codeph> interpreter: :
+                        <codeblock class="+ topic/pre pr-d/codeblock ">interpreters:
+  py: /usr/bin/python3</codeblock>
+                    </p>
+                </li><li class="- topic/li ">
+                    <p class="- topic/p "> <codeph translate="no" class="+ topic/ph pr-d/codeph ">inventoryfile</codeph>: The path to a structured data inventory file used to refer to groups of nodes on the command line and from plans. The default path for the inventory file is&#160;<codeph translate="no" class="+ topic/ph pr-d/codeph ">inventory.yaml</codeph>&#160;inside the <xref href="bolt_project_directories.dita" class="- topic/xref "><ph conkeyref="ProductNames/bolt" class="- topic/ph "/>&#160;project directory</xref>.</p>
+                </li><li class="- topic/li ">
+                    <p class="- topic/p "> <codeph translate="no" class="+ topic/ph pr-d/codeph ">modulepath</codeph>: The module path for loading tasks and plan code. This is either an array of directories or a string containing a list of directories separated by the OS-specific <codeph translate="no" class="+ topic/ph pr-d/codeph ">PATH</codeph> separator. The default path for modules is&#160;<codeph translate="no" class="+ topic/ph pr-d/codeph ">modules:site-modules:site</codeph>&#160;inside the <xref href="bolt_project_directories.dita" class="- topic/xref "><ph conkeyref="ProductNames/bolt" class="- topic/ph "/>&#160;project directory</xref>.</p>
+                </li><li class="- topic/li ">
+                    <p class="- topic/p "><codeph translate="no" class="+ topic/ph pr-d/codeph ">puppetfile</codeph>: A map containing options for the <codeph class="+ topic/ph pr-d/codeph ">bolt puppetfile install</codeph> command.</p>
+                </li><li class="- topic/li ">
+                    <p class="- topic/p "> <codeph class="+ topic/ph pr-d/codeph ">save-rerun</codeph>: Specify whether to update <codeph class="+ topic/ph pr-d/codeph ">.rerun.json</codeph> in the <xref href="bolt_project_directories.dita" class="- topic/xref "><ph conkeyref="ProductNames/bolt" class="- topic/ph "/>&#160;project directory</xref>. If your target names include passwords, set this value to false to avoid writing passwords to disk.</p>
+                </li><li class="- topic/li ">
+                    <p class="- topic/p "> <codeph class="+ topic/ph pr-d/codeph ">transport</codeph>: Specify the default transport to use when the transport for a target is not specified in the URL or inventory. The valid options for transport are <codeph class="+ topic/ph pr-d/codeph ">docker</codeph>, <codeph class="+ topic/ph pr-d/codeph ">local</codeph>, <codeph class="+ topic/ph pr-d/codeph ">pcp</codeph>, <codeph class="+ topic/ph pr-d/codeph ">ssh</codeph>, and <codeph class="+ topic/ph pr-d/codeph ">winrm</codeph>.</p>
+                </li></ul>
+        </section><section class="- topic/section ">
+            <title class="- topic/title ">SSH transport configuration options</title>
+            <ul class="- topic/ul "><li class="- topic/li ">
+                    <p class="- topic/p "> <codeph translate="no" class="+ topic/ph pr-d/codeph ">connect-timeout</codeph>: How long <ph conkeyref="ProductNames/bolt" class="- topic/ph "/> should wait when establishing connections.</p>
+                </li><li class="- topic/li ">
+                    <p class="- topic/p "> <codeph translate="no" class="+ topic/ph pr-d/codeph ">host-key-check</codeph>: Whether to perform host key validation when connecting over SSH. Default is <codeph translate="no" class="+ topic/ph pr-d/codeph ">true</codeph>.</p>
+                </li><li class="- topic/li ">
+                    <p class="- topic/p "> <codeph translate="no" class="+ topic/ph pr-d/codeph ">password</codeph>: Login password.</p>
+                </li><li class="- topic/li ">
+                    <p class="- topic/p "> <codeph translate="no" class="+ topic/ph pr-d/codeph ">port</codeph>: Connection port. Default is&#160;<codeph translate="no" class="+ topic/ph pr-d/codeph ">22</codeph>.</p>
+                </li><li class="- topic/li ">
+                    <p class="- topic/p "> <codeph translate="no" class="+ topic/ph pr-d/codeph ">private-key</codeph>: The path to the private key file to use for SSH authentication.</p>
+                </li><li class="- topic/li ">
+                    <p class="- topic/p "> <codeph translate="no" class="+ topic/ph pr-d/codeph ">proxyjump</codeph>: A jump host to proxy SSH connections through, and an optional user to connect with, for example: <userinput class="+ topic/ph sw-d/userinput ">jump.example.com</userinput> or <userinput class="+ topic/ph sw-d/userinput ">user1@jump.example.com.</userinput> </p>
+                </li><li class="- topic/li ">
+                    <p class="- topic/p "> <codeph translate="no" class="+ topic/ph pr-d/codeph ">run-as</codeph>: A different user to run commands as after login.</p>
+                </li><li class="- topic/li ">
+                    <p class="- topic/p "> <codeph translate="no" class="+ topic/ph pr-d/codeph ">run-as-command</codeph>: The command to elevate permissions. <ph conkeyref="ProductNames/bolt" class="- topic/ph "/> appends the user and command strings to the configured run as a command before running it on the target. This command must not require an interactive password prompt, and the <codeph translate="no" class="+ topic/ph pr-d/codeph ">sudo-password</codeph> option is ignored when <codeph translate="no" class="+ topic/ph pr-d/codeph ">run-as-command</codeph> is specified. The run-as command must be specified as an array.</p>
+                </li><li class="- topic/li ">
+                    <p class="- topic/p "> <codeph translate="no" class="+ topic/ph pr-d/codeph ">sudo-password</codeph>: Password to use when changing users via&#160;<codeph translate="no" class="+ topic/ph pr-d/codeph ">run-as</codeph>.</p>
+                </li><li class="- topic/li ">
+                    <p class="- topic/p "> <codeph translate="no" class="+ topic/ph pr-d/codeph ">tmpdir</codeph>: The directory to upload and execute temporary files on the target.</p>
+                </li><li class="- topic/li ">
+                    <p class="- topic/p "> <codeph translate="no" class="+ topic/ph pr-d/codeph ">user</codeph>: Login user. Default is&#160;<codeph translate="no" class="+ topic/ph pr-d/codeph ">root</codeph>.</p>
+                </li></ul>
+        </section><section class="- topic/section ">
+            <title class="- topic/title ">OpenSSH configuration options</title>
+            <p class="- topic/p ">In addition to the SSH transport options defined in <ph conkeyref="ProductNames/bolt" class="- topic/ph "/> configuration files, some additional SSH options are read from OpenSSH configuration files, including <codeph class="+ topic/ph pr-d/codeph ">~/.ssh/config</codeph>, <codeph class="+ topic/ph pr-d/codeph ">/etc/ssh_config</codeph>, and <codeph class="+ topic/ph pr-d/codeph ">/etc/ssh/ssh_config</codeph>. Not all OpenSSH configuration values have equivalents in <ph conkeyref="ProductNames/bolt" class="- topic/ph "/>. </p>
+            <p class="- topic/p ">These are the options configurable in OpenSSH files:
+                <ul class="- topic/ul "><li class="- topic/li ">
+                        <p class="- topic/p "><codeph class="+ topic/ph pr-d/codeph ">User</codeph></p>
+                    </li><li class="- topic/li ">
+                        <p class="- topic/p "><codeph class="+ topic/ph pr-d/codeph ">Port</codeph></p>
+                    </li><li class="- topic/li ">
+                        <p class="- topic/p "><codeph class="+ topic/ph pr-d/codeph ">UserKnownHostsFile</codeph></p>
+                    </li><li class="- topic/li ">
+                        <p class="- topic/p "><codeph class="+ topic/ph pr-d/codeph ">Ciphers</codeph>: Ciphers allowed in order of preference. Multiple ciphers must be comma-separated.</p>
+                    </li><li class="- topic/li ">
+                        <p class="- topic/p "><codeph class="+ topic/ph pr-d/codeph ">Compression</codeph>: Whether to use compression.</p>
+                    </li><li class="- topic/li ">
+                        <p class="- topic/p "><codeph class="+ topic/ph pr-d/codeph ">CompressionLevel</codeph>: Compression level to use if compression is enabled.</p>
+                    </li><li class="- topic/li ">
+                        <p class="- topic/p "><codeph class="+ topic/ph pr-d/codeph ">GlobalKnownHostsFile</codeph>: Path to global host key database.</p>
+                    </li><li class="- topic/li ">
+                        <p class="- topic/p "><codeph class="+ topic/ph pr-d/codeph ">HostKeyAlgorithms</codeph>: Host key algorithms that the client wants to use in order of preference.</p>
+                    </li><li class="- topic/li ">
+                        <p class="- topic/p "><codeph class="+ topic/ph pr-d/codeph ">HostKeyAlias</codeph>: Use alias instead of real hostname when looking up or saving the host key in the host key database file.</p>
+                    </li><li class="- topic/li ">
+                        <p class="- topic/p "><codeph class="+ topic/ph pr-d/codeph ">IdentitiesOnly</codeph>: Use only identity key in SSH config even if ssh-agent offers others.</p>
+                    </li><li class="- topic/li ">
+                        <p class="- topic/p "><codeph class="+ topic/ph pr-d/codeph ">HostName</codeph>: Host name to log.</p>
+                    </li><li class="- topic/li ">
+                        <p class="- topic/p "><codeph class="+ topic/ph pr-d/codeph ">IdentityFile</codeph>: File in which user's identity key is stored.</p>
+                    </li><li class="- topic/li ">
+                        <p class="- topic/p "><codeph class="+ topic/ph pr-d/codeph ">Port</codeph>: SSH port.</p>
+                    </li><li class="- topic/li ">
+                        <p class="- topic/p "><codeph class="+ topic/ph pr-d/codeph ">UserKnownHostsFile</codeph>: Path to local user's host key database.</p>
+                    </li></ul>
+            </p>
+            <p class="- topic/p ">
+                <note class="- topic/note ">For OpenSSH configuration options with direct equivalents in <ph conkeyref="ProductNames/bolt" class="- topic/ph "/>, such as user and port, the settings in <ph conkeyref="ProductNames/bolt" class="- topic/ph "/> config take precedence.</note>
+            </p>
+            <p class="- topic/p ">To illustrate, consider this example:</p>
+            <p class="- topic/p "><codeph class="+ topic/ph pr-d/codeph ">inventory.yaml</codeph>
+                <codeblock class="+ topic/pre pr-d/codeblock ">nodes:
+  - name: host1.example.net
+    config:
+      transport: ssh
+      ssh:
+        host-key-check: true
+        port: 22
+        private-key: /.ssh/id_rsa-example</codeblock>
+            </p>
+            <p class="- topic/p "><codeph class="+ topic/ph pr-d/codeph ">ssh.config</codeph>
+                <codeblock class="+ topic/pre pr-d/codeblock ">Host *.example.net
+  UserKnownHostsFile=~/.ssh/known_hosts
+  User root
+  Port 444</codeblock>
+            </p>
+            <p class="- topic/p ">In this example, the SSH connection is configured to use the user and known hosts file defined in OpenSSH config and the port defined in<ph conkeyref="ProductNames/bolt" class="- topic/ph "/> config.
+                <note class="- topic/note ">The <codeph class="+ topic/ph pr-d/codeph ">host-key-check</codeph> option must be set in <ph conkeyref="ProductNames/bolt" class="- topic/ph "/> config because the <codeph class="+ topic/ph pr-d/codeph ">StrictHostKeyChecking</codeph> OpenSSH configuration value is ignored.</note>
+            </p>
+            <p class="- topic/p ">When using the SSH transport, <ph conkeyref="ProductNames/bolt" class="- topic/ph "/> also interacts with the ssh-agent for SSH key management. The most common interaction is to handle password protected private keys. When a private key is password protected it must be added to the ssh-agent in order to be used to authenticate <ph conkeyref="ProductNames/bolt" class="- topic/ph "/> SSH connections.</p>
+        </section><section class="- topic/section ">
+            <title class="- topic/title ">WinRM transport configuration options</title>
+            <ul class="- topic/ul "><li class="- topic/li ">
+                    <p class="- topic/p "> <codeph translate="no" class="+ topic/ph pr-d/codeph ">cacert</codeph>: The path to the CA certificate. </p>
+                </li><li class="- topic/li ">
+                    <p class="- topic/p "> <codeph translate="no" class="+ topic/ph pr-d/codeph ">connect-timeout</codeph>: How long <ph conkeyref="ProductNames/bolt" class="- topic/ph "/> should wait when establishing connections. </p>
+                </li><li class="- topic/li ">
+                    <p class="- topic/p "> <codeph translate="no" class="+ topic/ph pr-d/codeph ">extensions</codeph>: List of file extensions that are accepted for scripts or tasks. Scripts with these file extensions rely on the target node's file type association to run. For example, if Python is installed on the system, a <codeph translate="no" class="+ topic/ph pr-d/codeph ">.py</codeph> script should run with <codeph translate="no" class="+ topic/ph pr-d/codeph ">python.exe</codeph>. The extensions .<codeph translate="no" class="+ topic/ph pr-d/codeph ">ps1</codeph>, <codeph translate="no" class="+ topic/ph pr-d/codeph ">.rb</codeph>, and <codeph translate="no" class="+ topic/ph pr-d/codeph ">.pp</codeph> are always allowed and run via hard-coded executables.</p>
+                </li><li class="- topic/li ">
+                    <p class="- topic/p "><codeph class="+ topic/ph pr-d/codeph ">file-protocol</codeph>: Which file transfer protocol to use. Either <codeph class="+ topic/ph pr-d/codeph ">winrm</codeph> or <codeph class="+ topic/ph pr-d/codeph ">smb</codeph>. Using <codeph class="+ topic/ph pr-d/codeph ">smb</codeph> is recommended for large file transfers. Default is <codeph class="+ topic/ph pr-d/codeph ">winrm</codeph>.
+                        <note class="- topic/note ">The SMB file protocol is experimental and is currently unsupported in conjunction with SSL, given that only SMB2 is currently implented.</note>
+                    </p>
+                </li><li class="- topic/li ">
+                    <p class="- topic/p "> <codeph translate="no" class="+ topic/ph pr-d/codeph ">password</codeph>: Login password. Required.</p>
+                </li><li class="- topic/li ">
+                    <p class="- topic/p "> <codeph translate="no" class="+ topic/ph pr-d/codeph ">port</codeph>: Connection port. Default is&#160;<codeph translate="no" class="+ topic/ph pr-d/codeph ">5986</codeph>, or <codeph translate="no" class="+ topic/ph pr-d/codeph ">5985</codeph> if&#160;<codeph translate="no" class="+ topic/ph pr-d/codeph ">ssl: false</codeph>.</p>
+                </li><li class="- topic/li ">
+                    <p class="- topic/p "> <codeph class="+ topic/ph pr-d/codeph ">smb-port</codeph>: With <codeph class="+ topic/ph pr-d/codeph ">file-protocol</codeph> set to <codeph class="+ topic/ph pr-d/codeph ">smb</codeph>, this is the port to establish a connection on. Default is <codeph class="+ topic/ph pr-d/codeph ">445</codeph>.</p>
+                </li><li class="- topic/li ">
+                    <p class="- topic/p "> <codeph translate="no" class="+ topic/ph pr-d/codeph ">ssl</codeph>: When <codeph translate="no" class="+ topic/ph pr-d/codeph ">true</codeph>, <ph conkeyref="ProductNames/bolt" class="- topic/ph "/> uses secure https connections for WinRM. Default is <codeph translate="no" class="+ topic/ph pr-d/codeph ">true</codeph>.</p>
+                </li><li class="- topic/li ">
+                    <p class="- topic/p "> <codeph translate="no" class="+ topic/ph pr-d/codeph ">ssl-verify</codeph>: When true, verifies the targets certificate matches the&#160;<codeph translate="no" class="+ topic/ph pr-d/codeph ">cacert</codeph>. Default is <codeph translate="no" class="+ topic/ph pr-d/codeph ">true</codeph>.</p>
+                </li><li class="- topic/li ">
+                    <p class="- topic/p "> <codeph translate="no" class="+ topic/ph pr-d/codeph ">tmpdir</codeph>: The directory to upload and execute temporary files on the target. </p>
+                </li><li class="- topic/li ">
+                    <p class="- topic/p "> <codeph translate="no" class="+ topic/ph pr-d/codeph ">user</codeph>: Login user. Required.</p>
+                </li></ul>
+        </section><section class="- topic/section ">
+            <title class="- topic/title ">PCP transport configuration options</title>
+            <ul class="- topic/ul "><li class="- topic/li ">
+                    <p class="- topic/p "> <codeph translate="no" class="+ topic/ph pr-d/codeph ">cacert</codeph>: The path to the CA certificate.</p>
+                </li><li class="- topic/li ">
+                    <p class="- topic/p "> <codeph translate="no" class="+ topic/ph pr-d/codeph ">service-url</codeph>: The URL of the orchestrator API.</p>
+                </li><li class="- topic/li ">
+                    <p class="- topic/p "> <codeph translate="no" class="+ topic/ph pr-d/codeph ">task-environment</codeph>: The environment orchestrator should load task code from.</p>
+                </li><li class="- topic/li ">
+                    <p class="- topic/p "> <codeph translate="no" class="+ topic/ph pr-d/codeph ">token-file</codeph>: The path to the token file.</p>
+                </li></ul>
+        </section><section class="- topic/section ">
+            <title class="- topic/title ">Local transport configuration options</title>
+            <ul class="- topic/ul "><li class="- topic/li ">
+                    <p class="- topic/p "> <codeph translate="no" class="+ topic/ph pr-d/codeph ">run-as</codeph>: A different user to run commands as after login.</p>
+                </li><li class="- topic/li ">
+                    <p class="- topic/p "> <codeph translate="no" class="+ topic/ph pr-d/codeph ">run-as-command</codeph>: The command to elevate permissions. <ph conkeyref="ProductNames/bolt" class="- topic/ph "/> appends the user and command strings to the configured run as a command before running it on the target. This command must not require an interactive password prompt, and the <codeph translate="no" class="+ topic/ph pr-d/codeph ">sudo-password</codeph> option is ignored when <codeph translate="no" class="+ topic/ph pr-d/codeph ">run-as-command</codeph> is specified. The run-as command must be specified as an array.</p>
+                </li><li class="- topic/li ">
+                    <p class="- topic/p "> <codeph translate="no" class="+ topic/ph pr-d/codeph ">sudo-password</codeph>: Password to use when changing users via&#160;<codeph translate="no" class="+ topic/ph pr-d/codeph ">run-as</codeph>.</p>
+                </li><li class="- topic/li ">
+                    <p class="- topic/p "> <codeph translate="no" class="+ topic/ph pr-d/codeph ">tmpdir</codeph>: The directory to copy and execute temporary files.</p>
+                </li></ul>
+        </section><section class="- topic/section ">
+            <title class="- topic/title ">Docker transport configuration options</title>
+            <note type="note" class="- topic/note ">The Docker transport is experimental because the capabilities and role of the Docker API might change.</note>
+            <ul class="- topic/ul "><li class="- topic/li ">
+                    <p class="- topic/p "> <codeph translate="no" class="+ topic/ph pr-d/codeph ">service-options</codeph>: A hash of options to configure the Docker connection. This option is necessary only if you're using a non-default URL. See <xref format="html" href="https://github.com/swipely/docker-api" scope="external" class="- topic/xref ">https://github.com/swipely/docker-ap</xref>i for supported options. </p>
+                </li><li class="- topic/li ">
+                    <p class="- topic/p "> <codeph translate="no" class="+ topic/ph pr-d/codeph ">service-url</codeph>: URL of the Docker host used for API requests. Defaults to local via a <ph conkeyref="ProductNames/unix" class="- topic/ph "/> socket at <codeph translate="no" class="+ topic/ph pr-d/codeph ">unix:///var/docker.sock</codeph>.</p>
+                </li><li class="- topic/li ">
+                    <p class="- topic/p "><codeph class="+ topic/ph pr-d/codeph ">shell-command</codeph>: A shell command any Docker exec commands should be wrapped in, for example, <codeph class="+ topic/ph pr-d/codeph ">bash -lc</codeph>.</p>
+                </li><li class="- topic/li ">
+                    <p class="- topic/p "> <codeph translate="no" class="+ topic/ph pr-d/codeph ">tmpdir</codeph>: The directory to upload and execute temporary files on the target.</p>
+                </li><li class="- topic/li ">
+                    <p class="- topic/p "><codeph class="+ topic/ph pr-d/codeph ">tty</codeph>: When <codeph class="+ topic/ph pr-d/codeph ">true</codeph>, enable tty on Docker exec commands. Default is <codeph class="+ topic/ph pr-d/codeph ">false</codeph>.</p>
+                </li></ul>
+        </section><section class="- topic/section ">
+            <title class="- topic/title ">Remote transport configuration options</title>
+            <p class="- topic/p ">
+                <note type="note" class="- topic/note ">The remote transport is experimental. Its configuration options and behavior might change between Y releases.</note>
+            </p>
+            <p class="- topic/p ">The remote transport can accept arbitrary options depending on the underlying remote target, for example <codeph translate="no" class="+ topic/ph pr-d/codeph ">api-token</codeph>.</p>
+            <ul class="- topic/ul "><li class="- topic/li ">
+                    <p class="- topic/p "> <codeph translate="no" class="+ topic/ph pr-d/codeph ">run-on</codeph>: The proxy target that the task should execute on. Default is <codeph translate="no" class="+ topic/ph pr-d/codeph ">localhost</codeph>.</p>
+                </li></ul>
+        </section><section class="- topic/section ">
+            <title class="- topic/title ">Log file configuration options</title>
+            <p class="- topic/p ">Capture the results of your plan runs in a log file.</p>
+            <ul class="- topic/ul "><li class="- topic/li ">
+                    <p class="- topic/p "><codeph translate="no" class="+ topic/ph pr-d/codeph ">log</codeph>: the configuration of the log file output. This option includes the following properties:
+                        <ul class="- topic/ul "><li class="- topic/li "> <codeph translate="no" class="+ topic/ph pr-d/codeph ">append</codeph> add output to an existing log file. Available for only for logs output to a filepath. Your options are <codeph translate="no" class="+ topic/ph pr-d/codeph ">true</codeph> (default) and <codeph translate="no" class="+ topic/ph pr-d/codeph ">false</codeph>.</li><li class="- topic/li "> <codeph translate="no" class="+ topic/ph pr-d/codeph ">console</codeph> or <codeph translate="no" class="+ topic/ph pr-d/codeph ">path/to.log</codeph>: the location of the log output. </li><li class="- topic/li ">
+                                <p class="- topic/p "> <codeph translate="no" class="+ topic/ph pr-d/codeph ">level</codeph>: the type of information in the log. Your options are <codeph translate="no" class="+ topic/ph pr-d/codeph ">debug</codeph>, <codeph translate="no" class="+ topic/ph pr-d/codeph ">info</codeph>, <codeph translate="no" class="+ topic/ph pr-d/codeph ">notice</codeph>, <codeph translate="no" class="+ topic/ph pr-d/codeph ">warn</codeph>, and <codeph translate="no" class="+ topic/ph pr-d/codeph ">error</codeph>. </p>
+                            </li></ul>
+                    </p>
+                </li></ul>
+            <codeblock xml:space="preserve" class="+ topic/pre pr-d/codeblock ">log:
+  console:
+    level: info
+  ~/.bolt/debug.log:
+    level: debug
+    append: false
+</codeblock>
+        </section><section class="- topic/section ">
+            <title class="- topic/title ">Puppetfile configuration options</title>
+            <p class="- topic/p ">The <codeph class="+ topic/ph pr-d/codeph ">puppetfile</codeph> section configures how modules are retrieved when running <codeph class="+ topic/ph pr-d/codeph ">bolt puppetfile install</codeph>.</p>
+            <ul class="- topic/ul "><li class="- topic/li ">
+                    <p class="- topic/p "><codeph translate="no" class="+ topic/ph pr-d/codeph ">proxy</codeph>: The HTTP proxy to use for <ph conkeyref="ProductNames/git" class="- topic/ph "/> and <ph conkeyref="ProductNames/forge" class="- topic/ph "/> operations.
+                        </p></li><li class="- topic/li "><p class="- topic/p "><codeph class="+ topic/ph pr-d/codeph ">forge</codeph>: A subsection that can have its own <codeph class="+ topic/ph pr-d/codeph ">proxy</codeph> setting to set an HTTP proxy for  <ph conkeyref="ProductNames/forge" class="- topic/ph "/> operations only, and a <codeph class="+ topic/ph pr-d/codeph ">baseurl</codeph> setting to specify a different <ph conkeyref="ProductNames/forge" class="- topic/ph "/> host.                    </p>
+                </li></ul>
+            
+        </section></refbody></reference>

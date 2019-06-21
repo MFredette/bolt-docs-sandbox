@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE reference PUBLIC "-//PUPPET//DTD DITA Puppet Reference//EN" "reference.dtd">
+<reference xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" ditaarch:DITAArchVersion="1.2" domains="(topic reference)                            (topic hi-d)                            (topic ut-d)                            (topic indexing-d)                             (topic pr-d)                            (topic sw-d)                             (topic ui-d)   " id="steps-key" class="- topic/topic       reference/reference "><title class="- topic/title ">Steps key</title><shortdesc class="- topic/shortdesc ">The <codeph class="+ topic/ph pr-d/codeph ">steps</codeph> key is an array of step objects, each of which corresponds to a specific action to take.</shortdesc><prolog class="- topic/prolog "><author translate="no" type="creator" class="- topic/author ">Melissa Amos &lt;melissa.amos@puppet.com&gt;</author></prolog><refbody class="- topic/body        reference/refbody "><section class="- topic/section ">
+         <p class="- topic/p ">When the plan runs, each step is executed in order. If a step fails, the plan halts execution and raises an error containing the result of the step that failed.</p>
+
+         <p class="- topic/p ">Steps use these fields:
+
+            
+
+            
+
+            
+
+            
+
+            <ul class="- topic/ul "><li class="- topic/li ">
+                  <p class="- topic/p "><codeph class="+ topic/ph pr-d/codeph ">name</codeph>: A unique name that can be used to refer to the result of the step later
+                  
+                  
+                  
+                  
+                  </p>
+               </li><li class="- topic/li ">
+                  <p class="- topic/p "><codeph class="+ topic/ph pr-d/codeph ">description</codeph>: (Optional) An explanation of what the step is doing.
+                  
+                  
+                  
+                  
+                  </p>
+               </li></ul></p>
+
+         <p class="- topic/p ">Other available keys depend on the type of step.</p>
+      </section><section class="- topic/section ">
+         <title class="- topic/title ">Command step</title>
+
+         <p class="- topic/p ">Use a <codeph class="+ topic/ph pr-d/codeph ">command</codeph> step to run a single command on a list of targets and save the results, containing stdout, stderr, and exit code.</p>
+
+         <p class="- topic/p ">The step fails if the exit code of any command is non-zero.</p>
+
+         <p class="- topic/p ">Command steps use these fields:
+
+            
+
+            
+
+            
+
+            
+
+            <ul class="- topic/ul "><li class="- topic/li ">
+                  <p class="- topic/p "><codeph class="+ topic/ph pr-d/codeph ">command</codeph>: The command to run
+                  
+                  
+                  
+                  
+                  </p>
+               </li><li class="- topic/li ">
+                  <p class="- topic/p "><codeph class="+ topic/ph pr-d/codeph ">target</codeph>: A target or list of targets to run the command on
+                  
+                  
+                  
+                  
+                  </p>
+               </li></ul></p>
+
+         <p class="- topic/p ">For example:<codeblock xml:space="preserve" class="+ topic/pre pr-d/codeblock ">steps:
+  - command: hostname -f
+    target:
+      - web1.example.com
+      - web2.example.com
+      - web3.example.com
+    description: "Get the webserver hostnames"</codeblock></p>
+      </section><section class="- topic/section ">
+         <title class="- topic/title ">Task step</title>
+
+         <p class="- topic/p ">Use a <codeph class="+ topic/ph pr-d/codeph ">task</codeph> step to run a 
+
+            
+
+            
+
+            
+
+            <ph conkeyref="ProductNames/bolt" class="- topic/ph "/> task on a list of targets and save the results.</p>
+
+         <p class="- topic/p ">Task steps use these fields:
+
+            
+
+            
+
+            
+
+            
+
+            <ul class="- topic/ul "><li class="- topic/li "><codeph class="+ topic/ph pr-d/codeph ">task</codeph>: The task to run
+               
+               
+               </li><li class="- topic/li "><codeph class="+ topic/ph pr-d/codeph ">target</codeph>: A target or list of targets to run the task on
+               
+               
+               </li><li class="- topic/li "><codeph class="+ topic/ph pr-d/codeph ">parameters</codeph>: (Optional) A map of parameter values to pass to the task
+               
+               
+               </li></ul></p>
+
+         <p class="- topic/p ">For example:<codeblock xml:space="preserve" class="+ topic/pre pr-d/codeblock ">steps:
+  - task: package
+    target:
+      - web1.example.com
+      - web2.example.com
+      - web3.example.com
+    description: "Check the version of the openssl package on the webservers"
+    parameters:
+      action: status
+      name: openssl</codeblock></p>
+      </section><section class="- topic/section "><title class="- topic/title ">Script step</title>
+
+         Use a <codeph class="+ topic/ph pr-d/codeph ">script</codeph> step to run a script on a list of targets and save the results.
+
+         <p class="- topic/p ">The script must be in the <codeph class="+ topic/ph pr-d/codeph ">files/</codeph> directory of a module. The name of the script must be specified as <codeph class="+ topic/ph pr-d/codeph ">&lt;modulename&gt;/path/to/script</codeph>, omitting the <codeph class="+ topic/ph pr-d/codeph ">files</codeph> directory from the path.</p><p class="- topic/p ">Script steps use these fields:
+
+            
+
+            
+
+            
+
+            
+
+            <ul class="- topic/ul "><li class="- topic/li "><codeph translate="no" class="+ topic/ph pr-d/codeph ">script</codeph>: The script to run
+               
+               </li><li class="- topic/li "><codeph translate="no" class="+ topic/ph pr-d/codeph ">target</codeph>: A target or list of targets to run the script on
+               
+               
+               </li><li class="- topic/li "><codeph translate="no" class="+ topic/ph pr-d/codeph ">arguments</codeph>: (Optional) An array of command-line arguments to pass to the script               
+               
+               </li></ul></p><p class="- topic/p ">For example:<codeblock xml:space="preserve" class="+ topic/pre pr-d/codeblock ">steps:
+  - script: mymodule/check_server.sh
+    target:
+      - web1.example.com
+      - web2.example.com
+      - web3.example.com
+    description: "Run mymodule/files/check_server.sh on the webservers"
+    arguments:
+      - "/index.html"
+      - 60</codeblock></p></section><section class="- topic/section ">
+         <title class="- topic/title ">File upload step</title>
+         <p class="- topic/p ">Use a file upload step to upload a file to a specific location on a list of targets.</p>
+
+         <p class="- topic/p ">The file to upload must be in the <codeph class="+ topic/ph pr-d/codeph ">files/</codeph> directory of a 
+
+            <ph conkeyref="ProductNames/puppet" class="- topic/ph "/> module. The source for the file must be specified as <codeph class="+ topic/ph pr-d/codeph ">&lt;modulename&gt;/path/to/file</codeph>, omitting the <codeph class="+ topic/ph pr-d/codeph ">files</codeph> directory from the path.</p>
+
+         <p class="- topic/p ">File upload steps use these fields:
+
+            
+
+            
+
+            
+
+            
+
+            <ul class="- topic/ul "><li class="- topic/li "><codeph class="+ topic/ph pr-d/codeph ">source</codeph>: The location of the file to be uploaded
+               </li><li class="- topic/li "><codeph class="+ topic/ph pr-d/codeph ">destination</codeph>: The location where the file should be uploaded to 
+               </li></ul></p>
+
+         <p class="- topic/p ">For example:<codeblock xml:space="preserve" class="+ topic/pre pr-d/codeblock ">steps:
+  - source: mymodule/motd.txt
+    destination: /etc/motd
+    target:
+      - web1.example.com
+      - web2.example.com
+      - web3.example.com
+    description: "Upload motd to the webservers"</codeblock></p>
+      </section><section class="- topic/section ">
+         <title class="- topic/title ">Plan step</title>
+
+         <p class="- topic/p ">Use a <codeph class="+ topic/ph pr-d/codeph ">plan</codeph> step to run another plan and save its result.</p>
+
+         <p class="- topic/p ">Plan steps use these fields:
+
+            
+
+            
+
+            
+
+            
+
+            <ul class="- topic/ul "><li class="- topic/li "><codeph class="+ topic/ph pr-d/codeph ">plan</codeph>: The name of the plan to run
+               </li><li class="- topic/li "><codeph class="+ topic/ph pr-d/codeph ">parameters</codeph>: (Optional) A map of parameter values to pass to the plan
+               </li></ul></p>
+
+         <p class="- topic/p ">For example:<codeblock xml:space="preserve" class="+ topic/pre pr-d/codeblock ">steps:
+  - plan: facts
+    description: "Gather facts for the webservers using the built-in facts plan"
+    parameters:
+      nodes:
+        - web1.example.com
+        - web2.example.com
+        - web3.example.com</codeblock></p>
+      </section></refbody></reference>

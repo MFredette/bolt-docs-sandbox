@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//PUPPET//DTD DITA Puppet Concept//EN" "concept.dtd">
+<concept xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" ditaarch:DITAArchVersion="1.2" domains="(topic concept)                            (topic hi-d)                            (topic ut-d)                            (topic indexing-d)                             (topic pr-d)                            (topic sw-d)                             (topic ui-d)   " id="sharing-executables" class="- topic/topic concept/concept "><title class="- topic/title ">Sharing executables</title><shortdesc class="- topic/shortdesc ">Multiple task implementations can refer to the same
+    executable file. </shortdesc><prolog class="- topic/prolog "><author translate="no" type="creator" class="- topic/author ">Kate Lopresti
+      &lt;kate.lopresti@puppet.com&gt;</author></prolog><conbody class="- topic/body  concept/conbody "><p class="- topic/p ">
+         <draft-comment class="- topic/draft-comment ">Shared between Bolt and PE 2018.1+</draft-comment>
+      </p><p class="- topic/p ">Executables can access the <codeph translate="no" class="+ topic/ph pr-d/codeph ">_task</codeph> metaparameter, which contains the task name.
+      For example, the following creates the tasks <codeph translate="no" class="+ topic/ph pr-d/codeph ">service::stop</codeph> and <codeph translate="no" class="+ topic/ph pr-d/codeph ">service::start</codeph>, which live in the executable but
+      appear as two separate tasks. </p><codeblock translate="no" xml:space="preserve" class="+ topic/pre pr-d/codeblock ">myservice/tasks/init.rb</codeblock><codeblock translate="no" xml:space="preserve" class="+ topic/pre pr-d/codeblock ">#!/usr/bin/env ruby
+require 'json'
+
+params = JSON.parse(STDIN.read)
+action = params['action'] || params['_task']
+if ['start',  'stop'].include?(action)
+  `systemctl #{params['_task']} #{params['service']}`
+end
+</codeblock><codeblock translate="no" xml:space="preserve" class="+ topic/pre pr-d/codeblock ">myservice/tasks/start.json</codeblock><codeblock translate="no" xml:space="preserve" class="+ topic/pre pr-d/codeblock ">{
+  "description": "Start a service",
+  "parameters": {
+    "service": {
+      "type": "String",
+      "description": "The service to start"
+    }
+  },
+  "implementations": [
+    {"name": "init.rb"}
+  ]
+}</codeblock><codeblock translate="no" xml:space="preserve" class="+ topic/pre pr-d/codeblock ">myservice/tasks/stop.json</codeblock><codeblock translate="no" xml:space="preserve" class="+ topic/pre pr-d/codeblock ">{
+  "description": "Stop a service",
+  "parameters": {
+    "service": {
+      "type": "String",
+      "description": "The service to stop"
+    }
+  },
+  "implementations": [
+    {"name": "init.rb"}
+  ]
+}</codeblock></conbody></concept>

@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//PUPPET//DTD DITA Puppet Concept//EN" "concept.dtd">
+<concept xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" ditaarch:DITAArchVersion="1.2" domains="(topic concept)                            (topic hi-d)                            (topic ut-d)                            (topic indexing-d)                             (topic pr-d)                            (topic sw-d)                            (topic ui-d)   " id="concept-2127" class="- topic/topic concept/concept "><title class="- topic/title ">Sharing task code</title><shortdesc class="- topic/shortdesc ">Multiple tasks can share common files between them. Tasks can additionally pull library code from other modules.
+   </shortdesc><prolog class="- topic/prolog "><author translate="no" type="creator" class="- topic/author ">Kate Lopresti &lt;kate.lopresti@puppet.com&gt;modules</author></prolog><conbody class="- topic/body  concept/conbody "><p class="- topic/p ">
+         <draft-comment class="- topic/draft-comment ">Shared between Bolt and PE 2019.0.1+</draft-comment>
+      </p><p class="- topic/p ">To create a task that includes additional files pulled from modules, include the&#160;files&#160;property in your metadata as an array of paths. A path consists of: 
+
+         
+
+         <ul class="- topic/ul "><li class="- topic/li ">the module name</li><li class="- topic/li ">one of the following directories within the module:
+
+               
+
+               <ul class="- topic/ul "><li class="- topic/li ">
+                     <p class="- topic/p "><codeph translate="no" class="+ topic/ph pr-d/codeph ">files</codeph>  — Most helper files. This prevents the file from being treated as a task or added to the 
+
+                        <ph conkeyref="ProductNames/puppet" class="- topic/ph "/>
+                        <ph conkeyref="ProductNames/ruby" class="- topic/ph "/> loadpath.
+                     
+                     </p>
+                  </li><li class="- topic/li ">
+                     <p class="- topic/p "><codeph translate="no" class="+ topic/ph pr-d/codeph ">tasks</codeph>  — Helper files that can be called as tasks on their own. 
+
+                     
+                     </p>
+                  </li><li class="- topic/li ">
+                     <p class="- topic/p "><codeph translate="no" class="+ topic/ph pr-d/codeph ">lib</codeph>  — 
+
+                        <ph conkeyref="ProductNames/ruby" class="- topic/ph "/> code that might be reused by types, providers, or
+
+
+                        <ph conkeyref="ProductNames/puppet" class="- topic/ph "/> functions.
+                  
+                     
+                     </p>
+                  </li></ul>
+            </li><li class="- topic/li ">the remaining path to a file or directory; directories must include a trailing slash&#160;<codeph translate="no" class="+ topic/ph pr-d/codeph ">/</codeph>
+            </li></ul></p><p class="- topic/p ">All path separators must be forward slashes. An example would be&#160;<codeph translate="no" class="+ topic/ph pr-d/codeph ">stdlib/lib/puppet/</codeph>.</p><p class="- topic/p ">The&#160;<codeph translate="no" class="+ topic/ph pr-d/codeph ">files</codeph>&#160;property can be included both as a top-level metadata property, and as a property of an implementation, for example:<codeblock translate="no" xml:space="preserve" class="+ topic/pre pr-d/codeblock ">{
+  "implementations": [
+    {"name": "sql_linux.sh", "requirements": ["shell"], "files": ["mymodule/files/lib.sh"]},
+    {"name": "sql_windows.ps1", "requirements": ["powershell"], "files": ["mymodule/files/lib.ps1"]}
+  ],
+  "files": ["emoji/files/emojis/"]
+}</codeblock></p><p class="- topic/p ">When a task includes the&#160;<codeph translate="no" class="+ topic/ph pr-d/codeph ">files</codeph>&#160;property, all files listed in the top-level property and in the specific implementation chosen for a target are copied to a temporary directory on that target. The directory structure of the specified files is preserved such that paths specified with the&#160;<codeph translate="no" class="+ topic/ph pr-d/codeph ">files</codeph>&#160;metadata option are available to tasks prefixed with&#160;<codeph translate="no" class="+ topic/ph pr-d/codeph ">_installdir</codeph>. The task executable itself is located in its module location under the <codeph translate="no" class="+ topic/ph pr-d/codeph ">_installdir</codeph> as well, so other files can be found at <codeph translate="no" class="+ topic/ph pr-d/codeph ">../../mymodule/files/ </codeph>relative to the task executable's location.</p><p class="- topic/p ">For example, you can create a task and metadata in a module at <codeph translate="no" class="+ topic/ph pr-d/codeph ">~/.puppetlabs/bolt/site-modules/mymodule/tasks/task.{json,rb}</codeph>.</p><p class="- topic/p ">
+         <b class="+ topic/ph hi-d/b ">Metadata</b>
+         <codeblock translate="no" xml:space="preserve" class="+ topic/pre pr-d/codeblock ">{
+  "files": ["multi_task/files/rb_helper.rb"]
+}</codeblock>
+      </p><p class="- topic/p ">
+         <b class="+ topic/ph hi-d/b ">File resource</b>
+      </p><p class="- topic/p ">
+         <codeph translate="no" class="+ topic/ph pr-d/codeph ">multi_task/files/rb_helper.rb</codeph>
+      </p><codeblock translate="no" xml:space="preserve" class="+ topic/pre pr-d/codeblock ">def useful_ruby
+  { helper: "ruby" }
+end</codeblock><p class="- topic/p ">
+         <b class="+ topic/ph hi-d/b ">Task</b>
+         <codeblock translate="no" xml:space="preserve" class="+ topic/pre pr-d/codeblock ">#!/usr/bin/env ruby
+require 'json'
+
+params = JSON.parse(STDIN.read)
+require_relative File.join(params['_installdir'], 'multi_task', 'files', 'rb_helper.rb')
+# Alternatively use relative path
+# require_relative File.join(__dir__, '..', '..', 'multi_task', 'files', 'rb_helper.rb')
+ puts useful_ruby.to_json</codeblock>
+      </p><p class="- topic/p ">
+         <b class="+ topic/ph hi-d/b ">Output</b>
+         <codeblock translate="no" xml:space="preserve" class="+ topic/pre pr-d/codeblock ">Started on localhost...
+Finished on localhost:
+  {
+    "helper": "ruby"
+  }
+Successful on 1 node: localhost
+Ran on 1 node in 0.12 seconds</codeblock>
+      </p><section id="task-helpers" class="- topic/section ">
+         <title class="- topic/title ">Task helpers</title>
+
+         <p class="- topic/p ">To help with writing tasks, 
+
+            <ph conkeyref="ProductNames/bolt" class="- topic/ph "/> includes <xref format="html" href="https://github.com/puppetlabs/puppetlabs-python_task_helper" scope="external" class="- topic/xref ">python_task_helper</xref> and <xref format="html" href="https://github.com/puppetlabs/puppetlabs-ruby_task_helper" scope="external" class="- topic/xref ">ruby_task_helper</xref>. It also makes a useful demonstration of including code from another module. </p>
+      </section><section class="- topic/section ">
+         <title class="- topic/title ">Python example</title>
+
+         <p class="- topic/p ">Create task and metadata in a module at <codeph translate="no" class="+ topic/ph pr-d/codeph ">~/.puppetlabs/bolt/site-modules/mymodule/tasks/task.{json,py}</codeph>.</p>
+
+         <p class="- topic/p ">
+            <b class="+ topic/ph hi-d/b ">Metadata</b>
+            <codeblock translate="no" xml:space="preserve" class="+ topic/pre pr-d/codeblock ">{
+  "files": ["python_task_helper/files/task_helper.py"],
+  "input_method": "stdin"
+}</codeblock>
+         </p>
+
+         <p class="- topic/p ">
+            <b class="+ topic/ph hi-d/b ">Task</b>
+            <codeblock translate="no" xml:space="preserve" class="+ topic/pre pr-d/codeblock ">#!/usr/bin/env python
+import os, sys
+sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'python_task_helper', 'files'))
+from task_helper import TaskHelper
+
+class MyTask(TaskHelper):
+  def task(self, args):
+    return {'greeting': 'Hi, my name is '+args['name']}
+
+if __name__ == '__main__':
+    MyTask().run()</codeblock>
+         </p>
+
+         <p class="- topic/p ">
+            <b class="+ topic/ph hi-d/b ">Output</b>
+            <codeblock translate="no" xml:space="preserve" class="+ topic/pre pr-d/codeblock ">$ bolt task run mymodule::task -n localhost name='Julia'
+Started on localhost...
+Finished on localhost:
+  {
+    "greeting": "Hi, my name is Julia"
+  }
+Successful on 1 node: localhost
+Ran on 1 node in 0.12 seconds</codeblock>
+         </p>
+      </section><section class="- topic/section ">
+         <title class="- topic/title ">Ruby example</title>
+
+         <p class="- topic/p ">Create task and metadata in a new module at <codeph translate="no" class="+ topic/ph pr-d/codeph ">~/.puppetlabs/bolt/site-modules/mymodule/tasks/mytask.{json,rb}</codeph>.</p>
+
+         <p class="- topic/p ">
+            <b class="+ topic/ph hi-d/b ">Metadata</b>
+            <codeblock translate="no" xml:space="preserve" class="+ topic/pre pr-d/codeblock ">{
+  "files": ["ruby_task_helper/files/task_helper.rb"],
+  "input_method": "stdin"
+}</codeblock>
+         </p>
+
+         <p class="- topic/p ">
+            <b class="+ topic/ph hi-d/b ">Task</b>
+            <codeblock translate="no" xml:space="preserve" class="+ topic/pre pr-d/codeblock ">#!/usr/bin/env ruby
+require_relative '../../ruby_task_helper/files/task_helper.rb'
+
+class MyTask &lt; TaskHelper 
+  def task(name: nil, **kwargs)
+    { greeting: "Hi, my name is #{name}" }
+  end
+end
+
+
+MyTask.run if __FILE__ == $0</codeblock>
+         </p>
+
+         <p class="- topic/p ">
+            <b class="+ topic/ph hi-d/b ">Output</b>
+            <codeblock translate="no" xml:space="preserve" class="+ topic/pre pr-d/codeblock ">$ bolt task run mymodule::mytask -n localhost name="Robert'); DROP TABLE Students;--"
+Started on localhost...
+Finished on localhost:
+  {
+    "greeting": "Hi, my name is Robert'); DROP TABLE Students;--"
+  }
+Successful on 1 node: localhost
+Ran on 1 node in 0.12 seconds</codeblock>
+         </p>
+      </section></conbody></concept>

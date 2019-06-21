@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//PUPPET//DTD DITA Puppet Task//EN" "task.dtd">
+<task xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" id="task-8890" domains="(topic task)                            (topic hi-d)                            (topic ut-d)                            (topic indexing-d)                              (topic pr-d)                            (topic sw-d)                            (topic ui-d)                            (topic task strictTaskbody-c)   " ditaarch:DITAArchVersion="1.2" class="- topic/topic task/task "><title class="- topic/title ">Install 
+
+      
+
+      
+
+      <ph conkeyref="ProductNames/bolt" class="- topic/ph "/> on 
+
+      
+
+      
+
+      <ph conkeyref="ProductNames/windows" class="- topic/ph "/></title><shortdesc class="- topic/shortdesc ">Use one of the supported <ph conkeyref="ProductNames/windows" class="- topic/ph "/> installation methods to install  <ph conkeyref="ProductNames/bolt" class="- topic/ph "/>.</shortdesc><prolog class="- topic/prolog "><author type="creator" translate="no" class="- topic/author ">Jean Bond &lt;jean@puppet.com&gt;</author></prolog><taskbody class="- topic/body task/taskbody "><context class="- topic/section task/context ">
+         <p class="- topic/p "/>
+      </context></taskbody></task>

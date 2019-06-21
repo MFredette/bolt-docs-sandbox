@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//PUPPET//DTD DITA Puppet Concept//EN" "concept.dtd">
+<concept id="returning-results" class="- topic/topic concept/concept "><title class="- topic/title ">Returning results</title><shortdesc class="- topic/shortdesc ">You can return a result from a plan by setting the <codeph class="+ topic/ph pr-d/codeph ">return</codeph> key at the top level of the plan. When the plan finishes, the <codeph class="+ topic/ph pr-d/codeph ">return</codeph> key is evaluated and returned as the result of the plan. If no <codeph class="+ topic/ph pr-d/codeph ">return</codeph> key is set, the plan returns <codeph class="+ topic/ph pr-d/codeph ">undef</codeph>.</shortdesc><prolog class="- topic/prolog "><author translate="no" type="creator" class="- topic/author ">Melissa Amos &lt;melissa.amos@puppet.com&gt;</author></prolog><conbody class="- topic/body  concept/conbody "><p class="- topic/p ">
+         <codeblock class="+ topic/pre pr-d/codeblock ">steps:
+  - name: hostnames
+    command: hostname -f
+    target: $nodes
+
+return: $hostnames.map |$hostname_result| { $hostname_result['stdout'] }</codeblock>
+      </p></conbody></concept>

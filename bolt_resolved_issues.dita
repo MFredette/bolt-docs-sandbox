@@ -1,0 +1,383 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//PUPPET//DTD DITA Puppet Concept//EN" "concept.dtd">
+<concept xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" ditaarch:DITAArchVersion="1.2" domains="(topic concept)                            (topic hi-d)                            (topic ut-d)                            (topic indexing-d)                             (topic pr-d)                            (topic sw-d)                            (topic ui-d)   " id="concept-3971" class="- topic/topic concept/concept "><title class="- topic/title ">Resolved issues</title><shortdesc class="- topic/shortdesc ">Security and bug fixes in the 
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <ph conkeyref="ProductNames/bolt" class="- topic/ph "/> 1.x release series.</shortdesc><prolog class="- topic/prolog "><author translate="no" type="creator" class="- topic/author ">Jean Bond &lt;jean@puppet.com&gt;</author></prolog><conbody class="- topic/body  concept/conbody "><section class="- topic/section "><title class="- topic/title ">The <codeph class="+ topic/ph pr-d/codeph ">wait_until_available</codeph> function returned incorrect results using orchestrator (1.23.0)</title><p class="- topic/p ">When using the PCP transport, the plan function <codeph class="+ topic/ph pr-d/codeph ">wait_until_available</codeph> now returns error results only for targets that can't be reached. (<xref href="https://tickets.puppetlabs.com/browse/BOLT-1382" scope="external" class="- topic/xref ">BOLT-1382</xref>)</p></section><section class="- topic/section "><title class="- topic/title "><ph conkeyref="ProductNames/powershell" class="- topic/ph "/> tasks on localhost didn't use correct default PS_ARGS (1.23.0)</title><p class="- topic/p "><ph conkeyref="ProductNames/powershell" class="- topic/ph "/> scripts and tasks run over the local transport on <ph conkeyref="ProductNames/windows" class="- topic/ph "/> hosts  no longer load profiles and are run with the <codeph class="+ topic/ph pr-d/codeph ">Bypass</codeph> execution policy to maintain parity with the WinRM transport. (<xref href="https://tickets.puppetlabs.com/browse/BOLT-1358" scope="external" class="- topic/xref ">BOLT-1358</xref>)</p></section><section class="- topic/section "><title class="- topic/title ">Inventory was loaded  for commands that didn't use it (1.20.0)</title><p class="- topic/p ">Inventory was loaded even for commands that don't use targets, such as <codeph class="+ topic/ph pr-d/codeph ">bolt task show</codeph>. An error in the inventory could subsequently cause the command to fail. (<xref href="https://tickets.puppetlabs.com/browse/BOLT-1268" scope="external" class="- topic/xref ">BOLT-1268</xref>)</p></section><section class="- topic/section "><title class="- topic/title ">YAML plan converter wrapped single-line evaluation steps (1.20.0)</title><p class="- topic/p ">The <codeph class="+ topic/ph pr-d/codeph ">bolt plan convert</codeph> command wrapped single-line evaluation steps in a <codeph class="+ topic/ph pr-d/codeph ">with()</codeph> statement unnecessarily. (<xref href="https://tickets.puppetlabs.com/browse/BOLT-1299" scope="external" class="- topic/xref ">BOLT-1299</xref>)</p></section><section class="- topic/section "><title class="- topic/title ">File upload stalled with local transport using <codeph class="+ topic/ph pr-d/codeph ">run-as</codeph> (1.18.0)</title><p class="- topic/p ">The  <codeph class="+ topic/ph pr-d/codeph ">bolt file upload</codeph> command stalled when using local the local transport if the destination file existed. (<xref href="https://tickets.puppetlabs.com/browse/BOLT-1262" scope="external" class="- topic/xref ">BOLT-1262</xref>)</p></section><section class="- topic/section "><title class="- topic/title ">Rerun file wasn't generated without an existing project directory (1.18.0)</title><p class="- topic/p ">If no <ph conkeyref="ProductNames/bolt" class="- topic/ph "/> project directory existed, a&#160;<codeph class="+ topic/ph pr-d/codeph ">.rerun.json</codeph>&#160;file wasn't created, preventing you from rerunning failed commands. <ph conkeyref="ProductNames/bolt" class="- topic/ph "/> now creates a default project directory when one doesn't exist so that <codeph class="+ topic/ph pr-d/codeph ">.rerun.json</codeph> files are generated as expected. (<xref href="https://tickets.puppetlabs.com/browse/BOLT-1263" scope="external" class="- topic/xref ">BOLT-1263</xref>)</p></section><section class="- topic/section "><title class="- topic/title ">SELinux management didn't work on localhost (1.17.0)</title><p class="- topic/p "><ph conkeyref="ProductNames/bolt" class="- topic/ph "/> now ships with components similar to the <ph conkeyref="ProductNames/puppet" class="- topic/ph "/> agent to avoid discrepancies between using  a puppet-agent to apply <ph conkeyref="ProductNames/puppet" class="- topic/ph "/> code locally versus using the <ph conkeyref="ProductNames/bolt" class="- topic/ph "/> puppet-agent. (<xref href="https://tickets.puppetlabs.com/browse/BOLT-1244" scope="external" class="- topic/xref ">BOLT-1244</xref>)</p></section><section class="- topic/section "><title class="- topic/title "><ph conkeyref="ProductNames/linux" class="- topic/ph "/> implementation of the service and package tasks returned incorrect results (1.16.0)</title><p class="- topic/p ">The <ph conkeyref="ProductNames/powershell" class="- topic/ph "/> and bash implementations for the service and package tasks are more robust and provide output more consistent with the <ph conkeyref="ProductNames/ruby" class="- topic/ph "/> implementation. (<xref href="https://tickets.puppetlabs.com/browse/BOLT-1103" scope="external" class="- topic/xref ">BOLT-1103</xref>, <xref href="https://tickets.puppetlabs.com/browse/BOLT-1104" scope="external" class="- topic/xref ">BOLT-1104</xref>)</p></section><section class="- topic/section ">
+         <title class="- topic/title ">Remote tasks could run on non-remote targets (1.15.0)</title>
+         <p class="- topic/p ">Remote tasks can now be run only on remote targets (<xref href="https://tickets.puppetlabs.com/browse/BOLT-1203" scope="external" class="- topic/xref ">BOLT-1203</xref>)</p>
+      </section><section class="- topic/section ">
+         <title class="- topic/title "><codeph class="+ topic/ph pr-d/codeph ">known_hosts</codeph> weren't parsed correctly (1.15.0)</title>
+
+         <p class="- topic/p ">Previously, when a valid hostname entry was present in <codeph class="+ topic/ph pr-d/codeph ">known_hosts</codeph> and the <codeph class="+ topic/ph pr-d/codeph ">host-key-check</codeph> SSH configuration option was set, host key validation could fail when a valid IP address was not included in the <codeph class="+ topic/ph pr-d/codeph ">known_hosts</codeph> entry. This behavior was inconsistent with system SSH where the IP address is not required. Host key checking has been updated to match system SSH. (<xref href="https://tickets.puppetlabs.com/browse/BOLT-495" scope="external" class="- topic/xref ">BOLT-495</xref>)</p>
+      </section><section class="- topic/section ">
+         <title class="- topic/title ">Plan variables were visible to sub-plans (1.15.0)</title>
+
+         <p class="- topic/p ">Variables defined in scope in a plan were visible to sub-plans called with <codeph class="+ topic/ph pr-d/codeph ">run_plan</codeph>. (<xref href="https://tickets.puppetlabs.com/browse/BOLT-1190" scope="external" class="- topic/xref ">BOLT-1190</xref>)</p>
+      </section><section class="- topic/section ">
+         <title class="- topic/title ">The <codeph class="+ topic/ph pr-d/codeph ">_run_as</codeph> option was clobbered by configuration (1.13.1)</title>
+
+         <p class="- topic/p ">The <codeph class="+ topic/ph pr-d/codeph ">run-as</codeph> configuration option took precedence over the <codeph class="+ topic/ph pr-d/codeph ">_run_as</codeph> parameter when calling <codeph class="+ topic/ph pr-d/codeph ">run_*</codeph> functions in a plan. The <codeph class="+ topic/ph pr-d/codeph ">_run_as</codeph> parameter now has a higher priority than config or CLI. (<xref href="https://tickets.puppetlabs.com/browse/BOLT-1050" scope="external" class="- topic/xref ">BOLT-1050</xref>)</p>
+      </section><section class="- topic/section ">
+         <title class="- topic/title ">Tasks with certain configuration options failed when using <codeph class="+ topic/ph pr-d/codeph ">stdin</codeph>  (1.13.1)</title>
+
+         <p class="- topic/p ">When both <codeph class="+ topic/ph pr-d/codeph ">interpreters</codeph> and <codeph class="+ topic/ph pr-d/codeph ">run-as</codeph> were configured, tasks that required parameters to be passed over <codeph class="+ topic/ph pr-d/codeph ">stdin</codeph>  failed. (<xref href="https://tickets.puppetlabs.com/browse/BOLT-1155" scope="external" class="- topic/xref ">BOLT-1155</xref>)</p>
+      </section><section class="- topic/section ">
+         <title class="- topic/title ">
+            <ph conkeyref="ProductNames/ruby" class="- topic/ph "/> task helper symbolized only top-level parameter keys (1.13.0)</title>
+
+         <p class="- topic/p ">Previously the <codeph class="+ topic/ph pr-d/codeph ">ruby_task_helper</codeph><codeph class="+ topic/ph pr-d/codeph ">TaskHelper.run</codeph> method   symbolized only-top level parameter keys. Now nested keys are also symbolized. (<xref href="https://tickets.puppetlabs.com/browse/BOLT-1053" scope="external" class="- topic/xref ">BOLT-1053</xref>)</p>
+      </section><section class="- topic/section ">
+         <title class="- topic/title ">String segments in commands had to be triple-quoted in 
+
+            
+
+            
+
+            
+
+            
+
+            
+
+            
+
+            <ph conkeyref="ProductNames/powershell" class="- topic/ph "/> (1.12.0)</title>
+
+         <p class="- topic/p ">When running 
+
+            
+
+            
+
+            
+
+            
+
+            
+
+            
+
+            <ph conkeyref="ProductNames/bolt" class="- topic/ph "/> in 
+
+            
+
+            
+
+            
+
+            
+
+            
+
+            
+
+            <ph conkeyref="ProductNames/powershell" class="- topic/ph "/> with commands to be run on 
+
+            
+
+            
+
+            
+
+            
+
+            
+
+            
+
+            <ph conkeyref="ProductNames/nix" class="- topic/ph "/> nodes, string segments that could be interpreted by 
+
+            
+
+            
+
+            
+
+            
+
+            
+
+            
+
+            <ph conkeyref="ProductNames/powershell" class="- topic/ph "/> needed to be triple-quoted. (<xref href="https://tickets.puppetlabs.com/browse/BOLT-159" scope="external" class="- topic/xref ">BOLT-159</xref>)</p>
+      </section><section class="- topic/section ">
+         <title class="- topic/title ">Unsecured download of the <codeph class="+ topic/ph pr-d/codeph ">puppet_agent::install</codeph> task (1.11.0) </title>
+
+         <p class="- topic/p "> The bash implementation of the <codeph class="+ topic/ph pr-d/codeph ">puppet_agent::install</codeph> task now downloads packages over HTTPS instead of HTTP. This fix ensures the download is authenticated and secures against a man-in-the-middle attack.</p>
+      </section><section class="- topic/section ">
+         <title class="- topic/title ">Unsecured download of the <codeph class="+ topic/ph pr-d/codeph ">puppet_agent::install_powershell</codeph> task (1.10.0) </title>
+
+         <p class="- topic/p "> The PowerShell implementation of the <codeph class="+ topic/ph pr-d/codeph ">puppet_agent::install</codeph> task now downloads 
+
+            
+
+            
+
+            
+
+            
+
+            
+
+            
+
+            <ph conkeyref="ProductNames/windows" class="- topic/ph "/> .msi files using HTTPS instead of HTTP. This fix ensures the download is authenticated and secures against a man-in-the-middle attack. </p>
+      </section><section class="- topic/section "><title class="- topic/title ">
+            <ph conkeyref="ProductNames/bolt" class="- topic/ph "/> crashed if 
+
+            
+
+            
+
+            
+
+            
+
+            
+
+            
+
+            <ph conkeyref="ProductNames/puppetdb" class="- topic/ph "/> configuration was invalid (1.9.0) </title>If an invalid <codeph class="+ topic/ph pr-d/codeph ">puppetdb.conf</codeph> file is detected, 
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         <ph conkeyref="ProductNames/bolt" class="- topic/ph "/> now issues a warning instead of crashing (<xref href="https://tickets.puppetlabs.com/browse/BOLT-756" scope="external" class="- topic/xref ">BOLT-756</xref>)</section><section class="- topic/section ">
+         <title class="- topic/title ">Local transport returned incorrect exit status (1.9.0)</title>
+
+         <p class="- topic/p ">Local transport now correctly returns an exit code instead of the <xref href="https://ruby-doc.org/core-2.5.0/Process/Status.html#method-i-to_i" scope="external" class="- topic/xref ">stat of the process status as an integer</xref>. (<xref href="https://tickets.puppetlabs.com/browse/BOLT-1074" scope="external" class="- topic/xref ">BOLT-1074</xref>)</p>
+      </section><section class="- topic/section ">
+         <title class="- topic/title ">Standard library functions weren't packaged in 1.8.0 (1.8.1)</title>
+
+         <p class="- topic/p ">Version 1.8.0 didn't include new standard library functions as intended. This release now includes standard library functions in the gem and packages. (<xref format="html" href="https://tickets.puppetlabs.com/browse/BOLT-1065" scope="external" class="- topic/xref ">BOLT-1065</xref>)</p>
+      </section><section class="- topic/section ">
+         <title class="- topic/title "><codeph translate="no" class="+ topic/ph pr-d/codeph ">puppet_agent::install</codeph> task didn't match on 
+
+            
+
+            
+
+            
+
+            
+
+            
+
+            
+
+            <ph conkeyref="ProductNames/redhat" class="- topic/ph "/> (1.8.0)</title>
+
+         <p class="- topic/p ">The <codeph translate="no" class="+ topic/ph pr-d/codeph ">puppet_agent::install</codeph> task now uses updates in the <codeph translate="no" class="+ topic/ph pr-d/codeph ">facts</codeph> task to resolve 
+
+            
+
+            
+
+            
+
+            
+
+            
+
+            
+
+            <ph conkeyref="ProductNames/redhat" class="- topic/ph "/> operating system facts and to download the correct <codeph translate="no" class="+ topic/ph pr-d/codeph ">puppet-agent</codeph> package. (<xref format="html" href="https://tickets.puppetlabs.com/browse/BOLT-997" scope="external" class="- topic/xref ">BOLT-997</xref>)</p>
+      </section><section class="- topic/section ">
+         <title class="- topic/title ">Select module content missing from <codeph translate="no" class="+ topic/ph pr-d/codeph ">puppet-bolt</codeph> package (1.7.0)</title>
+
+         <p class="- topic/p ">Previous releases of the <codeph translate="no" class="+ topic/ph pr-d/codeph ">puppet-bolt</codeph> package omitted the <codeph translate="no" class="+ topic/ph pr-d/codeph ">python_task_helper</codeph> and <codeph translate="no" class="+ topic/ph pr-d/codeph ">ruby_task_helper</codeph> modules. These are now included. (<xref format="html" href="https://tickets.puppetlabs.com/browse/BOLT-1036" scope="external" class="- topic/xref ">BOLT-1036</xref>)</p>
+      </section><section class="- topic/section ">
+         <title class="- topic/title "><codeph translate="no" class="+ topic/ph pr-d/codeph ">wait_until_available</codeph> function didn't work with Docker transport (1.6.0)</title>
+
+         <p class="- topic/p ">We merged the Docker transport and <codeph translate="no" class="+ topic/ph pr-d/codeph ">wait_until_available</codeph> function in the same release, and they didn't play nicely together. (<xref format="html" href="https://tickets.puppetlabs.com/browse/BOLT-1018" scope="external" class="- topic/xref ">BOLT-1018</xref>)</p>
+      </section><section class="- topic/section ">
+         <title class="- topic/title ">Python task helper didn't generate appropriate errors (1.6.0)</title>
+
+         <p class="- topic/p ">The Python task helper included with 
+
+            
+
+            
+
+            
+
+            
+
+            
+
+            
+
+            <ph conkeyref="ProductNames/bolt" class="- topic/ph "/> didn't produce an error if an exception was thrown in a task implemented with the helper. (<xref format="html" href="https://tickets.puppetlabs.com/browse/BOLT-1021" scope="external" class="- topic/xref ">BOLT-1021</xref>)</p>
+      </section><section class="- topic/section ">
+         <title class="- topic/title ">Plans with no return value weren't marked complete in 
+
+            
+
+            
+
+            
+
+            
+
+            
+
+            
+
+            <ph conkeyref="ProductNames/pe" class="- topic/ph "/> (1.3.0)</title>
+
+         <p class="- topic/p ">
+            <ph conkeyref="ProductNames/bolt" class="- topic/ph "/> now correctly reports plan completion to 
+
+            
+
+            
+
+            
+
+            
+
+            
+
+            
+
+            <ph conkeyref="ProductNames/pe" class="- topic/ph "/> for plans that don't return a value. Previously, a plan that didn't return a value incorrectly logged that the plan didn't complete. (<xref format="html" href="https://tickets.puppetlabs.com/browse/BOLT-959" scope="external" class="- topic/xref ">BOLT-959</xref>)</p>
+      </section><section class="- topic/section ">
+         <title class="- topic/title ">Some functions weren't available in the BoltSpec::Plans library (1.3.0)</title>
+
+         <p class="- topic/p ">The BoltSpec::Plans library now supports plans that use <codeph translate="no" class="+ topic/ph pr-d/codeph ">without_default_logging</codeph> and <codeph translate="no" class="+ topic/ph pr-d/codeph ">wait_until_available</codeph>, and includes a setup helper that ensures tasks are found and that <codeph translate="no" class="+ topic/ph pr-d/codeph ">notice</codeph> works. (<xref format="html" href="https://tickets.puppetlabs.com/browse/BOLT-971" scope="external" class="- topic/xref ">BOLT-971</xref>)</p>
+      </section><section class="- topic/section ">
+         <title class="- topic/title ">Task implementation not located relative to other files in installdir (1.2.0)</title>
+
+         <p class="- topic/p ">When you use tasks that include shared code, the task executable is located alongside shared code at <codeph translate="no" class="+ topic/ph pr-d/codeph ">_installdir/MODULE/tasks/TASK</codeph>. (<xref format="html" href="https://tickets.puppetlabs.com/browse/BOLT-931" scope="external" class="- topic/xref ">BOLT-931</xref>)</p>
+      </section><section class="- topic/section ">
+         <title class="- topic/title ">Error when puppet_agent task not run as root (1.1.0)</title>
+
+         <p class="- topic/p "> The puppet_agent task now checks that it is run as root. When run as another user, it prints and fails with a helpful message. (<xref format="html" href="https://tickets.puppetlabs.com/browse/BOLT-914" scope="external" class="- topic/xref ">BOLT-878</xref>)</p>
+      </section><section class="- topic/section ">
+         <title class="- topic/title ">
+            <ph conkeyref="ProductNames/bolt" class="- topic/ph "/> suppresses errors from transport (1.1.0)</title>
+
+         <p class="- topic/p ">Previously, 
+
+            
+
+            
+
+            
+
+            
+
+            
+
+            
+
+            <ph conkeyref="ProductNames/bolt" class="- topic/ph "/> suppressed some exception errors thrown by transports. For example, when the ed25519 gem was not present for an Net::SSH process, the NotImplementedError for ed25519 keys would not appear. These errors are now identified and displayed. (<xref format="html" href="https://tickets.puppetlabs.com/browse/BOLT-922" scope="external" class="- topic/xref ">BOLT-922</xref>)</p>
+      </section><section class="- topic/section ">
+         <title class="- topic/title ">Loading bolt/executor is "breaking" gettext setup in spec tests (1.0.0)</title>
+
+         <p class="- topic/p ">When 
+
+            
+
+            
+
+            
+
+            
+
+            
+
+            
+
+            <ph conkeyref="ProductNames/bolt" class="- topic/ph "/> is used as a library, it no longer loads code from r10k unless you explicitly <codeph translate="no" class="+ topic/ph pr-d/codeph ">require 'bolt/cli'</codeph>.(<xref format="html" href="https://tickets.puppetlabs.com/browse/BOLT-914" scope="external" class="- topic/xref ">BOLT-914</xref>)</p>
+      </section><section class="- topic/section ">
+         <title class="- topic/title ">Deprecated functions in stdlib result in Evaluation Error (1.0.0)</title>
+
+         <p class="- topic/p "> Manifest blocks will now allow use of deprecated functions from stdlib, and language features governed by the 'strict' setting in 
+
+            
+
+            
+
+            
+
+            
+
+            
+
+            
+
+            <ph conkeyref="ProductNames/puppet" class="- topic/ph "/>. (<xref format="html" href="https://tickets.puppetlabs.com/browse/BOLT-900" scope="external" class="- topic/xref ">BOLT-900</xref>)</p>
+      </section><section class="- topic/section ">
+         <title class="- topic/title ">
+            <ph conkeyref="ProductNames/bolt" class="- topic/ph "/> apply does not provide clientcert fact (1.0.0)</title>
+
+         <p class="- topic/p "><codeph translate="no" class="+ topic/ph pr-d/codeph ">apply_prep</codeph> has been updated to collect agent facts as listed in&#160;<xref format="html" href="https://puppet.com/docs/puppet/latest/lang_facts_and_builtin_vars.html#puppet-agent-facts" scope="external" class="- topic/xref ">Puppet agent facts</xref>. (<xref format="html" href="https://tickets.puppetlabs.com/browse/BOLT-898" scope="external" class="- topic/xref ">BOLT-898</xref>)</p>
+      </section><section class="- topic/section ">
+         <title class="- topic/title ">C:\Program Files\Puppet Labs\Bolt\bin\bolt.bat is non-functional (1.0.0)</title>
+
+         <p class="- topic/p "> When moving to 
+
+            
+
+            
+
+            
+
+            
+
+            
+
+            
+
+            <ph conkeyref="ProductNames/ruby" class="- topic/ph "/> 2.5, the .bat scripts in 
+
+            
+
+            
+
+            
+
+            
+
+            
+
+            
+
+            <ph conkeyref="ProductNames/bolt" class="- topic/ph "/> packaging reverted to hard-coded paths that were not accurate. As a result 
+
+            
+
+            
+
+            
+
+            
+
+            
+
+            
+
+            <ph conkeyref="ProductNames/bolt" class="- topic/ph "/> would be unusable outside of PowerShell. The .bat scripts have been fixed so they work from cmd.exe as well. (<xref format="html" href="https://tickets.puppetlabs.com/browse/BOLT-886" scope="external" class="- topic/xref ">BOLT-886</xref>)</p>
+      </section></conbody></concept>

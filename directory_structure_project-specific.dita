@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//PUPPET//DTD DITA Puppet Concept//EN" "concept.dtd">
+<concept id="concept-6910" class="- topic/topic concept/concept "><title class="- topic/title ">Modules for projects</title><shortdesc class="- topic/shortdesc ">Modules developed to support a particular project can be developed directly in
+     the <codeph class="+ topic/ph pr-d/codeph ">site-modules</codeph> directory of the 
+
+      <ph conkeyref="ProductNames/bolt" class="- topic/ph "/> project
+directory.</shortdesc><prolog class="- topic/prolog "><author translate="no" type="creator" class="- topic/author ">Melissa Amos &lt;melissa.amos@puppet.com&gt;</author></prolog><conbody class="- topic/body  concept/conbody "><p class="- topic/p ">Create a new directory for each module
+        inside <codeph class="+ topic/ph pr-d/codeph ">site-modules</codeph> that matches the modules name or use <codeph class="+ topic/ph pr-d/codeph ">pdk new
+        module</codeph> to create a skeleton
+structure.</p></conbody></concept>

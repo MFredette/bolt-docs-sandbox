@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//PUPPET//DTD DITA Puppet Concept//EN" "concept.dtd">
+<concept xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" ditaarch:DITAArchVersion="1.2" domains="(topic concept)                            (topic hi-d)                            (topic ut-d)                            (topic indexing-d)                             (topic pr-d)                            (topic sw-d)                            (topic ui-d)   " id="concept-5468" class="- topic/topic concept/concept "><title class="- topic/title ">Defining parameters in tasks</title><shortdesc class="- topic/shortdesc ">Allow your task to accept parameters as either environment variables or as a JSON hash on standard input.</shortdesc><prolog class="- topic/prolog "><author translate="no" type="creator" class="- topic/author ">Jean Bond &lt;jean@puppet.com&gt;</author></prolog><conbody class="- topic/body  concept/conbody "><p class="- topic/p ">
+         <draft-comment class="- topic/draft-comment ">Shared between Bolt and PE 2018.1+</draft-comment>
+      </p><p class="- topic/p ">Tasks can receive input as either environment variables, a JSON hash on standard input, or as 
+
+         <ph conkeyref="ProductNames/powershell" class="- topic/ph "/> arguments. By default, the task runner submits parameters as both environment variables and as JSON on <codeph translate="no" class="+ topic/ph pr-d/codeph ">stdin</codeph>. </p><p class="- topic/p ">If your task should receive parameters only in a certain way, such as <codeph translate="no" class="+ topic/ph pr-d/codeph ">stdin</codeph> only, you can set the input method in your task metadata. For 
+
+         <ph conkeyref="ProductNames/windows" class="- topic/ph "/> tasks, it's usually better to use tasks written in 
+
+         <ph conkeyref="ProductNames/powershell" class="- topic/ph "/>. See the related topic about task metadata for information about setting the input method.</p><p class="- topic/p ">Environment variables are the easiest way to implement parameters, and they work well for simple JSON types such as strings and numbers. For arrays and hashes, use structured input instead because  parameters with  undefined values (<codeph class="+ topic/ph pr-d/codeph ">nil</codeph>, <codeph class="+ topic/ph pr-d/codeph ">undef</codeph>)  passed as  environment variables have the <codeph class="+ topic/ph pr-d/codeph ">String</codeph> value <codeph class="+ topic/ph pr-d/codeph ">null</codeph>. For more information, see <xref href="structured_input_and_output.dita" class="- topic/xref "/>.</p><p class="- topic/p ">To add parameters to your task as environment variables, pass the argument prefixed with the 
+
+         <ph conkeyref="ProductNames/puppet" class="- topic/ph "/> task prefix <codeph translate="no" class="+ topic/ph pr-d/codeph ">PT_</codeph> .</p><p class="- topic/p ">For example, to add a <codeph translate="no" class="+ topic/ph pr-d/codeph ">message</codeph> parameter to your task, read it from the environment in task code as <codeph translate="no" class="+ topic/ph pr-d/codeph ">PT_message</codeph>. When the user runs the task, they can specify the value for the parameter on the command line as 
+
+         <codeph translate="no" class="+ topic/ph pr-d/codeph ">
+            <userinput class="+ topic/ph sw-d/userinput ">message=hello</userinput>
+         </codeph>, and the task runner submits the value <codeph translate="no" class="+ topic/ph pr-d/codeph ">hello</codeph> to the <codeph translate="no" class="+ topic/ph pr-d/codeph ">PT_message</codeph> variable.</p><p class="- topic/p ">
+         <codeblock translate="no" xml:space="preserve" class="+ topic/pre pr-d/codeblock ">#!/usr/bin/env bash
+echo your message is $PT_message</codeblock>
+      </p><section class="- topic/section ">
+         <title class="- topic/title ">Defining parameters in 
+
+            <ph conkeyref="ProductNames/windows" class="- topic/ph "/></title>
+
+         <p class="- topic/p ">For 
+
+            <ph conkeyref="ProductNames/windows" class="- topic/ph "/> tasks, you can pass parameters as environment variables, but it's easier to write your task in 
+
+            <ph conkeyref="ProductNames/powershell" class="- topic/ph "/> and use named arguments. By default tasks with a <codeph translate="no" class="+ topic/ph pr-d/codeph ">.ps1</codeph> extension use PowerShell standard argument handling. </p>
+
+         <p class="- topic/p ">For example, this 
+
+            <ph conkeyref="ProductNames/powershell" class="- topic/ph "/> task takes a process name as an argument and returns information about the process. If no parameter is passed by the user, the task returns all of the processes.</p>
+
+         <p class="- topic/p ">
+            <codeblock translate="no" xml:space="preserve" class="+ topic/pre pr-d/codeblock ">[CmdletBinding()]
+Param(
+  [Parameter(Mandatory = $False)]
+ [String]
+  $Name
+  )
+
+if ($Name -eq $null -or $Name -eq "") {
+  Get-Process
+} else {
+  $processes = Get-Process -Name $Name
+  $result = @()
+  foreach ($process in $processes) {
+    $result += @{"Name" = $process.ProcessName;
+                 "CPU" = $process.CPU;
+                 "Memory" = $process.WorkingSet;
+                 "Path" = $process.Path;
+                 "Id" = $process.Id}
+  }
+  if ($result.Count -eq 1) {
+    ConvertTo-Json -InputObject $result[0] -Compress
+  } elseif ($result.Count -gt 1) {
+    ConvertTo-Json -InputObject @{"_items" = $result} -Compress
+  }
+}</codeblock>
+         </p>
+
+         <p class="- topic/p ">To pass parameters in your task as environment variables (<codeph translate="no" class="+ topic/ph pr-d/codeph ">PT_parameter</codeph>), you must set <codeph translate="no" class="+ topic/ph pr-d/codeph ">input_method</codeph> in your task metadata to <codeph translate="no" class="+ topic/ph pr-d/codeph ">environment</codeph>. To run 
+
+            <ph conkeyref="ProductNames/ruby" class="- topic/ph "/> tasks on 
+
+            <ph conkeyref="ProductNames/windows" class="- topic/ph "/>, the 
+
+            <ph conkeyref="ProductNames/puppet" class="- topic/ph "/> agent must be installed on the target nodes. </p>
+      </section></conbody></concept>

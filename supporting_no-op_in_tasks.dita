@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//PUPPET//DTD DITA Puppet Concept//EN" "concept.dtd">
+<concept xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" ditaarch:DITAArchVersion="1.2" domains="(topic concept)                            (topic hi-d)                            (topic ut-d)                            (topic indexing-d)                             (topic pr-d)                            (topic sw-d)                            (topic ui-d)   " id="concept-8306" class="- topic/topic concept/concept "><title class="- topic/title ">Supporting no-op in tasks</title><shortdesc class="- topic/shortdesc ">Tasks support no-operation functionality, also known as no-op mode. This function shows what changes the task would make, without actually making those changes.</shortdesc><prolog class="- topic/prolog "><author translate="no" type="creator" class="- topic/author ">Jean Bond &lt;jean@puppet.com&gt;</author></prolog><conbody class="- topic/body  concept/conbody "><p class="- topic/p "><draft-comment class="- topic/draft-comment ">Shared between Bolt and PE 2018.1+</draft-comment></p><p class="- topic/p ">No-op support allows a user to pass the <codeph translate="no" class="+ topic/ph pr-d/codeph ">--noop</codeph> flag with a command to test whether the task will succeed on all targets before making changes. </p><p class="- topic/p "> To support no-op, your task must include code that looks for the <codeph translate="no" class="+ topic/ph pr-d/codeph ">_noop</codeph> metaparameter. No-op is supported only in <ph conkeyref="ProductNames/pe_long" class="- topic/ph "/>.</p><p class="- topic/p "> If the user passes the <codeph translate="no" class="+ topic/ph pr-d/codeph ">--noop</codeph> flag with their command, this parameter is set to <codeph translate="no" class="+ topic/ph pr-d/codeph ">true</codeph>, and your task must not make changes. You must also set <codeph translate="no" class="+ topic/ph pr-d/codeph ">supports_noop</codeph> to <codeph translate="no" class="+ topic/ph pr-d/codeph ">true</codeph> in your task metadata or the task runner will refuse to run the task in noop mode.</p><section class="- topic/section "><title class="- topic/title ">No-op metadata example</title><p class="- topic/p "><codeblock translate="no" xml:space="preserve" class="+ topic/pre pr-d/codeblock ">{
+  "description": "Write content to a file.",
+  "supports_noop": true,
+  "parameters": {
+    "filename": {
+      "description": "the file to write to",
+      "type": "String[1]"
+    },
+    "content": {
+      "description": "The content to write",
+      "type": "String"
+    }
+  }
+}</codeblock></p></section><section class="- topic/section "><title class="- topic/title ">No-op task example</title><p class="- topic/p "><codeblock translate="no" xml:space="preserve" class="+ topic/pre pr-d/codeblock ">#!/usr/bin/env python
+import json
+import os
+import sys
+
+params = json.load(sys.stdin)
+filename = params['filename']
+content = params['content']
+noop = params.get('_noop', False)
+
+exitcode = 0
+
+def make_error(msg):
+ &#160;error = {
+      "_error": {
+          "kind": "file_error",
+          "msg": msg,
+          "details": {},
+      }
+  }
+  return error
+
+try:
+  if noop:
+    path = os.path.abspath(os.path.join(filename, os.pardir))
+    file_exists = os.access(filename, os.F_OK)
+    file_writable = os.access(filename, os.W_OK)
+    path_writable = os.access(path, os.W_OK)
+
+    if path_writable == False:
+      exitcode = 1
+      result = make_error("Path %s is not writable" % path)
+    elif file_exists == True and file_writable == False:
+      exitcode = 1
+      result = make_error("File %s is not writable" % filename)
+    else:
+      result = { "success": True , '_noop': True }
+  else:
+    with open(filename, 'w') as fh:
+      fh.write(content)
+      result = { "success": True }
+except Exception as e:
+  exitcode = 1
+  result = make_error("Could not open file %s: %s" % (filename, str(e)))
+print(json.dumps(result))
+exit(exitcode)</codeblock></p></section></conbody></concept>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//PUPPET//DTD DITA Puppet Concept//EN" "concept.dtd">
+<concept xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" ditaarch:DITAArchVersion="1.2" domains="(topic concept)                            (topic hi-d)                            (topic ut-d)                            (topic indexing-d)                             (topic pr-d)                            (topic sw-d)                            (topic ui-d)   " id="concept-6035" class="- topic/topic concept/concept "><title class="- topic/title ">Welcome to <ph conkeyref="ProductNames/bolt" class="- topic/ph "/></title><shortdesc class="- topic/shortdesc "><ph conkeyref="ProductNames/bolt" class="- topic/ph "/> is an open source orchestration tool that automates the manual work it takes to maintain your infrastructure. Use <ph conkeyref="ProductNames/bolt" class="- topic/ph "/> to automate tasks that you perform on an as-needed basis or as part of a greater orchestration workflow. For example, you can use <ph conkeyref="ProductNames/bolt" class="- topic/ph "/> to patch and update systems, troubleshoot servers, deploy applications, or stop and restart services. <ph conkeyref="ProductNames/bolt" class="- topic/ph "/> can be installed on your local workstation and connects directly to remote nodes with SSH or WinRM, so you are not required to install any agent software.</shortdesc><prolog class="- topic/prolog "><author translate="no" type="creator" class="- topic/author ">Jean Bond &lt;jean@puppet.com&gt;</author></prolog><conbody class="- topic/body  concept/conbody "><p class="- topic/p "> 
+            <image width="300" href="bolt-logo-dark.png" class="- topic/image "/> 
+        </p><section class="- topic/section "> 
+            <table class="- topic/table "><tgroup cols="2" class="- topic/tgroup "><thead class="- topic/thead "><row class="- topic/row "><entry class="- topic/entry ">Helpful <ph conkeyref="ProductNames/bolt" class="- topic/ph "/> docs links</entry><entry class="- topic/entry ">Other useful places</entry></row></thead><tbody class="- topic/tbody "><row class="- topic/row "><entry class="- topic/entry "> 
+                                <dl class="- topic/dl "><dlentry class="- topic/dlentry "><dt class="- topic/dt ">Before you install</dt><dd class="- topic/dd "> 
+                                            <xref href="bolt_release_notes.dita" class="- topic/xref ">Release notes</xref> - What's new, what's removed, what's resolved. 
+                                        </dd></dlentry></dl> 
+                                <dl class="- topic/dl "><dlentry class="- topic/dlentry "><dt class="- topic/dt ">Install <ph conkeyref="ProductNames/bolt" class="- topic/ph "/></dt><dd class="- topic/dd "> 
+                                            <xref href="bolt_installing.dita" class="- topic/xref "/> - Follow the installation instructions for your operating system: <ph conkeyref="ProductNames/nix" class="- topic/ph "/>, <ph conkeyref="ProductNames/macos" class="- topic/ph "/>, or <ph conkeyref="ProductNames/windows" class="- topic/ph "/>. 
+                                        </dd></dlentry></dl> 
+                                <dl class="- topic/dl "><dlentry class="- topic/dlentry "><dt class="- topic/dt ">Make one-time changes to your remote nodes</dt><dd class="- topic/dd "> 
+                                            <xref format="dita" scope="local" href="bolt_running_commands.dita" class="- topic/xref ">Run a command</xref> 
+                                        </dd><dd class="- topic/dd "> 
+                                            <xref format="dita" scope="local" href="bolt_running_scripts.dita" class="- topic/xref ">Run a script</xref> 
+                                        </dd><dd class="- topic/dd "> 
+                                            <xref format="dita" scope="local" href="bolt_running_scripts.dita" class="- topic/xref ">Upload files</xref> 
+                                        </dd></dlentry></dl> 
+                                <dl class="- topic/dl "><dlentry class="- topic/dlentry "><dt class="- topic/dt ">Automate your workflow with existing tasks and plans</dt><dd class="- topic/dd "> 
+                                            <xref format="dita" scope="local" href="bolt_running_tasks.dita" class="- topic/xref "/> 
+                                        </dd><dd class="- topic/dd "> 
+                                            <xref format="dita" scope="local" href="bolt_running_plans.dita" class="- topic/xref "/> 
+                                        </dd></dlentry></dl> 
+                                <dl class="- topic/dl "><dlentry class="- topic/dlentry "><dt class="- topic/dt ">Create your own tasks and plans</dt><dd class="- topic/dd "> 
+                                            <xref format="dita" scope="local" href="writing_tasks.dita" class="- topic/xref "/> 
+                                        </dd><dd class="- topic/dd "> 
+                                            <xref format="dita" scope="local" href="writing_plans.dita" class="- topic/xref "/> 
+                                        </dd><dd class="- topic/dd "> 
+                                            <xref format="dita" scope="local" href="writing_yaml_plans.dita" class="- topic/xref "/> 
+                                        </dd><dd class="- topic/dd "> 
+                                            <xref format="dita" scope="local" href="example_plans.dita" class="- topic/xref "/> 
+                                        </dd><dd class="- topic/dd "> 
+                                            <xref format="dita" scope="local" href="applying_manifest_blocks.dita" class="- topic/xref "/> 
+                                        </dd></dlentry></dl> 
+                            </entry><entry class="- topic/entry "> 
+                                <dl class="- topic/dl "><dlentry class="- topic/dlentry "><dt class="- topic/dt ">Learn the basics</dt><dd class="- topic/dd "> 
+                                            <xref href="https://puppetlabs.github.io/bolt/" scope="external" class="- topic/xref ">Hands-on lab</xref> - Using a GitHub repository with sample files and code examples, install and run <ph conkeyref="ProductNames/bolt" class="- topic/ph "/> in a safe environment. 
+                                        </dd><dd class="- topic/dd "> 
+                                            <xref format="html" href="https://learn.puppet.com/course/puppet-orchestration-bolt-and-tasks?_ga=2.158319738.1526297716.1533055277-261802629.1531434605" scope="external" class="- topic/xref ">Online training</xref> - Learn how to use <ph conkeyref="ProductNames/bolt" class="- topic/ph "/> to run a command, a script, and a task. 
+                                        </dd></dlentry></dl> 
+                                <dl class="- topic/dl "><dlentry class="- topic/dlentry "><dt class="- topic/dt ">Watch <ph conkeyref="ProductNames/bolt" class="- topic/ph "/> development</dt><dd class="- topic/dd "> 
+                                            <xref format="html" href="https://github.com/puppetlabs/bolt" scope="external" class="- topic/xref ">Bolt project on GitHub</xref> 
+                                        </dd></dlentry></dl> 
+                                <dl class="- topic/dl "><dlentry class="- topic/dlentry "><dt class="- topic/dt ">Docs for related <ph conkeyref="ProductNames/puppet" class="- topic/ph "/> products</dt><dd class="- topic/dd "> 
+                                            <xref format="html" href="https://puppet.com/docs/puppet/latest/index.html" scope="external" class="- topic/xref ">Open source Puppet</xref> 
+                                        </dd><dd class="- topic/dd "> 
+                                            <xref format="html" href="https://puppet.com/docs/pe/latest/pe_user_guide.html" scope="external" class="- topic/xref "> <ph conkeyref="ProductNames/pe_long" class="- topic/ph "/> </xref> 
+                                        </dd><dd class="- topic/dd "> 
+                                            <xref format="html" href="https://puppet.com/docs/pdk/latest/pdk.html" scope="external" class="- topic/xref ">Puppet Development Kit</xref> 
+                                        </dd></dlentry></dl> 
+                                <dl class="- topic/dl "><dlentry class="- topic/dlentry "><dt class="- topic/dt ">Why and how people are using <ph conkeyref="ProductNames/bolt" class="- topic/ph "/></dt><dd class="- topic/dd "> 
+                                            <xref format="html" href="https://puppet.com/resources/webinar/product-spotlight-webinar-puppet-taskstm" scope="external" class="- topic/xref ">Product Spotlight Webinar: Puppet Tasks </xref> 
+                                        </dd><dd class="- topic/dd "> 
+                                            <xref format="html" href="https://puppet.com/blog/combining-powershell-bolt-and-puppet-tasks-part-1" scope="external" class="- topic/xref ">Combining PowerShell, Bolt and Puppet Tasks </xref> 
+                                        </dd></dlentry></dl> 
+                                <dl class="- topic/dl "><dlentry class="- topic/dlentry "><dt class="- topic/dt ">Share and contribute</dt><dd class="- topic/dd "> 
+                                            <xref format="html" href="https://slack.puppet.com/" scope="external" class="- topic/xref ">Join us on Slack</xref> - Join the #bolt channel. 
+                                        </dd><dd class="- topic/dd "> 
+                                            <xref format="html" href="https://twitter.com/puppetize/" scope="external" class="- topic/xref ">Follow us on Twitter</xref> 
+                                        </dd><dd class="- topic/dd "> 
+                                            <xref format="html" href="https://puppet.com/community" scope="external" class="- topic/xref ">Engage with the Puppet community</xref> - Share what you know and get help from other users and employees. 
+                                        </dd><dd class="- topic/dd "> 
+                                            <xref format="html" href="https://forge.puppet.com" scope="external" class="- topic/xref ">Puppet Forge</xref> - Find modules you can use, and contribute modules you've made to the community. 
+                                        </dd><dd class="- topic/dd "> 
+                                            <xref format="html" href="https://github.com/puppetlabs/" scope="external" class="- topic/xref ">Open source projects from Puppet on GitHub</xref> 
+                                        </dd></dlentry></dl> 
+                            </entry></row></tbody></tgroup></table> 
+            <p class="- topic/p ">To send us feedback or let us know about a docs error, 
+                <xref format="html" href="https://tickets.puppetlabs.com/browse/DOCUMENT/?selectedTab=com.atlassian.jira.jira-projects-plugin:summary-panel" scope="external" class="- topic/xref ">open a ticket</xref> (you'll need a Jira account) or 
+                <xref format="html" href="mailto:docs@puppet.com" scope="external" class="- topic/xref ">email the docs team</xref>. 
+            </p> 
+        </section></conbody></concept>

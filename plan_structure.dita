@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE reference PUBLIC "-//PUPPET//DTD DITA Puppet Reference//EN" "reference.dtd">
+<reference id="yaml-plan-structure" class="- topic/topic       reference/reference "><title class="- topic/title ">Plan structure</title><shortdesc class="- topic/shortdesc ">YAML plans contain a list of steps with optional parameters and results.</shortdesc><prolog class="- topic/prolog "><author translate="no" type="creator" class="- topic/author ">Melissa Amos &lt;melissa.amos@puppet.com&gt;</author></prolog><refbody class="- topic/body        reference/refbody "><section class="- topic/section ">
+         <p class="- topic/p ">YAML maps accept these keys:
+
+            <ul class="- topic/ul "><li class="- topic/li ">
+                  <p class="- topic/p "><codeph class="+ topic/ph pr-d/codeph ">steps</codeph>: The list of steps to perform
+                  </p>
+               </li><li class="- topic/li ">
+                  <p class="- topic/p "><codeph class="+ topic/ph pr-d/codeph ">parameters</codeph>: (Optional) The parameters accepted by the plan
+                  </p>
+               </li><li class="- topic/li ">
+                  <p class="- topic/p "><codeph class="+ topic/ph pr-d/codeph ">return</codeph>: (Optional) The value to return from the plan
+                  </p>
+               </li></ul></p>
+      </section></refbody></reference>

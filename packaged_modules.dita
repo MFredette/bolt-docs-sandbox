@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//PUPPET//DTD DITA Puppet Concept//EN" "concept.dtd">
+<concept xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" ditaarch:DITAArchVersion="1.2" domains="(topic concept)                             (topic hi-d)                            (topic ut-d)                            (topic indexing-d)                             (topic pr-d)                            (topic sw-d)                             (topic ui-d)   " id="packaged-modules" class="- topic/topic concept/concept "><title class="- topic/title ">Packaged modules </title><shortdesc class="- topic/shortdesc ">
+      <ph conkeyref="ProductNames/bolt" class="- topic/ph "/> is packaged with a collection of useful modules to support common workflows.</shortdesc><prolog class="- topic/prolog "><author translate="no" type="creator" class="- topic/author ">Kate Lopresti &lt;kate.lopresti@puppet.com&gt;</author></prolog><conbody class="- topic/body  concept/conbody "><p class="- topic/p ">This list of packaged modules is available in a <xref href="https://github.com/puppetlabs/bolt/blob/master/Puppetfile" scope="external" class="- topic/xref ">Puppetfile</xref> in the Bolt repository. The modules and supporting documentation are publicly available on the <xref format="html" href="https://forge.puppet.com/" scope="external" class="- topic/xref ">Puppet Forge</xref>.</p><note type="note" class="- topic/note ">If you installed 
+
+         
+
+         <ph conkeyref="ProductNames/bolt" class="- topic/ph "/> as a 
+
+         
+
+         <ph conkeyref="ProductNames/ruby" class="- topic/ph "/> Gem, make sure you have installed these core modules.</note><section class="- topic/section ">
+         <title class="- topic/title ">Modules with useful task and plan content</title>
+
+         <p class="- topic/p ">
+            <ul class="- topic/ul "><li class="- topic/li ">
+                  <p class="- topic/p "><xref format="html" href="https://forge.puppet.com/puppetlabs/package" scope="external" class="- topic/xref ">package</xref>: Install, uninstall, update, and check the status of packages.</p>
+               </li><li class="- topic/li ">
+                  <p class="- topic/p "><xref format="html" href="https://forge.puppet.com/puppetlabs/service" scope="external" class="- topic/xref ">service</xref>: Manage and inspect the state of services. </p>
+               </li><li class="- topic/li ">
+                  <p class="- topic/p "><xref format="html" href="https://forge.puppet.com/puppetlabs/puppet_conf" scope="external" class="- topic/xref ">puppet_conf</xref>: Inspect and change the configuration options in the <codeph translate="no" class="+ topic/ph pr-d/codeph ">puppet.conf</codeph> file. </p>
+               </li><li class="- topic/li ">
+                  <p class="- topic/p "><xref format="html" href="https://forge.puppet.com/puppetlabs/facts" scope="external" class="- topic/xref ">facts</xref>: Retrieve facts from specified nodes. </p>
+               </li><li class="- topic/li ">
+                  <p class="- topic/p "><xref format="html" href="https://forge.puppet.com/puppetlabs/puppet_agent" scope="external" class="- topic/xref ">puppet_agent</xref>: Install 
+
+                     
+
+                     <ph conkeyref="ProductNames/puppet" class="- topic/ph "/> Agent package. </p>
+               </li><li class="- topic/li "><p class="- topic/p "><xref href="https://forge.puppet.com/puppetlabs/reboot" scope="external" class="- topic/xref ">reboot</xref>: Manage system reboots.</p></li></ul>
+         </p>
+      </section><section class="- topic/section ">
+         <title class="- topic/title ">Core 
+
+            
+
+            <ph conkeyref="ProductNames/puppet" class="- topic/ph "/> providers</title>
+
+         <p class="- topic/p ">
+            <ul class="- topic/ul "><li class="- topic/li ">
+                  <p class="- topic/p "><xref format="html" href="https://forge.puppet.com/puppetlabs/augeas_core" scope="external" class="- topic/xref ">augeas_core</xref>: Manage configuration files using Augeas. </p>
+               </li><li class="- topic/li ">
+                  <p class="- topic/p "><xref format="html" href="https://forge.puppet.com/puppetlabs/host_core" scope="external" class="- topic/xref ">host_core</xref>: Manage host entries in a hosts file.</p>
+               </li><li class="- topic/li ">
+                  <p class="- topic/p "><xref format="html" href="https://forge.puppet.com/puppetlabs/scheduled_task" scope="external" class="- topic/xref ">scheduled_task</xref>: Provider capable of using the Version 2 
+
+                     
+
+                     <ph conkeyref="ProductNames/windows" class="- topic/ph "/> API for task management. </p>
+               </li><li class="- topic/li ">
+                  <p class="- topic/p "><xref format="html" href="https://forge.puppet.com/puppetlabs/sshkeys_core" scope="external" class="- topic/xref ">sshkeys_core</xref>: Manage <codeph translate="no" class="+ topic/ph pr-d/codeph ">SSH</codeph>, <codeph translate="no" class="+ topic/ph pr-d/codeph ">authorized_keys</codeph>, and <codeph translate="no" class="+ topic/ph pr-d/codeph ">ssh_known_hosts</codeph> files. </p>
+               </li><li class="- topic/li ">
+                  <p class="- topic/p "><xref format="html" href="https://forge.puppet.com/puppetlabs/zfs_core" scope="external" class="- topic/xref ">zfs_core</xref>: Manage <codeph translate="no" class="+ topic/ph pr-d/codeph ">zfs</codeph> and <codeph translate="no" class="+ topic/ph pr-d/codeph ">zpool</codeph> resources.</p>
+               </li><li class="- topic/li ">
+                  <p class="- topic/p "><xref format="html" href="https://forge.puppet.com/puppetlabs/cron_core" scope="external" class="- topic/xref ">cron_core</xref>: Install and manage <codeph translate="no" class="+ topic/ph pr-d/codeph ">cron</codeph> resources.</p>
+               </li><li class="- topic/li ">
+                  <p class="- topic/p "><xref format="html" href="https://forge.puppet.com/puppetlabs/mount_core" scope="external" class="- topic/xref ">mount_core</xref>: Manage mounted filesystems and mount tables. </p>
+               </li><li class="- topic/li ">
+                  <p class="- topic/p "><xref format="html" href="https://forge.puppet.com/puppetlabs/selinux_core" scope="external" class="- topic/xref ">selinux_core</xref>: Manage Security-Enhanced 
+
+                     
+
+                     <ph conkeyref="ProductNames/linux" class="- topic/ph "/>.</p>
+               </li><li class="- topic/li ">
+                  <p class="- topic/p "><xref format="html" href="https://forge.puppet.com/puppetlabs/yumrepo_core" scope="external" class="- topic/xref ">yumrepo_core</xref>: Manage client yum repo configurations by parsing INI configuration files.</p>
+               </li><li class="- topic/li ">
+                  <p class="- topic/p "><xref format="html" href="https://forge.puppet.com/puppetlabs/zone_core" scope="external" class="- topic/xref ">zone_core</xref>: Manage Solaris zone resources.</p>
+               </li></ul>
+         </p>
+      </section><section class="- topic/section ">
+         <title class="- topic/title ">
+            <ph conkeyref="ProductNames/bolt" class="- topic/ph "/> specific modules that are not available on the 
+
+            
+
+            <ph conkeyref="ProductNames/forge" class="- topic/ph "/></title>
+
+         <p class="- topic/p ">
+            <ul class="- topic/ul "><li class="- topic/li ">
+                  <p class="- topic/p "><xref format="html" href="https://github.com/puppetlabs/bolt/tree/master/modules/aggregate" scope="external" class="- topic/xref ">aggregate</xref>: Aggregate task, script or command results. </p>
+               </li><li class="- topic/li ">
+                  <p class="- topic/p "><xref format="html" href="https://github.com/puppetlabs/bolt/tree/master/modules/canary" scope="external" class="- topic/xref ">canary</xref>: Run action against a small number of nodes and only if it succeeds will it run on the rest. </p>
+               </li><li class="- topic/li ">
+                  <p class="- topic/p "><xref format="html" href="https://github.com/puppetlabs/bolt/tree/master/modules/puppetdb_fact" scope="external" class="- topic/xref ">puppetdb_fact</xref>: Collect facts for the specified nodes from the configured 
+
+                     
+
+                     <ph conkeyref="ProductNames/puppetdb" class="- topic/ph "/> connection and stores the collected facts on the targets. </p>
+               </li></ul>
+         </p>
+
+         <note type="tip" class="- topic/note ">To override a packaged module with another version, download the version you want and configure your modulepath to point to it. </note>
+      </section><section class="- topic/section "><title class="- topic/title ">Modules that contain helper code for writing your own tasks</title><p class="- topic/p "><ul class="- topic/ul "><li class="- topic/li "><p class="- topic/p "><xref href="https://forge.puppet.com/puppetlabs/ruby_task_helper" scope="external" class="- topic/xref ">ruby_task_helper</xref>: A helper for writing tasks in <ph conkeyref="ProductNames/ruby" class="- topic/ph "/>.</p></li><li class="- topic/li "><p class="- topic/p "><xref href="https://forge.puppet.com/puppetlabs/python_task_helper" scope="external" class="- topic/xref ">python_task_helper</xref>: A helper for writing tasks in Python. </p></li></ul></p><p class="- topic/p "><note class="- topic/note ">
+  
+  To override a packaged module with another version, download the version you want and configure your modulepath to point to it.
+</note></p></section></conbody></concept>

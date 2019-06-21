@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//PUPPET//DTD DITA Puppet Concept//EN" "concept.dtd">
+<concept xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" ditaarch:DITAArchVersion="1.2" domains="(topic concept)                            (topic hi-d)                            (topic ut-d)                            (topic indexing-d)                             (topic pr-d)                            (topic sw-d)                            (topic ui-d)   " id="concept-8242" class="- topic/topic concept/concept "><title class="- topic/title ">Analytics data collection</title><shortdesc class="- topic/shortdesc "><ph conkeyref="ProductNames/bolt" class="- topic/ph "/> collects  data  about how you use it.  You can  opt out of providing this data.</shortdesc><prolog class="- topic/prolog "><author translate="no" type="creator" class="- topic/author ">Kate Lopresti &lt;kate.lopresti@puppet.com&gt;</author></prolog><conbody class="- topic/body  concept/conbody "><section class="- topic/section "><title class="- topic/title ">What data does <ph conkeyref="ProductNames/bolt" class="- topic/ph "/> collect?</title><p class="- topic/p ">
+            <ul class="- topic/ul "><li class="- topic/li ">Version of 
+
+                  <ph conkeyref="ProductNames/bolt" class="- topic/ph "/></li><li class="- topic/li ">The 
+
+                  <ph conkeyref="ProductNames/bolt" class="- topic/ph "/> command executed (for example,&#160;<codeph translate="no" class="+ topic/ph pr-d/codeph ">bolt task run</codeph> or <codeph translate="no" class="+ topic/ph pr-d/codeph ">bolt plan show</codeph>), excluding arguments</li><li class="- topic/li "><p class="- topic/p ">The functions called from a plan, excluding arguments</p></li><li class="- topic/li ">User locale</li><li class="- topic/li ">Operating system and version</li><li class="- topic/li ">Transports used (SSH, WinRM, PCP) and number of targets</li><li class="- topic/li ">
+                  <p class="- topic/p ">The number of nodes and groups defined in the 
+
+                     <ph conkeyref="ProductNames/bolt" class="- topic/ph "/> inventory file</p>
+               </li><li class="- topic/li ">
+                  <p class="- topic/p "> The number of nodes targeted with a 
+
+                     <ph conkeyref="ProductNames/bolt" class="- topic/ph "/> command</p></li><li class="- topic/li "><p class="- topic/p ">The output format selected (human-readable, JSON)&#160;</p></li><li class="- topic/li "><p class="- topic/p "> The number of times  
+
+                     <ph conkeyref="ProductNames/bolt" class="- topic/ph "/> tasks and plans are run (This does not include user-defined tasks or plans.)</p></li><li class="- topic/li "><p class="- topic/p ">The number of statements in an apply block, and how many resources that produces for each target</p>
+               </li><li class="- topic/li "><p class="- topic/p ">The number of steps in a YAML plan</p></li><li class="- topic/li "><p class="- topic/p ">The return type (expression vs. value) of a YAML plan</p></li></ul>
+         </p><p class="- topic/p ">This data is associated with a random, non-identifiable user UUID.</p><p class="- topic/p ">To see the data 
+
+            <ph conkeyref="ProductNames/bolt" class="- topic/ph "/> collects, add&#160;<codeph translate="no" class="+ topic/ph pr-d/codeph ">--debug</codeph> to a command.</p></section><section class="- topic/section "><title class="- topic/title ">Why does 
+
+            <ph conkeyref="ProductNames/bolt" class="- topic/ph "/> collect data?</title><p class="- topic/p "><ph conkeyref="ProductNames/bolt" class="- topic/ph "/> collects data to help us understand how it's being used and make decisions about how to improve it.</p></section><section class="- topic/section "><title class="- topic/title ">How can I opt out of 
+
+            <ph conkeyref="ProductNames/bolt" class="- topic/ph "/> data collection? </title><p class="- topic/p ">To disable the collection of analytics data add the following line  to&#160;<codeph translate="no" class="+ topic/ph pr-d/codeph ">~/.puppetlabs/bolt/analytics.yaml</codeph>:
+
+            <codeblock translate="no" xml:space="preserve" class="+ topic/pre pr-d/codeblock ">disabled: true</codeblock></p></section></conbody></concept>

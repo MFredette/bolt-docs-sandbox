@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//PUPPET//DTD DITA Puppet Concept//EN" "concept.dtd">
+<concept id="concept-325" class="- topic/topic concept/concept "><title class="- topic/title ">Running commands with redirection or pipes</title><shortdesc class="- topic/shortdesc ">When you run one-line commands that include redirection or pipes, pass <codeph class="+ topic/ph pr-d/codeph ">bash</codeph> or another shell as the command.</shortdesc><prolog class="- topic/prolog "><author translate="no" type="creator" class="- topic/author ">Melissa Amos &lt;melissa.amos@puppet.com&gt;</author></prolog><conbody class="- topic/body  concept/conbody "><p class="- topic/p ">Using a shell ensures that the one-liner is
+run as a single command and that it works correctly with <codeph class="+ topic/ph pr-d/codeph ">run-as</codeph>. For example,
+instead of <codeph class="+ topic/ph pr-d/codeph ">bolt command run "echo foo &gt; /root/foo" --run-as root</codeph>, use <codeph class="+ topic/ph pr-d/codeph ">bolt
+        command run "bash -c 'echo foo &gt; /root/foo'" --run-as root</codeph>.</p></conbody></concept>

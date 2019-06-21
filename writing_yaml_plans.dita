@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//PUPPET//DTD DITA Puppet Concept//EN" "concept.dtd">
+<concept id="writing-yaml-plans" class="- topic/topic concept/concept "><title class="- topic/title ">Writing plans in YAML</title><shortdesc class="- topic/shortdesc ">YAML plans run a list of steps in order, which allows you to define simple workflows. Steps can contain embedded 
+
+      
+
+      <ph conkeyref="ProductNames/puppet" class="- topic/ph "/> code expressions to add logic where necessary.</shortdesc><prolog class="- topic/prolog "><author translate="no" type="creator" class="- topic/author ">Melissa Amos &lt;melissa.amos@puppet.com&gt;</author></prolog><conbody class="- topic/body  concept/conbody "><p class="- topic/p ">
+         <note class="- topic/note ">YAML plans are an experimental feature and might experience breaking changes in future minor (y) releases.</note>
+      </p></conbody></concept>

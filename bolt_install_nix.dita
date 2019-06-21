@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//PUPPET//DTD DITA Puppet Task//EN" "task.dtd">
+<task xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" ditaarch:DITAArchVersion="1.2" domains="(topic task)                            (topic hi-d)                            (topic ut-d)                            (topic indexing-d)                              (topic pr-d)                            (topic sw-d)                            (topic ui-d)                            (topic task strictTaskbody-c)   " id="task-4877" class="- topic/topic task/task "><title class="- topic/title ">Install 
+
+      
+
+      
+
+      
+
+      <ph conkeyref="ProductNames/bolt" class="- topic/ph "/> on 
+
+      
+
+      
+
+      
+
+      <ph conkeyref="ProductNames/nix" class="- topic/ph "/></title><shortdesc class="- topic/shortdesc ">Use one of the supported  
+
+      <ph conkeyref="ProductNames/nix" class="- topic/ph "/> installation methods to install  
+
+      <ph conkeyref="ProductNames/bolt" class="- topic/ph "/>.</shortdesc><prolog class="- topic/prolog "><author translate="no" type="creator" class="- topic/author ">Jean Bond &lt;jean@puppet.com&gt;</author></prolog><taskbody class="- topic/body task/taskbody "><context class="- topic/section task/context ">
+         <p class="- topic/p ">
+            <note type="important" class="- topic/note "> If you're installing Bolt on <ph conkeyref="ProductNames/pe_long" class="- topic/ph "/> nodes, consider downloading and installing the Bolt package directly from <xref href="http://apt.puppet.com/" scope="external" class="- topic/xref ">http://apt.puppet.com/</xref> or <xref href="http://yum.puppet.com/" scope="external" class="- topic/xref ">http://yum.puppet.com/</xref>. This allows you to control the software versions in use on your systems, however, you must manually update  <ph conkeyref="ProductNames/bolt" class="- topic/ph "/>  as needed. The following instructions include enabling the <ph conkeyref="ProductNames/puppet" class="- topic/ph "/> platform repository. On <ph conkeyref="ProductNames/pe" class="- topic/ph "/> master nodes, this method can result in unsupported updates to <ph conkeyref="ProductNames/puppet" class="- topic/ph "/> packages, such as the puppet agent. </note>
+         </p>
+      </context></taskbody></task>

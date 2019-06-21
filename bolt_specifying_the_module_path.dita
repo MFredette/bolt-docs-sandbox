@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//PUPPET//DTD DITA Puppet Concept//EN" "concept.dtd">
+<concept xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" ditaarch:DITAArchVersion="1.2" domains="(topic concept)                            (topic hi-d)                            (topic ut-d)                            (topic indexing-d)                             (topic pr-d)                            (topic sw-d)                            (topic ui-d)   " id="concept-9325" class="- topic/topic concept/concept "><title class="- topic/title ">Specifying the module path</title><shortdesc class="- topic/shortdesc ">In order for 
+
+      
+
+      
+
+      <ph conkeyref="ProductNames/bolt" class="- topic/ph "/> to find a task or plan, the task or plan must be in a module on the <codeph class="+ topic/ph pr-d/codeph ">modulepath</codeph>. By
+default, the <codeph class="+ topic/ph pr-d/codeph ">modulepath</codeph> includes <codeph class="+ topic/ph pr-d/codeph ">modules/</codeph> and <codeph class="+ topic/ph pr-d/codeph ">site-modules/</codeph> directories inside the <ph conkeyref="ProductNames/bolt" class="- topic/ph "/> project directory.</shortdesc><prolog class="- topic/prolog "><author translate="no" type="creator" class="- topic/author ">Jean Bond &lt;jean@puppet.com&gt;</author></prolog><conbody class="- topic/body  concept/conbody "><p class="- topic/p "> If you are developing a new plan, you can specify <codeph class="+ topic/ph pr-d/codeph ">--modulepath
+&lt;PARENT_DIR_OF/MODULE&gt;</codeph> to tell Bolt where to load the module. For example, if
+your module is in <codeph class="+ topic/ph pr-d/codeph ">~/src/modules/my_module/</codeph>, run Bolt with <codeph class="+ topic/ph pr-d/codeph ">--modulepath
+~/src/module</codeph>. If you often use the same <codeph class="+ topic/ph pr-d/codeph ">modulepath</codeph>, you can set <codeph class="+ topic/ph pr-d/codeph ">modulepath</codeph> in
+<codeph class="+ topic/ph pr-d/codeph ">bolt.yaml</codeph>.</p></conbody></concept>

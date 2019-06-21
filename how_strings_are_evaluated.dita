@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//PUPPET//DTD DITA Puppet Concept//EN" "concept.dtd">
+<concept id="string-evaluation" class="- topic/topic concept/concept "><title class="- topic/title ">How strings are evaluated</title><shortdesc class="- topic/shortdesc ">The behavior of strings is defined by how theyre written in the plan.</shortdesc><prolog class="- topic/prolog "><author translate="no" type="creator" class="- topic/author ">Melissa Amos &lt;melissa.amos@puppet.com&gt;</author></prolog><conbody class="- topic/body  concept/conbody "><p class="- topic/p "><codeph class="+ topic/ph pr-d/codeph ">'single-quoted strings'</codeph> are treated as string literals without any interpolation.</p><p class="- topic/p "><codeph class="+ topic/ph pr-d/codeph ">"double-quoted strings"</codeph> are treated as 
+
+         
+
+         <ph conkeyref="ProductNames/puppet" class="- topic/ph "/> language double-quoted strings with variable interpolation.</p><p class="- topic/p "><codeph class="+ topic/ph pr-d/codeph ">|
+  block-style strings</codeph> are treated as expressions of arbitrary Puppet code. Note the string itself must be on a new line after the <codeph class="+ topic/ph pr-d/codeph ">|</codeph> character.</p><p class="- topic/p "><codeph class="+ topic/ph pr-d/codeph ">bare strings</codeph> are treated dynamically based on their content. If they begin with a <codeph class="+ topic/ph pr-d/codeph ">$</codeph>, they're treated as 
+
+         
+
+         <ph conkeyref="ProductNames/puppet" class="- topic/ph "/> code expressions. Otherwise, they're treated as YAML literals.</p><example class="- topic/example ">Here's an example of different kinds of strings in use:<codeblock class="+ topic/pre pr-d/codeblock ">parameters:
+  message:
+    type: String
+    default: "hello"
+
+steps:
+  - eval: hello
+    description: 'This will evaluate to: hello'
+  - eval: $message
+    description: 'This will evaluate to: hello'
+  - eval: '$message'
+    description: 'This will evaluate to: $message'
+  - eval: "${message} world"
+    description: 'This will evaluate to: hello world'
+  - eval: |
+      [$message, $message, $message].join(" ")
+    description: 'This will evaluate to: hello hello hello'</codeblock></example></conbody></concept>

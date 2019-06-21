@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//PUPPET//DTD DITA Puppet Concept//EN" "concept.dtd">
+<concept xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" ditaarch:DITAArchVersion="1.2" domains="(topic concept)                            (topic hi-d)                            (topic ut-d)                            (topic indexing-d)                             (topic pr-d)                            (topic sw-d)                            (topic ui-d)   " id="concept-7361" class="- topic/topic concept/concept "><title class="- topic/title "> Success and failure in plans </title><shortdesc class="- topic/shortdesc ">Indicators that a plan has run successfully or failed.</shortdesc><prolog class="- topic/prolog "><author translate="no" type="creator" class="- topic/author ">Jean Bond &lt;jean@puppet.com&gt;</author></prolog><conbody class="- topic/body  concept/conbody "><p class="- topic/p ">Any plan that completes execution without an error is considered successful. The <codeph translate="no" class="+ topic/ph pr-d/codeph ">bolt</codeph> command exits 0 and any calling plans continue execution. If any calls to <codeph translate="no" class="+ topic/ph pr-d/codeph ">run_</codeph> functions fail <b class="+ topic/ph hi-d/b ">without</b> <codeph translate="no" class="+ topic/ph pr-d/codeph ">_catch_errors</codeph> then the plan halts execution and is considered a failure. Any calling plans also halt until a <codeph translate="no" class="+ topic/ph pr-d/codeph ">run_plan</codeph> call with <codeph translate="no" class="+ topic/ph pr-d/codeph ">_catch_errors</codeph> or a <codeph translate="no" class="+ topic/ph pr-d/codeph ">catch_errors</codeph> block is reached. If one isn't reached, the <codeph translate="no" class="+ topic/ph pr-d/codeph ">bolt</codeph> command performs an exit 2. When writing a plan if you have reason to believe it has failed, you can fail the plan with the <codeph translate="no" class="+ topic/ph pr-d/codeph ">fail_plan</codeph> function. This causes the bolt command to exit 2 and prevents calling plans executing any further, unless <codeph translate="no" class="+ topic/ph pr-d/codeph ">run_plan</codeph> was called with <codeph translate="no" class="+ topic/ph pr-d/codeph ">_catch_errors</codeph> or in a <codeph translate="no" class="+ topic/ph pr-d/codeph ">catch_errors</codeph> block.</p><section class="- topic/section ">
+            <title class="- topic/title ">Failing plans</title>
+            <p class="- topic/p ">If&#160;<codeph translate="no" class="+ topic/ph pr-d/codeph ">upload_file</codeph>,&#160;<codeph translate="no" class="+ topic/ph pr-d/codeph ">run_command</codeph>,&#160;<codeph translate="no" class="+ topic/ph pr-d/codeph ">run_script</codeph>, or&#160;<codeph translate="no" class="+ topic/ph pr-d/codeph ">run_task</codeph>&#160;are called without the&#160;<codeph translate="no" class="+ topic/ph pr-d/codeph ">_catch_errors</codeph>&#160;option and they fail on any nodes, the plan itself fails. To fail a plan directly call the&#160;<codeph translate="no" class="+ topic/ph pr-d/codeph ">fail_plan</codeph>&#160;function. Create a new error with a message and include the kind, details, or issue code, or pass an existing error to it. </p>
+            <p class="- topic/p ">
+                <codeblock translate="no" xml:space="preserve" class="+ topic/pre pr-d/codeblock ">fail_plan('The plan is failing', 'mymodules/pear-shaped', {'failednodes' =&gt; $result.error_set.names})
+# or
+fail_plan($errorobject)</codeblock>
+            </p>
+        </section><section class="- topic/section ">
+            <title class="- topic/title ">Catching errors in plans</title>
+            <p class="- topic/p "><ph conkeyref="ProductNames/bolt" class="- topic/ph "/> includes a <codeph class="+ topic/ph pr-d/codeph ">catch_errors</codeph> function that executes a block of code and returns the error if an error is raised, or returns the result of the block if no errors are raised. You might get an <codeph class="+ topic/ph pr-d/codeph ">Error</codeph> object returned if you call <codeph class="+ topic/ph pr-d/codeph ">run_plan</codeph> with <codeph class="+ topic/ph pr-d/codeph ">_catch_errors</codeph>, use a <codeph class="+ topic/ph pr-d/codeph ">catch_errors</codeph> block, or call the <codeph class="+ topic/ph pr-d/codeph ">Error</codeph> method on a result.</p>
+            <p class="- topic/p ">The <codeph translate="no" class="+ topic/ph pr-d/codeph ">Error</codeph> data type includes:</p>
+            <ul class="- topic/ul "><li class="- topic/li ">
+                    <p class="- topic/p "> <codeph translate="no" class="+ topic/ph pr-d/codeph ">msg</codeph>: The error message string.</p>
+                </li><li class="- topic/li ">
+                    <p class="- topic/p "> <codeph translate="no" class="+ topic/ph pr-d/codeph ">kind</codeph>: A string that defines the kind of error similar to an error class.</p>
+                </li><li class="- topic/li ">
+                    <p class="- topic/p "> <codeph translate="no" class="+ topic/ph pr-d/codeph ">details</codeph>: A hash with details about the error from a task or from information about the state of a plan when it fails, for example, <codeph translate="no" class="+ topic/ph pr-d/codeph ">exit_code</codeph> or <codeph translate="no" class="+ topic/ph pr-d/codeph ">stack_trace</codeph>. </p>
+                </li><li class="- topic/li ">
+                    <p class="- topic/p "> <codeph translate="no" class="+ topic/ph pr-d/codeph ">issue_code</codeph>: A unique code for the message that can be used for translation.</p>
+                </li></ul>
+            <p class="- topic/p ">Use the <codeph translate="no" class="+ topic/ph pr-d/codeph ">Error</codeph> data type in a case expression to match against different kind of errors. To recover from certain errors, while failing on or ignoring others, set up your plan to include conditionals based on errors that occur while your plan runs. For example, you can set up a plan to retry a task when a timeout error occurs, but to fail when there is an authentication error. </p>
+            <p class="- topic/p ">Below, the first plan continues whether it succeeds or fails with a<codeph translate="no" class="+ topic/ph pr-d/codeph "> mymodule/not-serious </codeph>error. Other errors cause the plan to fail. </p>
+            <codeblock translate="no" xml:space="preserve" class="+ topic/pre pr-d/codeblock ">plan mymodule::handle_errors {
+  $result = run_plan('mymodule::myplan', '_catch_errors' =&gt; true)
+  case $result {
+    Error['mymodule/not-serious'] : {
+      notice("${result.message}")
+    }
+    Error : { fail_plan($result) } }
+  run_plan('mymodule::plan2')
+}
+</codeblock><p class="- topic/p ">Using the <codeph class="+ topic/ph pr-d/codeph ">catch_errors</codeph> function:<codeblock class="+ topic/pre pr-d/codeblock ">plan test (String[1] $role) {
+  $result_or_error = catch_errors(['bolt/puppetdb-error']) || {
+    puppetdb_query("inventory[certname] { app_role == ${role} }")
+  }
+  $targets = if $result_or_error =~ Error {
+    # If the PuppetDB query fails
+    warning("Could not fetch from puppet. Using defaults instead")
+    # TargetSpec string
+    "all"
+  } else {
+    $result_or_error
+  }
+}</codeblock></p>
+        </section></conbody></concept>

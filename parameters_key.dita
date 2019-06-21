@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE reference PUBLIC "-//PUPPET//DTD DITA Puppet Reference//EN" "reference.dtd">
+<reference id="parameters_key" class="- topic/topic       reference/reference "><title class="- topic/title ">Parameters key</title><shortdesc class="- topic/shortdesc ">Plans accept parameters with the <codeph class="+ topic/ph pr-d/codeph ">parameters</codeph> key. The value of <codeph class="+ topic/ph pr-d/codeph ">parameters</codeph> is a map, where each key is the name of a parameter and the value is a map describing the parameter.</shortdesc><prolog class="- topic/prolog "><author translate="no" type="creator" class="- topic/author ">Melissa Amos &lt;melissa.amos@puppet.com&gt;</author></prolog><refbody class="- topic/body        reference/refbody "><section class="- topic/section ">
+         <p class="- topic/p ">Parameter values can be referenced from steps as variables.</p>
+
+         <p class="- topic/p ">Parameters  use these fields:
+
+            <ul class="- topic/ul "><li class="- topic/li ">
+                  <p class="- topic/p "><codeph class="+ topic/ph pr-d/codeph ">type</codeph>: (Optional) A valid <xref href="https://puppet.com/docs/puppet/latest/lang_data.html#puppet-data-types" scope="external" class="- topic/xref ">Puppet data type</xref>. The value supplied must match the type or the plan fails.
+                  </p>
+               </li><li class="- topic/li ">
+                  <p class="- topic/p "><codeph class="+ topic/ph pr-d/codeph ">default</codeph>: (Optional) Used if no value is given for the parameter
+                  </p>
+               </li><li class="- topic/li ">
+                  <p class="- topic/p "><codeph class="+ topic/ph pr-d/codeph ">description</codeph>: (Optional)
+                  </p>
+               </li></ul></p>
+
+         <p class="- topic/p ">For example, this plan accepts a <codeph class="+ topic/ph pr-d/codeph ">load_balancer</codeph> name as a string, two sets of nodes called <codeph class="+ topic/ph pr-d/codeph ">frontends</codeph> and <codeph class="+ topic/ph pr-d/codeph ">backends</codeph>, and a <codeph class="+ topic/ph pr-d/codeph ">version</codeph> string:
+
+            <codeblock class="+ topic/pre pr-d/codeblock ">parameters:
+  # A simple parameter definition doesn't need a type or description
+  load_balancer:
+  frontends:
+    type: TargetSpec
+    description: "The frontend web servers"
+backends:
+    type: TargetSpec
+    description: "The backend application servers"
+  version:
+    type: String
+              description: "The new application version to deploy"</codeblock></p>
+      </section></refbody></reference>

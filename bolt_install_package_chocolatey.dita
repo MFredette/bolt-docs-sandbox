@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//PUPPET//DTD DITA Puppet Task//EN" "task.dtd">
+<task xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" id="task-9426" domains="(topic task)                            (topic hi-d)                            (topic ut-d)                            (topic indexing-d)                              (topic pr-d)                            (topic sw-d)                            (topic ui-d)                            (topic task strictTaskbody-c)   " ditaarch:DITAArchVersion="1.2" class="- topic/topic task/task "><title class="- topic/title ">Install 
+
+      
+
+      <ph conkeyref="ProductNames/bolt" class="- topic/ph "/> with Chocolatey</title><shortdesc class="- topic/shortdesc ">
+      Use the package manager Chocolatey to install <ph conkeyref="ProductNames/bolt" class="- topic/ph "/> on
+
+      <ph conkeyref="ProductNames/windows" class="- topic/ph "/>.</shortdesc><prolog class="- topic/prolog "><author type="creator" translate="no" class="- topic/author ">Kate Lopresti &lt;kate.lopresti@puppet.com&gt;</author></prolog><taskbody class="- topic/body task/taskbody "><prereq class="- topic/section task/prereq ">
+         <p class="- topic/p ">You must have the Chocolatey  package manager installed.</p>
+      </prereq><context class="- topic/section task/context ">
+         <p class="- topic/p "/>
+      </context><steps class="- topic/ol task/steps "><step class="- topic/li task/step "><cmd class="- topic/ph task/cmd ">Download and install the bolt package. </cmd><stepxmp class="- topic/itemgroup task/stepxmp ">
+               <p class="- topic/p ">
+                  <codeblock translate="no" xml:space="preserve" class="+ topic/pre pr-d/codeblock ">choco install puppet-bolt
+</codeblock>
+               </p>
+            </stepxmp></step><step conref="conref_install_task.dita#task-7419/step-1521741230878" class="- topic/li task/step "><cmd class="- topic/ph task/cmd "/></step></steps></taskbody></task>

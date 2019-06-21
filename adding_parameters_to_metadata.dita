@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//PUPPET//DTD DITA Puppet Concept//EN" "concept.dtd">
+<concept xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" ditaarch:DITAArchVersion="1.2" domains="(topic concept)                            (topic hi-d)                            (topic ut-d)                            (topic indexing-d)                             (topic pr-d)                            (topic sw-d)                            (topic ui-d)   " id="concept-1466" class="- topic/topic concept/concept "><title class="- topic/title ">Adding parameters to metadata</title><shortdesc class="- topic/shortdesc ">To document and validate task parameters, add the parameters to the task metadata as JSON object, <codeph translate="no" class="+ topic/ph pr-d/codeph ">parameters</codeph>. </shortdesc><prolog class="- topic/prolog "><author translate="no" type="creator" class="- topic/author ">Jean Bond &lt;jean@puppet.com&gt;</author></prolog><conbody class="- topic/body  concept/conbody "><p class="- topic/p "><draft-comment class="- topic/draft-comment ">Shared between Bolt and PE 2018.1+</draft-comment></p><p class="- topic/p ">If a task includes <codeph translate="no" class="+ topic/ph pr-d/codeph ">parameters</codeph> in its metadata, the task runner rejects any parameters input to the task that aren't defined in the metadata.</p><p class="- topic/p ">In the <codeph translate="no" class="+ topic/ph pr-d/codeph ">parameter</codeph> object, give each parameter a description and specify its 
+
+         <ph conkeyref="ProductNames/puppet" class="- topic/ph "/> type. For a complete list of types,
+      see the <xref format="html" href="https://docs.puppet.com/puppet/latest/lang_data_type.html" scope="external" class="- topic/xref ">types documentation</xref>.</p><p class="- topic/p ">For example, the following code in a metadata file describes a <codeph translate="no" class="+ topic/ph pr-d/codeph ">provider</codeph> parameter:</p><example class="- topic/example ">
+         <codeblock translate="no" xml:space="preserve" class="+ topic/pre pr-d/codeblock ">"provider": {
+  "description": "The provider to use to manage or inspect the service, defaults to the system service manager",
+  "type": "Optional[String[1]]"
+ }</codeblock>
+      </example><section class="- topic/section "><title id="title-1536170911349" class="- topic/title ">Define sensitive parameters</title><p class="- topic/p ">You can define task parameters as sensitive, for example, passwords and API keys. These values are masked when they appear in logs and API responses. When you want to view these values, set the log file to <codeph translate="no" class="+ topic/ph pr-d/codeph ">level: debug</codeph>.</p><p class="- topic/p ">To define a parameter as sensitive within the JSON metadata, add the <codeph translate="no" class="+ topic/ph pr-d/codeph ">"sensitive": true</codeph> property. </p><codeblock translate="no" xml:space="preserve" class="+ topic/pre pr-d/codeblock ">{
+  "description": "This task has a sensitive property denoted by its metadata",
+  "input_method": "stdin",
+  "parameters": {
+    "user": {
+      "description": "The user",
+      "type": "String[1]"
+    },
+    "password": {
+      "description": "The password",
+      "type": "String[1]",
+      "sensitive": true
+    }
+  }
+}</codeblock></section></conbody></concept>

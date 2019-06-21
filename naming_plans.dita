@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//PUPPET//DTD DITA Puppet Concept//EN" "concept.dtd">
+<concept xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" ditaarch:DITAArchVersion="1.2" domains="(topic concept)                            (topic hi-d)                            (topic ut-d)                            (topic indexing-d)                             (topic pr-d)                            (topic sw-d)                            (topic ui-d)   " id="concept-4485" class="- topic/topic concept/concept "><title class="- topic/title ">Naming plans</title><shortdesc class="- topic/shortdesc ">Plan names are named based on the filename of the plan, the name of the module containing the plan, and the path to the plan within the module.</shortdesc><prolog class="- topic/prolog "><author translate="no" type="creator" class="- topic/author ">Jean Bond &lt;jean@puppet.com&gt;</author></prolog><conbody class="- topic/body  concept/conbody "><p class="- topic/p ">Place plan files in your module's <codeph translate="no" class="+ topic/ph pr-d/codeph ">./plans</codeph> directory, using these file extensions:<ul class="- topic/ul "><li class="- topic/li "><p class="- topic/p "><ph conkeyref="ProductNames/puppet" class="- topic/ph "/> plans — <codeph translate="no" class="+ topic/ph pr-d/codeph ">.pp</codeph> </p></li><li class="- topic/li "><p class="- topic/p ">YAML plans — <codeph class="+ topic/ph pr-d/codeph ">.yaml</codeph>, not <codeph class="+ topic/ph pr-d/codeph ">.yml</codeph></p></li></ul></p><p class="- topic/p ">Plan names are composed of two or more name segments, indicating:</p><p class="- topic/p ">
+         <ul class="- topic/ul "><li class="- topic/li ">
+               <p class="- topic/p ">The name of the module the plan is located in.</p>
+            </li><li class="- topic/li ">
+               <p class="- topic/p ">The name of the plan file, without the extension.</p>
+            </li><li class="- topic/li ">
+               <p class="- topic/p ">The path within the module, if the plan is in a subdirectory of <codeph translate="no" class="+ topic/ph pr-d/codeph ">./plans</codeph>. </p>
+            </li></ul>
+      </p><p class="- topic/p ">For example, given a module called <codeph translate="no" class="+ topic/ph pr-d/codeph ">mymodule</codeph> with a plan defined in <codeph translate="no" class="+ topic/ph pr-d/codeph ">./mymodule/plans/myplan.pp</codeph>, the plan name is <codeph translate="no" class="+ topic/ph pr-d/codeph ">mymodule::myplan</codeph>. A plan defined in <codeph translate="no" class="+ topic/ph pr-d/codeph ">./mymodule/plans/service/myplan.pp </codeph>would be <codeph translate="no" class="+ topic/ph pr-d/codeph ">mymodule::service::myplan</codeph>. This  name is how you refer to the plan when you run  commands.</p><p class="- topic/p ">The plan filename <codeph translate="no" class="+ topic/ph pr-d/codeph ">init</codeph> is special: the plan it defines is referenced using the module name only. For example,
+               in a  module called <codeph translate="no" class="+ topic/ph pr-d/codeph ">mymodule</codeph>, the plan defined in <codeph translate="no" class="+ topic/ph pr-d/codeph ">init.pp</codeph> is the <codeph translate="no" class="+ topic/ph pr-d/codeph ">mymodule</codeph> plan. </p><p class="- topic/p "> Avoid giving plans the same names as constructs in the <ph conkeyref="ProductNames/puppet" class="- topic/ph "/> language. Although plans do not share their namespace with other language constructs, giving plans these names makes your code difficult to read. </p><p class="- topic/p ">Each plan name segment must begin with a lowercase letter and:</p><ul class="- topic/ul "><li class="- topic/li ">
+            <p class="- topic/p ">May include lowercase letters.</p>
+         </li><li class="- topic/li ">
+            <p class="- topic/p ">May include digits.</p>
+         </li><li class="- topic/li ">
+            <p outputclass="jean@puppet.com" class="- topic/p ">May include underscores.</p>
+         </li><li class="- topic/li ">
+            <p class="- topic/p ">Must not be a <xref format="html" href="https://docs.puppet.com/puppet/5.3/lang_reserved.html" scope="external" class="- topic/xref ">reserved word</xref>.</p>
+         </li><li class="- topic/li ">
+            <p class="- topic/p ">Must not have the same name as any <ph conkeyref="ProductNames/puppet" class="- topic/ph "/> data types.</p>
+         </li><li class="- topic/li ">
+            <p class="- topic/p ">Namespace segments must match the following regular expression <codeph translate="no" class="+ topic/ph pr-d/codeph ">\A[a-z][a-z0-9_]*\Z</codeph></p>
+         </li></ul></conbody></concept>

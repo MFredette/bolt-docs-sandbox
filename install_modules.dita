@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//PUPPET//DTD DITA Puppet Task//EN" "task.dtd">
+<task xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" ditaarch:DITAArchVersion="1.2" domains="(topic task)                            (topic hi-d)                            (topic ut-d)                            (topic indexing-d)                              (topic pr-d)                            (topic sw-d)                            (topic ui-d)                                (topic task strictTaskbody-c)   " id="install-modules" class="- topic/topic task/task "><title class="- topic/title ">Configure      
+
+      
+
+      
+
+      
+
+      <ph conkeyref="ProductNames/bolt" class="- topic/ph "/> to download and install modules</title><shortdesc class="- topic/shortdesc "/><prolog class="- topic/prolog "><author translate="no" type="creator" class="- topic/author ">Kate Lopresti &lt;kate.lopresti@puppet.com&gt;</author></prolog><taskbody class="- topic/body task/taskbody "><context class="- topic/section task/context ">
+         <p class="- topic/p ">Before you can use 
+
+            
+
+            
+
+            
+
+            
+
+            
+
+            
+
+            
+
+            <ph conkeyref="ProductNames/bolt" class="- topic/ph "/> to install modules, you must first create a Puppetfile. A Puppetfile is a formatted text file that contains a list of modules and their versions. It can include modules from the 
+
+            
+
+            
+
+            
+
+            
+
+            
+
+            
+
+            
+
+            <ph conkeyref="ProductNames/forge" class="- topic/ph "/> or a Git repository. </p>
+
+         <p class="- topic/p ">For modules that require 
+
+            
+
+            
+
+            
+
+            
+
+            
+
+            
+
+            
+
+            <ph conkeyref="ProductNames/ruby" class="- topic/ph "/> gems, see 
+
+            
+
+            
+
+            
+
+            
+
+            
+
+            
+
+            
+
+            <xref href="bolt_install_package_gems.dita" class="- topic/xref "/></p>
+
+         <p class="- topic/p ">For more details about specifying modules in a Puppetfile, see the <xref format="html" href="https://puppet.com/docs/pe/latest/puppetfile.html" scope="external" class="- topic/xref ">Puppetfile documentation</xref>.</p>
+      </context><steps class="- topic/ol task/steps "><step class="- topic/li task/step "><cmd class="- topic/ph task/cmd ">Create a file named Puppetfile and store it in the 
+
+               <xref href="bolt_project_directories.dita" class="- topic/xref ">
+                  <ph conkeyref="ProductNames/bolt" class="- topic/ph "/> project directory</xref>. </cmd></step><step class="- topic/li task/step "><cmd class="- topic/ph task/cmd ">Open the Puppetfile in a text editor and add the modules and versions that you want to install. If the modules have dependencies, list those as well. </cmd><info class="- topic/itemgroup task/info ">
+               <codeblock translate="no" xml:space="preserve" class="+ topic/pre pr-d/codeblock "># Modules from the Puppet Forge.
+mod 'puppetlabs-apache', '4.1.0'
+mod 'puppetlabs-postgresql', '5.12.0'
+mod 'puppetlabs-puppet_conf', '0.3.0'
+mod 'puppetlabs-facts', '0.3.1'
+
+# Modules from a Git repository.
+mod 'puppetlabs-haproxy', git: 'https://github.com/puppetlabs/puppetlabs-haproxy.git', ref: 'master'</codeblock>
+            </info></step><step class="- topic/li task/step "><cmd class="- topic/ph task/cmd ">Add any task or plan modules stored locally in <codeph class="+ topic/ph pr-d/codeph ">modules/</codeph>  to the list. If these modules are not listed in the Puppetfile, they are deleted.</cmd><info class="- topic/itemgroup task/info ">
+               <codeblock translate="no" xml:space="preserve" class="+ topic/pre pr-d/codeblock ">mod 'my_awesome_module', local: true</codeblock>
+
+               <p class="- topic/p ">Install any modules that you don't want to manage with the Puppetfile to a
+                 different subdirectory. Conventionally, <codeph class="+ topic/ph pr-d/codeph ">site-modules</codeph> is used for this purpose and
+                 is included on the default <codeph class="+ topic/ph pr-d/codeph ">modulepath</codeph>.</p>
+            </info></step><step class="- topic/li task/step "><cmd class="- topic/ph task/cmd ">From a terminal, install the modules listed in the Puppetfile: <codeph class="+ topic/ph pr-d/codeph ">bolt puppetfile install</codeph>.</cmd><stepresult class="- topic/itemgroup task/stepresult ">
+               <p class="- topic/p ">Bolt installs modules to the first directory in the  modulepath setting. By
+                 default, this is the <codeph class="+ topic/ph pr-d/codeph ">modules/</codeph> subdirectory inside the 
+
+                  
+
+                  
+
+                  
+
+                  
+
+                  <ph conkeyref="ProductNames/bolt" class="- topic/ph "/> project
+     directory. To override this location, update the modulepath setting in the
+     
+
+                  
+
+                  
+
+                  
+
+                  
+
+                  <ph conkeyref="ProductNames/bolt" class="- topic/ph "/> config file.</p>
+            </stepresult></step></steps></taskbody></task>

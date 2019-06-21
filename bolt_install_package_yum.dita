@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//PUPPET//DTD DITA Puppet Task//EN" "task.dtd">
+<task xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" ditaarch:DITAArchVersion="1.2" domains="(topic task)                            (topic hi-d)                            (topic ut-d)                            (topic indexing-d)                              (topic pr-d)                            (topic sw-d)                            (topic ui-d)                            (topic task strictTaskbody-c)   " id="task-5651" class="- topic/topic task/task "><title class="- topic/title ">Install 
+
+      
+
+      
+
+      
+
+      <ph conkeyref="ProductNames/bolt" class="- topic/ph "/> on 
+
+      
+
+      
+
+      
+
+      <ph conkeyref="ProductNames/rhel" class="- topic/ph "/>, SLES, or 
+
+      
+
+      
+
+      
+
+      <ph conkeyref="ProductNames/fedora" class="- topic/ph "/></title><shortdesc class="- topic/shortdesc ">Packaged versions of 
+
+      
+
+      
+
+      
+
+      <ph conkeyref="ProductNames/bolt" class="- topic/ph "/> are available for 
+
+      
+
+      
+
+      
+
+      <ph conkeyref="ProductNames/rhel_long" class="- topic/ph "/>  6 and 7, 
+
+      
+
+      
+
+      
+
+      <ph conkeyref="ProductNames/suseles" class="- topic/ph "/> 12, and 
+
+      
+
+      
+
+      
+
+      <ph conkeyref="ProductNames/fedora" class="- topic/ph "/> 28 and 29. </shortdesc><prolog class="- topic/prolog "><author translate="no" type="creator" class="- topic/author ">Kate Lopresti &lt;kate.lopresti@puppet.com&gt;</author></prolog><taskbody class="- topic/body task/taskbody "><context class="- topic/section task/context ">
+         <p class="- topic/p ">The 
+
+            
+
+            
+
+            
+
+            <ph conkeyref="ProductNames/puppet" class="- topic/ph "/> repository for the YUM package management system is <xref format="html" href="http://yum.puppet.com" scope="external" class="- topic/xref ">http://yum.puppet.com</xref>. Packages are named using the convention <codeph translate="no" class="+ topic/ph pr-d/codeph ">&lt;PLATFORM_NAME&gt;-release-&lt;OS ABBREVIATION&gt;-&lt;OS VERSION&gt;.noarch.rpm</codeph>. For example, the release package for 
+
+            
+
+            
+
+            
+
+            <ph conkeyref="ProductNames/puppet" class="- topic/ph "/> 6 Platform on 
+
+            
+
+            
+
+            
+
+            <ph conkeyref="ProductNames/linux" class="- topic/ph "/> 7 is <codeph translate="no" class="+ topic/ph pr-d/codeph ">puppet6-release-el-7.noarch.rpm</codeph>. </p>
+      </context><steps class="- topic/ol task/steps "><step class="- topic/li task/step "><cmd class="- topic/ph task/cmd ">Download and install the software and its dependencies. Use the commands appropriate to your system.</cmd><choices class="- topic/ul task/choices "><choice class="- topic/li task/choice ">
+                  <ph conkeyref="ProductNames/rhel" class="- topic/ph "/> 6 <codeblock translate="no" xml:space="preserve" class="+ topic/pre pr-d/codeblock ">sudo rpm -Uvh https://yum.puppet.com/puppet6-release-el-6.noarch.rpm
+sudo yum install puppet-bolt			</codeblock></choice><choice class="- topic/li task/choice ">
+                  <ph conkeyref="ProductNames/rhel" class="- topic/ph "/> 7 <codeblock translate="no" xml:space="preserve" class="+ topic/pre pr-d/codeblock ">sudo rpm -Uvh https://yum.puppet.com/puppet6-release-el-7.noarch.rpm
+sudo yum install puppet-bolt</codeblock></choice><choice class="- topic/li task/choice ">
+                  <ph conkeyref="ProductNames/rhel" class="- topic/ph "/> 8 <codeblock translate="no" xml:space="preserve" class="+ topic/pre pr-d/codeblock ">sudo rpm -Uvh https://yum.puppet.com/puppet6-release-el-8.noarch.rpm
+sudo yum install puppet-bolt</codeblock></choice><choice class="- topic/li task/choice ">
+                  <ph conkeyref="ProductNames/suseles" class="- topic/ph "/> 12<codeblock translate="no" xml:space="preserve" class="+ topic/pre pr-d/codeblock ">sudo rpm -Uvh https://yum.puppet.com/puppet6-release-sles-12.noarch.rpm
+sudo zypper install puppet-bolt</codeblock></choice><choice class="- topic/li task/choice ">
+                  <ph conkeyref="ProductNames/fedora" class="- topic/ph "/> 28                  <codeblock translate="no" xml:space="preserve" class="+ topic/pre pr-d/codeblock ">sudo rpm -Uvh https://yum.puppet.com/puppet6-release-fedora-28.noarch.rpm
+sudo dnf install puppet-bolt</codeblock></choice><choice class="- topic/li task/choice ">
+                  <ph conkeyref="ProductNames/fedora" class="- topic/ph "/> 29
+
+                    <codeblock translate="no" xml:space="preserve" class="+ topic/pre pr-d/codeblock ">sudo rpm -Uvh https://yum.puppet.com/puppet6-release-fedora-29.noarch.rpm
+sudo dnf install puppet-bolt</codeblock></choice></choices></step><step conref="conref_install_task.dita#task-7419/step-1521741230878" class="- topic/li task/step "><cmd class="- topic/ph task/cmd "/></step></steps></taskbody></task>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//PUPPET//DTD DITA Puppet Concept//EN" "concept.dtd">
+<concept id="using-variables-and-simple-expressions" class="- topic/topic concept/concept "><title class="- topic/title ">Using variables and simple expressions</title><shortdesc class="- topic/shortdesc ">Parameters and step results are available as variables during plan execution, and they can be used to compute the value for each field of a step.</shortdesc><prolog class="- topic/prolog "><author translate="no" type="creator" class="- topic/author ">Melissa Amos &lt;melissa.amos@puppet.com&gt;</author></prolog><conbody class="- topic/body  concept/conbody "><p class="- topic/p ">The simplest way to use a variable is to reference it directly by name. For example, this plan takes a parameter called <codeph class="+ topic/ph pr-d/codeph ">nodes</codeph> and passes it as the target list to a step:<codeblock class="+ topic/pre pr-d/codeblock ">parameters:
+  nodes:
+    type: TargetSpec
+
+steps:
+  - command: hostname -f
+    target: $nodes</codeblock></p><p class="- topic/p ">Variables can also be interpolated into string values. The string must be double-quoted to allow interpolation. For example:
+
+         <codeblock class="+ topic/pre pr-d/codeblock ">parameters:
+  username:
+    type: String
+
+steps:
+  - task: echo
+    message: "hello ${username}"
+           target: $nodes</codeblock></p><p class="- topic/p ">Many operations can be performed on variables to compute new values for step parameters or other fields.</p><section class="- topic/section ">
+         <title class="- topic/title ">Indexing arrays or hashes</title>
+
+         <p class="- topic/p ">You can retrieve a value from an Array or a Hash using the <codeph class="+ topic/ph pr-d/codeph ">[]</codeph> operator. This operator can also be used when interpolating a value inside a string.</p>
+
+         <p class="- topic/p ">
+            <codeblock class="+ topic/pre pr-d/codeblock ">parameters:
+  users:
+    # Array[String] is a Puppet data type representing an array of strings
+    type: Array[String]
+
+steps:
+  - task: user::add
+    target: 'host.example.com'
+    parameters:
+      name: $users[0]
+  - task: echo
+    target: 'host.example.com'
+    parameters:
+      message: "hello ${users[0]}"</codeblock>
+         </p>
+      </section><section class="- topic/section ">
+         <title class="- topic/title ">Calling functions</title>
+
+         <p class="- topic/p ">You can call a built-in 
+
+            
+
+            <xref href="reference.dita#bolt_functions" class="- topic/xref ">
+               <ph conkeyref="ProductNames/bolt" class="- topic/ph "/> function</xref> or  
+
+            
+
+           <xref href="https://puppet.com/docs/puppet/latest/function.html" scope="external" class="- topic/xref ">
+               <ph conkeyref="ProductNames/puppet" class="- topic/ph "/> function</xref> to compute a value.</p>
+
+         <p class="- topic/p ">
+            <codeblock class="+ topic/pre pr-d/codeblock ">parameters:
+  users:
+    type: Array[String]
+
+steps:
+  - task: user::add
+    parameters:
+      name: $users.first
+  - task: echo
+    message: "hello ${users.join(',')}"</codeblock>
+         </p>
+      </section><section class="- topic/section ">
+         <title class="- topic/title ">Using code blocks</title>
+
+         <p class="- topic/p ">Some 
+
+            
+
+            <ph conkeyref="ProductNames/puppet" class="- topic/ph "/> functions take a block of code as an argument. For instance, you can filter an array of items based on the result of a block of code.</p>
+
+         <p class="- topic/p ">
+The result of the <codeph class="+ topic/ph pr-d/codeph ">filter</codeph> function is an array here, not a string, because the expression isn't inside quotes            <codeblock class="+ topic/pre pr-d/codeblock ">parameters:
+  numbers:
+    type: Array[Integer]
+
+steps:
+  - task: sum
+    description: "add up the numbers &gt; 5"
+    parameters:
+      indexes: $numbers.filter |$num| { $num &gt; 5 }</codeblock></p>
+      </section></conbody></concept>

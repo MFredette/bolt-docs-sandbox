@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//PUPPET//DTD DITA Puppet Concept//EN" "concept.dtd">
+<concept xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" ditaarch:DITAArchVersion="1.2" domains="(topic concept)                            (topic hi-d)                            (topic ut-d)                            (topic indexing-d)                             (topic pr-d)                            (topic sw-d)                            (topic ui-d)   " id="concept-7634" class="- topic/topic concept/concept "><title class="- topic/title ">Inspecting tasks and plans</title><shortdesc class="- topic/shortdesc ">Before you run tasks or plans in your environment, inspect them to determine what effect they have on your target nodes. </shortdesc><prolog class="- topic/prolog "><author translate="no" type="creator" class="- topic/author ">Michelle Fredette &lt;michelle.fredette@puppet.com&gt;</author></prolog><conbody class="- topic/body  concept/conbody "><p conref="conref_tasks_concept.dita#concept-6878/p-2167" class="- topic/p "/><section class="- topic/section ">
+            <title class="- topic/title ">Run in no operation mode</title>
+            <p class="- topic/p ">You can run some tasks in no-operation mode (<codeph translate="no" class="+ topic/ph pr-d/codeph ">noop</codeph>) to view changes without taking any action on your target nodes. This way, you ensure the tasks perform as designed. If a task doesn't support no-operation mode, you get an error.
+                <codeblock translate="no" xml:space="preserve" class="+ topic/pre pr-d/codeblock ">bolt task run package name=vim action=install --noop -n example.com</codeblock> 
+            </p>
+        </section><section class="- topic/section ">
+            <title class="- topic/title ">Show a task list</title>
+            <p class="- topic/p ">View a list of what tasks are installed in the current module path. Note that tasks marked with the <codeph translate="no" class="+ topic/ph pr-d/codeph ">private</codeph> metadata key are not shown: 
+                <codeblock translate="no" xml:space="preserve" class="+ topic/pre pr-d/codeblock ">bolt task show</codeblock> 
+            </p>
+        </section><section class="- topic/section ">
+            <title class="- topic/title ">Show documentation for a task</title>
+            <p class="- topic/p ">View parameters and other details for a task, including whether a task supports <codeph translate="no" class="+ topic/ph pr-d/codeph ">--noop</codeph>: 
+                <codeblock translate="no" xml:space="preserve" class="+ topic/pre pr-d/codeblock ">bolt task show &lt;TASK NAME&gt;</codeblock> 
+            </p>
+        </section><section class="- topic/section ">
+            <title class="- topic/title ">Discover plans</title>
+            <p class="- topic/p ">View a list of what plans are installed on the current module path: 
+                <codeblock translate="no" xml:space="preserve" class="+ topic/pre pr-d/codeblock ">bolt plan show</codeblock> 
+            </p>
+        </section><section class="- topic/section ">
+            <title class="- topic/title ">Show documentation for a plan</title>
+            <p class="- topic/p ">View parameters and other details for a plan, including whether a plan supports <codeph translate="no" class="+ topic/ph pr-d/codeph ">--noop</codeph>:
+                <codeblock translate="no" xml:space="preserve" class="+ topic/pre pr-d/codeblock ">bolt plan show &lt;PLAN NAME&gt;</codeblock> 
+            </p>
+        </section></conbody></concept>

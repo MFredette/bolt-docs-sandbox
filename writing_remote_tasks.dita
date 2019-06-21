@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//PUPPET//DTD DITA Puppet Concept//EN" "concept.dtd">
+<concept xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" ditaarch:DITAArchVersion="1.2" domains="(topic concept)                            (topic hi-d)                            (topic ut-d)                            (topic indexing-d)                             (topic pr-d)                            (topic sw-d)                             (topic ui-d)   " id="writing-remote-tasks" class="- topic/topic concept/concept "><title class="- topic/title ">Writing remote tasks</title><shortdesc class="- topic/shortdesc ">Some targets are hard or impossible to execute tasks on directly. In these cases, you can write a task that
+runs on a proxy target and remotely interacts with the real target. </shortdesc><prolog class="- topic/prolog "><author translate="no" type="creator" class="- topic/author ">Melissa Amos &lt;melissa.amos@puppet.com&gt;</author></prolog><conbody class="- topic/body  concept/conbody "><p class="- topic/p ">
+         <draft-comment class="- topic/draft-comment ">Shared between Bolt and PE 2019.1+</draft-comment>
+      </p><p class="- topic/p ">For example, a
+network device might have a limited shell environment or a cloud service might be
+driven only by HTTP APIs. By writing a
+remote task, 
+
+         <ph conkeyref="ProductNames/bolt" class="- topic/ph "/> allows you to specify connection information for remote
+		targets in their inventory file and injects them into the <codeph translate="no" class="+ topic/ph pr-d/codeph ">_target</codeph> metaparam.</p><example class="- topic/example ">
+         <p class="- topic/p ">This example shows how to write a task that posts messages to Slack
+and reads connection information from <codeph translate="no" class="+ topic/ph pr-d/codeph ">inventory.yaml</codeph>:</p>
+
+         <codeblock translate="no" xml:space="preserve" class="+ topic/pre pr-d/codeblock ">#!/usr/bin/env ruby
+# modules/slack/tasks/message.rb
+
+require 'json'
+require 'net/http'
+
+params = JSON.parse(STDIN.read)
+# the slack API token is passed in from inventory
+token = params['_target']['token']
+		
+uri = URI('https://slack.com/api/chat.postMessage')
+http = Net::HTTP.new(uri.host, uri.port)
+http.use_ssl = true
+
+req = Net::HTTP::Post.new(uri, 'Content-type' =&gt; 'application/json')
+req['Authorization'] = "Bearer #{params['_target']['token']}"
+req.body = { channel: params['channel'], text: params['message'] }.to_json
+
+resp = http.request(req)
+
+puts resp.body</codeblock>
+
+         <p class="- topic/p ">To prevent accidentally running a normal task on a
+remote target and breaking its configuration, 
+
+            <ph conkeyref="ProductNames/bolt" class="- topic/ph "/>  won't run a task on a remote target unless its metadata
+defines it as remote: </p>
+
+         <codeblock xml:space="preserve" class="+ topic/pre pr-d/codeblock ">{
+  "remote": true
+}</codeblock>
+         <p class="- topic/p ">Add Slack as a remote target in your
+		inventory file:</p>
+         <codeblock xml:space="preserve" class="+ topic/pre pr-d/codeblock ">---
+nodes:
+  - name: my_slack
+    config:
+      transport: remote
+      remote:
+	token: &lt;SLACK_API_TOKEN&gt;</codeblock>
+
+         <p class="- topic/p ">Finally, make <codeph translate="no" class="+ topic/ph pr-d/codeph ">my_slack</codeph> a target that can run the <codeph translate="no" class="+ topic/ph pr-d/codeph ">slack::message</codeph>:</p>
+
+         <codeblock xml:space="preserve" class="+ topic/pre pr-d/codeblock ">bolt task run slack::message --nodes my_slack message="hello" channel=&lt;slack channel id&gt;</codeblock>
+      </example></conbody></concept>

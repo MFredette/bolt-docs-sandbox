@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//PUPPET//DTD DITA Puppet Concept//EN" "concept.dtd">
+<concept id="inventory-facts-vars-features-v2" class="- topic/topic concept/concept "><title class="- topic/title ">Inventory facts, vars, and features</title><shortdesc class="- topic/shortdesc "> </shortdesc><prolog class="- topic/prolog "><author translate="no" type="creator" class="- topic/author ">Melissa Amos &lt;melissa.amos@puppet.com&gt;</author></prolog><conbody class="- topic/body  concept/conbody "><p class="- topic/p ">In addition to config values you can store information relating to <codeph translate="no" class="+ topic/ph pr-d/codeph ">facts</codeph>, <codeph translate="no" class="+ topic/ph pr-d/codeph ">vars</codeph> and <codeph translate="no" class="+ topic/ph pr-d/codeph ">features</codeph> for targets in the inventory. <codeph translate="no" class="+ topic/ph pr-d/codeph ">facts</codeph> represent observed information about the target including what can be collected by Facter. <codeph translate="no" class="+ topic/ph pr-d/codeph ">vars</codeph> contain arbitrary data that may be passed to run\_\* functions or used for logic in plans. <codeph translate="no" class="+ topic/ph pr-d/codeph ">features</codeph>&#160;represent capabilities of the target that can be used to select a specific task implementation.</p><p class="- topic/p "> 
+            <codeblock translate="no" xml:space="preserve" class="+ topic/pre pr-d/codeblock ">groups:
+  - uri: centos_targets
+    targets:
+      - foo.example.com
+      - bar.example.com
+      - baz.example.com
+    facts:
+      operatingsystem: CentOS
+  - name: production_targets
+    vars:
+      environment: production
+    features: ['puppet-agent']
+</codeblock> 
+        </p></conbody></concept>

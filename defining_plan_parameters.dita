@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//PUPPET//DTD DITA Puppet Concept//EN" "concept.dtd">
+<concept xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" ditaarch:DITAArchVersion="1.2" domains="(topic concept)                            (topic hi-d)                            (topic ut-d)                            (topic indexing-d)                             (topic pr-d)                            (topic sw-d)                            (topic ui-d)   " id="concept-2302" class="- topic/topic concept/concept "><title class="- topic/title ">Defining plan parameters</title><shortdesc class="- topic/shortdesc ">You can specify parameters in your plan.</shortdesc><prolog class="- topic/prolog "><author translate="no" type="creator" class="- topic/author ">Jean Bond &lt;jean@puppet.com&gt;</author></prolog><conbody class="- topic/body  concept/conbody "><p class="- topic/p ">Specify each parameter in your plan with its data type. For example, you might want parameters to specify which nodes to run different parts of your plan on. </p><example class="- topic/example ">
+         <p class="- topic/p ">The following example shows node parameters specified as data type <codeph translate="no" class="+ topic/ph pr-d/codeph ">TargetSpec</codeph>. This allows this parameter to be passed as a single URL, comma-separated URL list, Target data type, or Array of either. For more information about these data types, see the common data types table in the related metadata type topic.</p>
+
+         <p class="- topic/p ">This allows the user to pass, for each parameter, either a node name or a URI that describes the protocol to use, the hostname, username, and password.</p>
+
+         <p class="- topic/p ">The plan then calls the <codeph translate="no" class="+ topic/ph pr-d/codeph ">run_task</codeph> function, specifying which nodes the tasks should be run on.</p>
+
+         <codeblock translate="no" xml:space="preserve" class="+ topic/pre pr-d/codeblock ">plan mymodule::my_plan(
+  String[1] $load_balancer,
+  TargetSpec  $frontends,
+  TargetSpec  $backends,
+) {
+
+  # process frontends
+  run_task('mymodule::lb_remove', $load_balancer, frontends =&gt; $frontends)
+  run_task('mymodule::update_frontend_app', $frontends, version =&gt; '1.2.3')
+  run_task('mymodule::lb_add', $load_balancer, frontends =&gt; $frontends)
+}</codeblock>
+
+         <p class="- topic/p ">To execute this plan from the command line, pass the parameters as <codeph translate="no" class="+ topic/ph pr-d/codeph ">parameter=value</codeph>. The <codeph translate="no" class="+ topic/ph pr-d/codeph ">Targetspec</codeph> accepts either an array as json or a comma separated string of target names.</p>
+
+         <codeblock translate="no" xml:space="preserve" class="+ topic/pre pr-d/codeblock ">bolt plan run mymodule::myplan --modulepath ./PATH/TO/MODULES load_balancer=lb.myorg.com frontends='["kermit.myorg.com","gonzo.myorg.com"]' backends=waldorf.myorg.com,statler.myorg.com
+        </codeblock>
+      </example><example class="- topic/example ">
+            <p class="- topic/p ">Parameters that are passed to the <codeph class="+ topic/ph pr-d/codeph ">run_*</codeph> plan functions are serialized to JSON.</p><p class="- topic/p ">To illustrate this concept, consider this plan:<codeblock class="+ topic/pre pr-d/codeblock ">plan test::parameter_passing (
+  TargetSpec $nodes,
+  Optional[String[1]] $example_nul = undef,
+) {
+  return run_task('test::demo_undef_bash', $nodes, example_nul =&gt; $example_nul)
+     }</codeblock></p>
+
+            <p class="- topic/p ">The default value of <codeph class="+ topic/ph pr-d/codeph ">$example_nul</codeph> is <codeph class="+ topic/ph pr-d/codeph ">undef</codeph>. The plan calls the <codeph class="+ topic/ph pr-d/codeph ">test::demo_undef_bash</codeph> with the <codeph class="+ topic/ph pr-d/codeph ">example_nul</codeph> parameter. The implementation of the <codeph class="+ topic/ph pr-d/codeph ">demo_undef_bash.sh</codeph> task is:<codeblock class="+ topic/pre pr-d/codeblock ">#!/bin/bash
+example_env=$PT_example_nul
+echo "Environment: $PT_example_nul"
+echo "Stdin:" 
+     cat -</codeblock></p>
+
+            <p class="- topic/p ">By default, the task expects parameters  passed as a JSON string on stdin to be accessible in prefixed environment variables. </p><p class="- topic/p ">Consider the output of running the plan against localhost:<codeblock class="+ topic/pre pr-d/codeblock ">bolt@bolt: bolt plan run test::parameter_passing -n localhost
+Starting: plan test::parameter_passing
+Starting: task test::demo_undef_bash on localhost
+Finished: task test::demo_undef_bash with 0 failures in 0.0 sec
+Finished: plan test::parameter_passing in 0.01 sec
+Finished on localhost:
+  Environment: null
+  Stdin:
+  {"example_nul":null,"_task":"test::demo_undef_bash"}
+  {
+  }
+Successful on 1 node: localhost
+     Ran on 1 node</codeblock></p>
+
+            <p class="- topic/p ">The parameters <codeph class="+ topic/ph pr-d/codeph ">example_nul</codeph> and <codeph class="+ topic/ph pr-d/codeph ">_task</codeph> metadata are passed to the task as a JSON string over stdin.</p>
+
+            <p class="- topic/p ">Similarly, parameters are made available to the task as environment variables where the name of the parameter is converted to an environment variable prefixed with <codeph class="+ topic/ph pr-d/codeph ">PT_</codeph>. The  prefixed environment variable points to the <codeph class="+ topic/ph pr-d/codeph ">String</codeph> representation in <codeph class="+ topic/ph pr-d/codeph ">JSON</codeph> format of the parameter value. So, the <codeph class="+ topic/ph pr-d/codeph ">PT_example_nul</codeph> environment variable has the value of <codeph class="+ topic/ph pr-d/codeph ">null</codeph> of type <codeph class="+ topic/ph pr-d/codeph ">String</codeph>.</p>
+         </example></conbody></concept>

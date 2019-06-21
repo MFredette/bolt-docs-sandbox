@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE reference PUBLIC "-//PUPPET//DTD DITA Puppet Reference//EN" "reference.dtd">
+<reference xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" ditaarch:DITAArchVersion="1.2" domains="(topic reference)                            (topic hi-d)                            (topic ut-d)                            (topic indexing-d)                             (topic pr-d)                            (topic sw-d)                            (topic ui-d)   " id="reference-9297" class="- topic/topic       reference/reference "><title class="- topic/title "> Task metadata reference </title><shortdesc class="- topic/shortdesc ">The following table shows task metadata keys, values, and default values.</shortdesc><prolog class="- topic/prolog "><author translate="no" type="creator" class="- topic/author ">Jean Bond &lt;jean@puppet.com&gt;</author></prolog><refbody class="- topic/body        reference/refbody "><section class="- topic/section "> 
+            <p class="- topic/p "> 
+                <draft-comment class="- topic/draft-comment ">Shared between Bolt and PE 2018.1+, except as noted </draft-comment> 
+                 
+            </p> 
+            <title class="- topic/title "> <b class="+ topic/ph hi-d/b ">Task metadata</b> </title> 
+            <table class="- topic/table "><tgroup cols="4" class="- topic/tgroup "><colspec colname="c1" colnum="1" class="- topic/colspec "/><colspec colname="c2" colnum="2" class="- topic/colspec "/><colspec colname="c3" colnum="3" class="- topic/colspec "/><colspec colname="c4" colnum="4" class="- topic/colspec "/><thead class="- topic/thead "><row class="- topic/row "><entry class="- topic/entry ">Metadata key</entry><entry class="- topic/entry ">Description</entry><entry class="- topic/entry ">Value</entry><entry class="- topic/entry ">Default</entry></row></thead><tbody class="- topic/tbody "><row class="- topic/row "><entry class="- topic/entry ">"description"</entry><entry class="- topic/entry ">A description of what the task does.</entry><entry class="- topic/entry ">String</entry><entry class="- topic/entry ">None</entry></row><row class="- topic/row "><entry class="- topic/entry ">"input_method"</entry><entry class="- topic/entry ">What input method the task runner should use to pass parameters to the task.</entry><entry class="- topic/entry "> 
+                                <ul id="ul_p1t_pps_1fb" class="- topic/ul "><li class="- topic/li "> 
+                                        <p class="- topic/p "> <codeph translate="no" class="+ topic/ph pr-d/codeph ">environment</codeph> </p> 
+                                    </li><li class="- topic/li "> 
+                                        <p class="- topic/p "> <codeph translate="no" class="+ topic/ph pr-d/codeph ">stdin</codeph> </p> 
+                                    </li><li class="- topic/li "> 
+                                        <p class="- topic/p "> <codeph translate="no" class="+ topic/ph pr-d/codeph ">powershell</codeph> </p> 
+                                    </li></ul> 
+                            </entry><entry class="- topic/entry "> 
+                                <p class="- topic/p ">Both <codeph translate="no" class="+ topic/ph pr-d/codeph ">environment</codeph> and <codeph translate="no" class="+ topic/ph pr-d/codeph ">stdin</codeph> unless <codeph translate="no" class="+ topic/ph pr-d/codeph ">.ps1</codeph> tasks, in which case <codeph translate="no" class="+ topic/ph pr-d/codeph ">powershell</codeph> </p> 
+                            </entry></row><row class="- topic/row "><entry class="- topic/entry ">"parameters"</entry><entry class="- topic/entry ">The parameters or input the task accepts listed with a puppet type string and optional description. See 
+                                <xref href="adding_parameters_to_metadata.dita" class="- topic/xref ">adding parameters to metadata</xref> for usage information. 
+                            </entry><entry class="- topic/entry ">Array of objects describing each parameter</entry><entry class="- topic/entry ">None</entry></row><row class="- topic/row "><entry class="- topic/entry ">"puppet_task_version"</entry><entry class="- topic/entry ">The version of the spec used.</entry><entry class="- topic/entry ">Integer</entry><entry class="- topic/entry ">1 (This is the only valid value.)</entry></row><row class="- topic/row "><entry class="- topic/entry ">"supports_noop"</entry><entry class="- topic/entry ">Whether the task supports no-op mode. Required for the task to accept the <codeph translate="no" class="+ topic/ph pr-d/codeph ">--noop</codeph> option on the command line.</entry><entry class="- topic/entry ">Boolean</entry><entry class="- topic/entry ">False</entry></row><row class="- topic/row "><entry class="- topic/entry ">"implementations" 
+                                <draft-comment class="- topic/draft-comment ">Added to PE 2019.0.0</draft-comment> 
+                            </entry><entry class="- topic/entry ">A list of task implementations and the requirements used to select one to run. See 
+                                <xref href="cross-platform_tasks.dita#cross-platform-tasks" class="- topic/xref "/> for usage information. 
+                            </entry><entry class="- topic/entry ">Array of Objects describing each implementation</entry><entry class="- topic/entry ">None</entry></row><row class="- topic/row "><entry class="- topic/entry ">"files" 
+                                <draft-comment class="- topic/draft-comment ">Added to PE 2019.0.1</draft-comment> 
+                            </entry><entry class="- topic/entry ">A list of files to be provided when running the task, addressed by module. See 
+                                <xref href="sharing_task_code.dita" class="- topic/xref "/> for usage information. 
+                            </entry><entry class="- topic/entry ">Array of Strings</entry><entry class="- topic/entry ">None</entry></row><row class="- topic/row "><entry class="- topic/entry ">"private" 
+                                <draft-comment class="- topic/draft-comment ">Not yet in any version of PE (28 Feb 2019)</draft-comment> 
+                            </entry><entry class="- topic/entry ">Do not display task by default when listing for UI.</entry><entry class="- topic/entry ">Boolean</entry><entry class="- topic/entry ">False</entry></row></tbody></tgroup></table> 
+        </section></refbody></reference>

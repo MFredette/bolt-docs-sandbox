@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//PUPPET//DTD DITA Puppet Task//EN" "task.dtd">
+<task xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" id="task-7419" domains="(topic task)                            (topic hi-d)                            (topic ut-d)                            (topic indexing-d)                              (topic pr-d)                            (topic sw-d)                            (topic ui-d)                            (topic task strictTaskbody-c)   " ditaarch:DITAArchVersion="1.2" class="- topic/topic task/task "><title class="- topic/title ">conref install task</title><shortdesc class="- topic/shortdesc "/><prolog class="- topic/prolog "><author type="creator" translate="no" class="- topic/author ">Kate Lopresti &lt;kate.lopresti@puppet.com&gt;</author></prolog><taskbody class="- topic/body task/taskbody "><context class="- topic/section task/context ">
+         <note type="note" id="note-1521820024384" class="- topic/note ">These packages require you to download the <ph conkeyref="ProductNames/puppet" class="- topic/ph "/> 6 Platform. To install only the Bolt package you can install the packages directly as well.</note>
+      </context><steps class="- topic/ol task/steps "><step id="step-1521583737974" class="- topic/li task/step "><cmd class="- topic/ph task/cmd ">To install 
+
+               
+
+               <ph conkeyref="ProductNames/bolt" class="- topic/ph "/>, run <codeph translate="no" class="+ topic/ph pr-d/codeph ">gem install bolt</codeph></cmd></step><step id="step-1521741230878" class="- topic/li task/step "><cmd class="- topic/ph task/cmd ">Run a 
+
+               
+
+               
+
+               <ph conkeyref="ProductNames/bolt" class="- topic/ph "/> command  and get started.
+
+</cmd><stepxmp class="- topic/itemgroup task/stepxmp ">
+               <codeblock translate="no" xml:space="preserve" class="+ topic/pre pr-d/codeblock ">bolt --help</codeblock>
+            </stepxmp></step><step class="- topic/li task/step "><cmd class="- topic/ph task/cmd "/><info class="- topic/itemgroup task/info ">
+               <p class="- topic/p ">
+                  <note type="tip" class="- topic/note ">If you see the error message, <codeph translate="no" class="+ topic/ph pr-d/codeph ">Bolt command not found</codeph>, you may have installed Bolt from a non-interactive login shell. 
+
+
+
+
+
+
+
+
+
+<p class="- topic/p ">Restart your computer Bolt
+path added to etc/profile.d only started on login shell</p></note>
+               </p>
+            </info></step></steps></taskbody></task>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//PUPPET//DTD DITA Puppet Concept//EN" "concept.dtd">
+<concept xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" ditaarch:DITAArchVersion="1.2" domains="(topic concept)                            (topic hi-d)                            (topic ut-d)                            (topic indexing-d)                             (topic pr-d)                            (topic sw-d)                            (topic ui-d)   " id="concept-799" class="- topic/topic concept/concept "><title class="- topic/title "><ph conkeyref="ProductNames/bolt" class="- topic/ph "/> versioning</title><shortdesc class="- topic/shortdesc "><ph conkeyref="ProductNames/bolt" class="- topic/ph "/> follows semantic versioning guidelines. </shortdesc><prolog class="- topic/prolog "><author translate="no" type="creator" class="- topic/author ">Kate Lopresti &lt;kate.lopresti@puppet.com&gt;</author></prolog><conbody class="- topic/body  concept/conbody "><p class="- topic/p ">This system uses an "x.y.z" pattern, where "x" is the number of a major release, "y" indicates a minor release that introduces new features but does not include breaking changes, and "z" reflects a bug fix release. </p><section class="- topic/section ">
+         <title class="- topic/title ">
+            <ph conkeyref="ProductNames/bolt" class="- topic/ph "/> API</title>
+
+         <p class="- topic/p ">The 1.0 series of 
+
+            <ph conkeyref="ProductNames/bolt" class="- topic/ph "/> is stable and be free of breaking changes to its public API. In general this means that plans, inventory and config tested with one 1.y series release of 
+
+            <ph conkeyref="ProductNames/bolt" class="- topic/ph "/> continues to work when used with a newer 1.y series release. There is, however, new functionality added in the 1.0 series. You can expect the following types of changes: </p>
+
+         <p class="- topic/p ">
+            <ul class="- topic/ul "><li class="- topic/li ">
+                  <p class="- topic/p ">New keys in JSON format output.</p>
+               </li><li class="- topic/li ">
+                  <p class="- topic/p ">Differences in log output and human format output.</p>
+               </li><li class="- topic/li ">
+                  <p class="- topic/p ">New methods added to plan Data Type Objects.</p>
+               </li><li class="- topic/li ">
+                  <p class="- topic/p ">New options added to plan functions.</p>
+               </li><li class="- topic/li ">
+                  <p class="- topic/p ">Support for new revisions of the task spec and newer tasks.</p>
+               </li><li class="- topic/li ">
+                  <p class="- topic/p ">Versions of bundled modules are updated and might include breaking changes.</p>
+               </li></ul>
+         </p>
+      </section><section class="- topic/section ">
+         <title class="- topic/title ">
+            <ph conkeyref="ProductNames/bolt" class="- topic/ph "/> Releases</title>
+
+         <p class="- topic/p ">For the&#160;1.y&#160;series of 
+
+            <ph conkeyref="ProductNames/bolt" class="- topic/ph "/> we do not plan to backport bug fixes to any previously released version. You are encouraged to upgrade frequently and use the latest release.</p>
+      </section></conbody></concept>

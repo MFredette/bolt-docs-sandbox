@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//PUPPET//DTD DITA Puppet Concept//EN" "concept.dtd">
+<concept xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" ditaarch:DITAArchVersion="1.2" domains="(topic concept)                            (topic hi-d)                            (topic ut-d)                            (topic indexing-d)                             (topic pr-d)                            (topic sw-d)                            (topic ui-d)   " id="concept-4523" class="- topic/topic concept/concept "><title class="- topic/title ">Converting scripts to tasks</title><shortdesc class="- topic/shortdesc ">To convert an existing script to a task, you can either write a task that wraps the script or you can add logic in your script to check for parameters in environment variables.</shortdesc><prolog class="- topic/prolog "><author translate="no" type="creator" class="- topic/author ">Jean Bond &lt;jean@puppet.com&gt;</author></prolog><conbody class="- topic/body  concept/conbody "><p class="- topic/p "><draft-comment class="- topic/draft-comment ">Shared between Bolt and PE 2018.1+</draft-comment></p><p class="- topic/p ">If the script is already installed on the target nodes, you can write a task that wraps the script. In the task, read the script arguments as task parameters and call the script, passing the parameters as the arguments. </p><p class="- topic/p ">If the script isn't installed or you want to make it into a cohesive task so that you can manage its version with code management tools, add code to your script to check for the environment variables, prefixed with <codeph translate="no" class="+ topic/ph pr-d/codeph ">PT_</codeph>, and read them instead of arguments.</p><p class="- topic/p "><note conref="conref_tasks_concept.dita#concept-6878/note-449" class="- topic/note "/></p><example class="- topic/example ">Given a script that accepts positional arguments on the command line:<codeblock translate="no" xml:space="preserve" class="+ topic/pre pr-d/codeblock ">version=$1
+[ -z "$version" ] &amp;&amp; echo "Must specify a version to deploy &amp;&amp; exit 1
+
+if [ -z "$2" ]; then
+  filename=$2
+else
+  filename=~/myfile
+fi</codeblock> To convert the script into a task, replace this logic with task variables: <codeblock translate="no" xml:space="preserve" class="+ topic/pre pr-d/codeblock ">version=$PT_version #no need to validate if we use metadata
+if [ -z "$PT_filename" ]; then
+  filename=$PT_filename
+else
+  filename=~/myfile
+fi</codeblock></example></conbody></concept>

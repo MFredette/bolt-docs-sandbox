@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//PUPPET//DTD DITA Puppet Concept//EN" "concept.dtd">
+<concept id="connecting-steps" class="- topic/topic concept/concept "><title class="- topic/title ">Connecting steps</title><shortdesc class="- topic/shortdesc ">You can connect multiple steps by using the result of one step to compute the parameters for another step.</shortdesc><prolog class="- topic/prolog "><author translate="no" type="creator" class="- topic/author ">Melissa Amos &lt;melissa.amos@puppet.com&gt;</author></prolog><conbody class="- topic/body  concept/conbody "><section class="- topic/section ">
+         <title class="- topic/title "><codeph class="+ topic/ph pr-d/codeph ">name</codeph> key</title>
+
+         <p class="- topic/p ">The <codeph class="+ topic/ph pr-d/codeph ">name</codeph> key makes its  results available to later steps in a variable with that name.</p>
+
+         <p class="- topic/p ">This example uses the <codeph class="+ topic/ph pr-d/codeph ">map</codeph> function to get the value of <codeph class="+ topic/ph pr-d/codeph ">stdout</codeph> from each command result and then joins them into a single string separated by commas.<codeblock class="+ topic/pre pr-d/codeblock ">parameters:
+  nodes:
+    type: TargetSpec
+
+steps:
+  - name: hostnames
+    command: hostname -f
+    target: $nodes
+  - task: echo
+    parameters:
+      message: $hostnames.map |$hostname_result| { $hostname_result['stdout'] }.join(',')</codeblock></p>
+      </section><section class="- topic/section ">
+         <title class="- topic/title "><codeph class="+ topic/ph pr-d/codeph ">eval</codeph> step</title>
+
+         <p class="- topic/p ">The <codeph class="+ topic/ph pr-d/codeph ">eval</codeph> step evaluates an expression and saves the result in a variable. This is useful to compute a variable to use multiple times later.</p>
+
+         <p class="- topic/p ">
+            <codeblock class="+ topic/pre pr-d/codeblock ">parameters:
+  count:
+    type: Integer
+
+steps:
+  - name: double_count
+    eval: $count * 2
+  - task: echo
+    target: web1.example.com
+    parameters:
+      message: "The count is ${count}, and twice the count is ${double_count}"</codeblock>
+         </p>
+      </section></conbody></concept>

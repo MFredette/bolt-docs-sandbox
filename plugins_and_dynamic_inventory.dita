@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//PUPPET//DTD DITA Puppet Concept//EN" "concept.dtd">
+<concept id="plugins-and-dynamic-inventory" class="- topic/topic concept/concept "><title class="- topic/title ">Plugins and dynamic inventory</title><shortdesc class="- topic/shortdesc ">There are two types of plugins. The target-lookups plugin type allows dynamic target discovery when running <ph conkeyref="ProductNames/bolt" class="- topic/ph "/>. The config-lookup plugin type allows dynamically looking up values not explicitly stored in an inventory file.</shortdesc><prolog class="- topic/prolog "><author translate="no" type="creator" class="- topic/author ">Melissa Amos &lt;melissa.amos@puppet.com&gt;</author></prolog><conbody class="- topic/body  concept/conbody "><p class="- topic/p ">In order to make target discovery and configuration extensible, plugins are expected to eventually be plugable but for now Bolt only ships with built-in plugins. </p><section class="- topic/section ">
+            <title class="- topic/title "><codeph class="+ topic/ph pr-d/codeph ">target-lookups</codeph> plugins</title>
+            <p class="- topic/p "><codeph class="+ topic/ph pr-d/codeph ">target-lookups</codeph> is a key at the group level that allows you to dynamically look up the targets in the node. <codeph class="+ topic/ph pr-d/codeph ">target-lookups</codeph> contains an array of target lookup objects. Each <codeph class="+ topic/ph pr-d/codeph ">target-lookups</codeph> entry must include a <codeph class="+ topic/ph pr-d/codeph ">plugin</codeph> key that defines which plugin should be used for the lookup. The rest of the keys are specific to the plugin being used. Note that <codeph class="+ topic/ph pr-d/codeph ">config-lookup</codeph> plugins are not available to set <codeph class="+ topic/ph pr-d/codeph ">config</codeph> nested under <codeph class="+ topic/ph pr-d/codeph ">target-lookups</codeph>.</p>
+            
+            <p class="- topic/p "><b class="+ topic/ph hi-d/b "><ph conkeyref="ProductNames/puppetdb" class="- topic/ph "/></b></p>
+            <p class="- topic/p ">The <ph conkeyref="ProductNames/puppetdb" class="- topic/ph "/> plugin takes a <codeph class="+ topic/ph pr-d/codeph ">query</codeph> field, which is either a string containing a <xref href="https://puppet.com/docs/puppetdb/latest/api/query/v4/pql.html" scope="external" class="- topic/xref "><ph conkeyref="ProductNames/pql" class="- topic/ph "/> query</xref> or an array containing a <xref href="https://puppet.com/docs/puppetdb/latest/api/query/v4/ast.html" scope="external" class="- topic/xref "><ph conkeyref="ProductNames/puppetdb" class="- topic/ph "/> AST</xref> query. The query is used to determine which targets should be included in the group. If <codeph class="+ topic/ph pr-d/codeph ">name</codeph> or <codeph class="+ topic/ph pr-d/codeph ">uri</codeph> is not specified with a fact lookup, then the <xref href="https://puppet.com/docs/puppet/latest/lang_facts_and_builtin_vars.html#trusted-facts" scope="external" class="- topic/xref ">certname</xref> for each target in the query result will be used as the <codeph class="+ topic/ph pr-d/codeph ">uri</codeph> for the new target.
+                <codeblock class="+ topic/pre pr-d/codeblock ">groups:
+  - name: windows
+    target-lookups:
+      - plugin: puppetdb
+        query: "inventory[certname] { facts.osfamily = 'windows' }"
+    config:
+      transport: winrm
+  - name: redhat
+    target-lookups:
+      - plugin: puppetdb
+        query: "inventory[certname] { facts.osfamily = 'RedHat' }"
+    config:
+      transport: ssh</codeblock>
+            </p>
+            <p class="- topic/p ">Make sure you've <xref scope="peer" href="bolt_connect_puppetdb.dita" class="- topic/xref ">configured <ph conkeyref="ProductNames/puppetdb" class="- topic/ph "/></xref>. </p>
+            <p class="- topic/p ">If target-specific configuration is required, the <ph conkeyref="ProductNames/puppetdb" class="- topic/ph "/> plugin can be used to look up configuration values for the <codeph class="+ topic/ph pr-d/codeph ">name</codeph>, <codeph class="+ topic/ph pr-d/codeph ">uri</codeph>, and <codeph class="+ topic/ph pr-d/codeph ">config</codeph> inventory options for each target. The fact lookup values can be either <codeph class="+ topic/ph pr-d/codeph ">certname</codeph>, to reference the <xref href="https://puppet.com/docs/puppet/latest/lang_facts_and_builtin_vars.html#trusted-facts" scope="external" class="- topic/xref ">certname</xref> of the target, or a <xref href="https://puppet.com/docs/puppetdb/latest/api/query/v4/ast.html#dot-notation" scope="external" class="- topic/xref ">PQL dot notation</xref> facts string, such as <codeph class="+ topic/ph pr-d/codeph ">facts.os.family</codeph>, to reference fact value. Dot notation is required for both structured and unstructured facts.</p>
+            <p class="- topic/p ">
+                <note class="- topic/note ">If the <codeph class="+ topic/ph pr-d/codeph ">name</codeph> or <codeph class="+ topic/ph pr-d/codeph ">uri</codeph> values are set to a lookup, the <ph conkeyref="ProductNames/puppetdb" class="- topic/ph "/> plugin will <b class="+ topic/ph hi-d/b ">not</b> set the <codeph class="+ topic/ph pr-d/codeph ">uri</codeph> to the certname of the target.</note>
+            </p>
+            <p class="- topic/p ">For example, to set the user to be the user from the <xref format="html" href="https://puppet.com/docs/facter/latest/core_facts.html#identity" scope="external" class="- topic/xref ">identity fact</xref>:</p>
+            <codeblock class="+ topic/pre pr-d/codeblock ">version: 2
+groups:
+  - name: dynamic_config
+    target-lookups:
+      - plugin: puppetdb
+        query: "inventory[certname] { facts.osfamily = 'RedHat' }"
+        config:
+          ssh:
+            # Lookup config from PuppetDB facts
+            user: facts.identity.user
+    # And include static config
+    config:
+      ssh:
+        tmpdir: /tmp/mytmp</codeblock>
+            <p class="- topic/p ">And to use the certname of a target as the <codeph class="+ topic/ph pr-d/codeph ">name</codeph>:</p>
+            <codeblock class="+ topic/pre pr-d/codeblock ">version: 2
+groups:
+  - name: dynamic_config
+    target-lookups:
+      - plugin: puppetdb
+        query: "inventory[certname] { facts.osfamily = 'RedHat' }"
+        name: certname
+        config:
+          ssh:
+            # Lookup config from PuppetDB facts
+            hostname: facts.networking.interfaces.en0.ipaddress</codeblock>
+            <p class="- topic/p "><b class="+ topic/ph hi-d/b ">Terraform</b></p>
+            <p class="- topic/p ">The Terraform plugin accepts several fields:
+                <ul class="- topic/ul "><li class="- topic/li ">
+                        <p class="- topic/p "><codeph class="+ topic/ph pr-d/codeph ">dir</codeph>: The directory from which to load Terraform state.</p>
+                    </li><li class="- topic/li ">
+                        <p class="- topic/p "><codeph class="+ topic/ph pr-d/codeph ">resource_type</codeph>: The Terraform resources to match, as a regular expression.</p>
+                    </li><li class="- topic/li ">
+                        <p class="- topic/p "><codeph class="+ topic/ph pr-d/codeph ">uri</codeph>: (Optional) The property of the Terraform resource to use as the target URI.</p>
+                    </li><li class="- topic/li ">
+                        <p class="- topic/p "><codeph class="+ topic/ph pr-d/codeph ">statefile</codeph>: (Optional) The name of the Terraform state file to load within <codeph class="+ topic/ph pr-d/codeph ">dir</codeph>. Defaults to <codeph class="+ topic/ph pr-d/codeph ">terraform.tfstate</codeph>.</p>
+                    </li><li class="- topic/li ">
+                        <p class="- topic/p "><codeph class="+ topic/ph pr-d/codeph ">name</codeph>: (Optional) The property of the Terraform resource to use as the target name.</p>
+                    </li><li class="- topic/li ">
+                        <p class="- topic/p "><codeph class="+ topic/ph pr-d/codeph ">config</codeph>: A <ph conkeyref="ProductNames/bolt" class="- topic/ph "/> config map where each value is the Terraform property to use for that config setting.</p>
+                    </li></ul> Either<codeph class="+ topic/ph pr-d/codeph ">uri</codeph> or <codeph class="+ topic/ph pr-d/codeph ">name</codeph> is required. If only <codeph class="+ topic/ph pr-d/codeph ">uri</codeph> is set, then the value of <codeph class="+ topic/ph pr-d/codeph ">uri</codeph> is used as the <codeph class="+ topic/ph pr-d/codeph ">name</codeph>. 
+            </p>
+            <codeblock class="+ topic/pre pr-d/codeblock ">groups:
+  - name: cloud-webs
+    target-lookups:
+      - plugin: terraform
+        dir: /path/to/terraform/project1
+        resource_type: google_compute_instance.web
+        uri: network_interface.0.access_config.0.nat_ip
+      - plugin: terraform
+        dir: /path/to/terraform/project2
+        resource_type: aws_instance.web
+        uri: public_ip</codeblock> Multiple resources with the same name are identified as &lt;resource&gt;.0, &lt;resource&gt;.1, etc.
+        </section><section class="- topic/section ">The path to nested properties must be separated with <codeph class="+ topic/ph pr-d/codeph ">.</codeph>: for example, <codeph class="+ topic/ph pr-d/codeph ">network_interface.0.access_config.0.nat_ip</codeph>. </section><section class="- topic/section ">
+            <p class="- topic/p ">For example, the following truncated output creates two targets, named <codeph class="+ topic/ph pr-d/codeph ">34.83.150.52</codeph> and <codeph class="+ topic/ph pr-d/codeph ">34.83.16.240</codeph>. These targets are created by matching the resources <codeph class="+ topic/ph pr-d/codeph ">google_compute_instance.web.0</codeph> and <codeph class="+ topic/ph pr-d/codeph ">google_compute_instance.web.1</codeph>. The <codeph class="+ topic/ph pr-d/codeph ">uri</codeph> for each target is the value of their <codeph class="+ topic/ph pr-d/codeph ">network_interface.0.access_config.0.nat_ip</codeph> property, which corresponds to the externally routable IP address in Google Cloud.
+                <codeblock class="+ topic/pre pr-d/codeblock ">google_compute_instance.web.0:
+  id = web-0
+  cpu_platform = Intel Broadwell
+  machine_type = f1-micro
+  name = web-0
+  network_interface.# = 1
+  network_interface.0.access_config.# = 1
+  network_interface.0.access_config.0.assigned_nat_ip = 
+  network_interface.0.access_config.0.nat_ip = 34.83.150.52
+  network_interface.0.address = 
+  network_interface.0.name = nic0
+  network_interface.0.network = https://www.googleapis.com/compute/v1/projects/cloud-app1/global/networks/default
+  network_interface.0.network_ip = 10.138.0.22
+  project = cloud-app1
+  self_link = https://www.googleapis.com/compute/v1/projects/cloud-app1/zones/us-west1-a/instances/web-0
+  zone = us-west1-a
+google_compute_instance.web.1:
+  id = web-1
+  cpu_platform = Intel Broadwell
+  machine_type = f1-micro
+  name = web-1
+  network_interface.# = 1
+  network_interface.0.access_config.# = 1
+  network_interface.0.access_config.0.assigned_nat_ip = 
+  network_interface.0.access_config.0.nat_ip = 34.83.16.240
+  network_interface.0.address = 
+  network_interface.0.name = nic0
+  network_interface.0.network = https://www.googleapis.com/compute/v1/projects/cloud-app1/global/networks/default
+  network_interface.0.network_ip = 10.138.0.21
+  project = cloud-app1
+  self_link = https://www.googleapis.com/compute/v1/projects/cloud-app1/zones/us-west1-a/instances/web-1
+  zone = us-west1-a
+google_compute_instance.app.1:
+  id = app-1
+  cpu_platform = Intel Broadwell
+  machine_type = f1-micro
+  name = app-1
+  network_interface.# = 1
+  network_interface.0.access_config.# = 1
+  network_interface.0.access_config.0.assigned_nat_ip = 
+  network_interface.0.access_config.0.nat_ip = 35.197.93.137
+  network_interface.0.address = 
+  network_interface.0.name = nic0
+  network_interface.0.network = https://www.googleapis.com/compute/v1/projects/cloud-app1/global/networks/default
+  network_interface.0.network_ip = 10.138.0.23
+  project = cloud-app1
+  self_link = https://www.googleapis.com/compute/v1/projects/cloud-app1/zones/us-west1-a/instances/app-1
+  zone = us-west1-a</codeblock>
+            </p>
+        </section><section class="- topic/section ">
+            <title class="- topic/title "><codeph class="+ topic/ph pr-d/codeph ">config-lookup</codeph> plugins</title>
+            <p class="- topic/p ">Config lookup plugins are specified using the <codeph class="+ topic/ph pr-d/codeph ">_plugin</codeph> key, which allows specifying a plugin to use. The value pointed to by <codeph class="+ topic/ph pr-d/codeph ">_plugin</codeph> should be the name of the plugin to use. Currently the only acceptable use of config-lookup plugins is to set configuration values, using the <codeph class="+ topic/ph pr-d/codeph ">_plugin</codeph> key nested under non-config settings results in validation errors. Also note that the <codeph class="+ topic/ph pr-d/codeph ">_plugin</codeph> key can't be used to set config nested under target-lookups. </p>
+            <p class="- topic/p "><b class="+ topic/ph hi-d/b ">Prompt plugin</b></p>
+            <p class="- topic/p ">The <codeph class="+ topic/ph pr-d/codeph ">prompt</codeph> plugin can be used to allow users to interactively enter sensitive configuration information on the CLI instead of storing that data in the inventory file. Data is looked up only when the value is needed for the target and once the value has been stored, it is re-used for the rest of the run. The <codeph class="+ topic/ph pr-d/codeph ">prompt</codeph> plugin may be used only when nested under <codeph class="+ topic/ph pr-d/codeph ">config</codeph> and is not supported when nested under target-lookups. The prompt plugin can be used by replacing the config value with a hash that has the following keys:
+                <ul class="- topic/ul "><li class="- topic/li ">
+                        <p class="- topic/p "><codeph class="+ topic/ph pr-d/codeph ">_plugin</codeph>: The value of <codeph class="+ topic/ph pr-d/codeph ">_plugin</codeph> must be <codeph class="+ topic/ph pr-d/codeph ">prompt</codeph></p>
+                    </li><li class="- topic/li ">
+                        <p class="- topic/p "><codeph class="+ topic/ph pr-d/codeph ">message</codeph>: The value of <codeph class="+ topic/ph pr-d/codeph ">message</codeph> must be the text to show when prompting the user on the CLI</p>
+                    </li></ul>
+           <codeblock class="+ topic/pre pr-d/codeblock ">version: 2
+targets:
+  - uri: 192.168.100.179
+    config:
+      transport: ssh
+      ssh:
+        user: root
+        password: 
+          _plugin: prompt
+          message: please enter your ssh password</codeblock> </p>
+        </section></conbody></concept>

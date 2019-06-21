@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//PUPPET//DTD DITA Puppet Concept//EN" "concept.dtd">
+<concept id="wrapping-existing-script" class="- topic/topic concept/concept "><title class="- topic/title ">Wrapping an existing script</title><shortdesc class="- topic/shortdesc ">If a script is not already installed on targets and you don't want to edit
+it, for example if it's a script someone else maintains, you can wrap the
+     script in a small task without modifying it.</shortdesc><prolog class="- topic/prolog "><author translate="no" type="creator" class="- topic/author ">Melissa Amos &lt;melissa.amos@puppet.com&gt;</author></prolog><conbody class="- topic/body  concept/conbody "><p class="- topic/p "><draft-comment class="- topic/draft-comment ">Shared between Bolt and PE 2019.0.1+</draft-comment></p><p class="- topic/p ">
+         <note conref="conref_tasks_concept.dita#concept-6878/note-449" class="- topic/note "/>
+      </p><example class="- topic/example ">Given a script, <codeph class="+ topic/ph pr-d/codeph ">myscript.sh</codeph>, that accepts 2 positional args, <codeph class="+ topic/ph pr-d/codeph ">filename</codeph> and 
+       <codeph class="+ topic/ph pr-d/codeph ">version</codeph>:
+
+         
+
+         
+
+         
+
+         
+
+         <ol class="- topic/ol "><li class="- topic/li ">
+               <p class="- topic/p ">Copy the script to the module's <codeph class="+ topic/ph pr-d/codeph ">files/</codeph> directory.</p>
+            </li><li class="- topic/li ">
+               <p class="- topic/p ">Create a metadata file for the task that includes the parameters and file dependency.<codeblock class="+ topic/pre pr-d/codeblock ">{
+     "input_method": "environment",
+     "parameters": {
+       "filename": { "type": "String[1]" },
+       "version": { "type": "String[1]" }
+     },
+     "files": [ "script_example/files/myscript.sh" ]
+   }</codeblock>
+               </p>
+            </li><li class="- topic/li ">Create a small wrapper task that reads environment variables and calls the task.
+           <codeblock class="+ topic/pre pr-d/codeblock ">#!/usr/bin/env bash
+set -e
+
+script_file="$PT__installdir/script_example/files/myscript.sh"
+# If this task is going to be run from windows nodes the wrapper must make sure it's exectutable
+chmod +x $script_file
+commandline=("$script_file" "$PT_filename" "$PT_version")
+# If the stderr output of the script is important redirect it to stdout.
+"${commandline[@]}" 2&gt;&amp;1</codeblock>
+            </li></ol></example></conbody></concept>

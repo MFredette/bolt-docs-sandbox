@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//PUPPET//DTD DITA Puppet Concept//EN" "concept.dtd">
+<concept id="directory-structure-module" class="- topic/topic concept/concept "><title class="- topic/title ">Directory structure of a module</title><shortdesc class="- topic/shortdesc ">A module is a sub-directory of one of the directories on the modulepath. In
+         order for 
+
+            
+
+      
+
+      
+
+      <ph conkeyref="ProductNames/bolt" class="- topic/ph "/> to load tasks and plans, they must exist in the <codeph class="+ topic/ph pr-d/codeph ">tasks/</codeph> or
+         <codeph class="+ topic/ph pr-d/codeph ">plans/</codeph> directory of a module with the correct name.</shortdesc><prolog class="- topic/prolog "><author translate="no" type="creator" class="- topic/author ">Melissa Amos &lt;melissa.amos@puppet.com&gt;</author></prolog><conbody class="- topic/body  concept/conbody "><p class="- topic/p ">
+         <note type="tip" class="- topic/note ">You can use the 
+
+            
+
+            
+
+            
+
+            
+
+            
+
+            
+
+               
+
+               
+
+               
+
+               
+
+            <ph conkeyref="ProductNames/pdk_long_plus_init" class="- topic/ph "/>  to create  modules and add tasks to it.</note>
+      </p><p class="- topic/p ">A typical module for use with  
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+            
+
+            
+
+            
+
+            
+
+         <ph conkeyref="ProductNames/bolt" class="- topic/ph "/> may    contain these directories:
+
+         <codeblock class="+ topic/pre pr-d/codeblock ">├── data/
+├── files/
+├── hiera.yaml
+├── lib/
+├── manifests/
+├── metadata.json
+├── plans/
+└── tasks/</codeblock></p><p class="- topic/p ">
+         <table class="- topic/table "><tgroup cols="2" class="- topic/tgroup "><colspec colname="_1" colnum="1" class="- topic/colspec "/><colspec colname="_2" colnum="2" class="- topic/colspec "/><thead class="- topic/thead "><row class="- topic/row "><entry class="- topic/entry ">Directory</entry><entry class="- topic/entry ">Contents</entry></row></thead><tbody class="- topic/tbody "><row class="- topic/row "><entry class="- topic/entry ">
+                        <codeph class="+ topic/ph pr-d/codeph ">data</codeph>
+                     </entry><entry class="- topic/entry ">
+                        <ph conkeyref="ProductNames/hiera" class="- topic/ph "/> data that can be used when applying a manifest block.</entry></row><row class="- topic/row "><entry class="- topic/entry ">
+                        <codeph class="+ topic/ph pr-d/codeph ">files</codeph>
+                     </entry><entry class="- topic/entry ">Static files that can be loaded by a plan or required as a dependency of a task. Prefer putting non-Ruby libraries used by a task here.</entry></row><row class="- topic/row "><entry class="- topic/entry ">
+                        <codeph class="+ topic/ph pr-d/codeph ">functions</codeph>
+                     </entry><entry class="- topic/entry ">
+                        <ph conkeyref="ProductNames/puppet" class="- topic/ph "/> language functions that can be used from a plan.</entry></row><row class="- topic/row "><entry class="- topic/entry ">
+                        <codeph class="+ topic/ph pr-d/codeph ">hiera.yaml</codeph>
+                     </entry><entry class="- topic/entry ">
+                        <ph conkeyref="ProductNames/hiera" class="- topic/ph "/> configuration for this module.</entry></row><row class="- topic/row "><entry class="- topic/entry ">
+                        <codeph class="+ topic/ph pr-d/codeph ">lib</codeph>
+                     </entry><entry class="- topic/entry ">Typically 
+
+                        
+
+                        
+
+                        
+
+                        
+
+                        
+
+                        
+
+                           
+
+                           
+
+                           
+
+                           
+
+                        <ph conkeyref="ProductNames/ruby" class="- topic/ph "/> code, such as custom  
+
+                        
+
+                        
+
+                        
+
+                        
+
+                        
+
+                        
+
+                           
+
+                           
+
+                           
+
+                           
+
+                        <ph conkeyref="ProductNames/puppet" class="- topic/ph "/> functions, types, or providers.</entry></row><row class="- topic/row "><entry class="- topic/entry ">
+                        <codeph class="+ topic/ph pr-d/codeph ">manifests</codeph>
+                     </entry><entry class="- topic/entry ">Classes and other 
+
+                        
+
+                        
+
+                        
+
+                        
+
+                        
+
+                        
+
+                           
+
+                           
+
+                           
+
+                           
+
+                        <ph conkeyref="ProductNames/puppet" class="- topic/ph "/> code usable when applying a manifest block.</entry></row><row class="- topic/row "><entry class="- topic/entry ">
+                        <codeph class="+ topic/ph pr-d/codeph ">metadata.json</codeph>
+                     </entry><entry class="- topic/entry ">Typical metadata for a  module describing version, operating system compatibility, and other module dependencies.</entry></row><row class="- topic/row "><entry class="- topic/entry ">
+                        <codeph class="+ topic/ph pr-d/codeph ">plans</codeph>
+                     </entry><entry class="- topic/entry ">Plans, which must end in the <codeph class="+ topic/ph pr-d/codeph ">.pp</codeph> extension.</entry></row><row class="- topic/row "><entry class="- topic/entry ">
+                        <codeph class="+ topic/ph pr-d/codeph ">tasks</codeph>
+                     </entry><entry class="- topic/entry ">Tasks and their metadata.</entry></row></tbody></tgroup></table>
+      </p><section class="- topic/section ">
+         <title class="- topic/title ">Where to put module code</title>
+        <p class="- topic/p ">Modules can either be written directly in <codeph class="+ topic/ph pr-d/codeph ">site-modules/</codeph> or be installed from
+          the Puppet Forge or a code repository into <codeph class="+ topic/ph pr-d/codeph ">modules/</codeph>.</p>
+      </section></conbody></concept>

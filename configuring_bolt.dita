@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//PUPPET//DTD DITA Puppet Concept//EN" "concept.dtd">
+<concept xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" ditaarch:DITAArchVersion="1.2" domains="(topic concept)                            (topic hi-d)                            (topic ut-d)                            (topic indexing-d)                             (topic pr-d)                            (topic sw-d)                            (topic ui-d)   " id="concept-7312" class="- topic/topic concept/concept "><title class="- topic/title ">Configuring 
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <ph conkeyref="ProductNames/bolt" class="- topic/ph "/></title><shortdesc class="- topic/shortdesc ">Create a configuration file to store and automate the command-line flags you use every time you run 
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <ph conkeyref="ProductNames/bolt" class="- topic/ph "/>.</shortdesc><prolog class="- topic/prolog "><author translate="no" type="creator" class="- topic/author ">Michelle Fredette &lt;michelle.fredette@puppet.com&gt;</author></prolog><conbody class="- topic/body  concept/conbody "><p class="- topic/p ">Configuration for 
+
+         
+
+         <ph conkeyref="ProductNames/bolt" class="- topic/ph "/> is loaded from the 
+
+         
+
+         <xref href="bolt_project_directories.dita" class="- topic/xref "><ph conkeyref="ProductNames/bolt" class="- topic/ph "/> project
+directory</xref>. To set up a
+configuration file for 
+
+         
+
+         <ph conkeyref="ProductNames/bolt" class="- topic/ph "/> to use outside of a project directory, create a <codeph class="+ topic/ph pr-d/codeph ">~/.puppetlabs/bolt/bolt.yaml</codeph>
+file with global options at the top level of the file. Configure transport
+specific options for each transport. If a config option is set in the config
+file and passed with the corresponding command-line flag, the flag takes
+precedence.</p></conbody></concept>

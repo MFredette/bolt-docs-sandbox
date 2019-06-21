@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//PUPPET//DTD DITA Puppet Concept//EN" "concept.dtd">
+<concept xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" id="concept-6971" domains="(topic concept)                            (topic hi-d)                            (topic ut-d)                            (topic indexing-d)                             (topic pr-d)                            (topic sw-d)                            (topic ui-d)   " ditaarch:DITAArchVersion="1.2" class="- topic/topic concept/concept "><title class="- topic/title ">Deprecations and removals</title><shortdesc class="- topic/shortdesc ">A list of the features and functions deprecated or removed from 
+
+      
+
+      <ph conkeyref="ProductNames/bolt" class="- topic/ph "/> 1.x.
+
+</shortdesc><prolog class="- topic/prolog "><author type="creator" translate="no" class="- topic/author ">Kate Lopresti &lt;kate.lopresti@puppet.com&gt;</author></prolog><conbody class="- topic/body  concept/conbody "><section class="- topic/section "><title class="- topic/title "> Configuration location
+                        ~/.puppetlab/bolt.yaml (0.21.0)</title>When the directory Boltdir was added
+                  as the local default configuration directory, the previous directory,  <codeph translate="no" class="+ topic/ph pr-d/codeph ">~/.puppetlab/bolt.yaml</codeph>, was deprecated in favor of <codeph translate="no" class="+ topic/ph pr-d/codeph ">~/.puppetlabs/bolt/bolt.yaml</codeph>. For more information on the current
+                  default directory for configfile, inventoryfile and modules, see <xref href="configuring_bolt.dita" class="- topic/xref "/>. (<xref format="html" scope="external" href="https://tickets.puppetlabs.com/browse/BOLT-503" class="- topic/xref ">BOLT-503</xref>)</section></conbody></concept>

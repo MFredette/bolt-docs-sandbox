@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//PUPPET//DTD DITA Puppet Concept//EN" "concept.dtd">
+<concept xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" ditaarch:DITAArchVersion="1.2" domains="(topic concept)                            (topic hi-d)                            (topic ut-d)                            (topic indexing-d)                             (topic pr-d)                            (topic sw-d)                            (topic ui-d)   " id="concept-2722" class="- topic/topic concept/concept "><title class="- topic/title ">Handling plan function results</title><shortdesc class="- topic/shortdesc ">Plan execution functions each return a result object that returns details about the execution.</shortdesc><prolog class="- topic/prolog "><author translate="no" type="creator" class="- topic/author ">Jean Bond &lt;jean@puppet.com&gt;</author></prolog><conbody class="- topic/body  concept/conbody "><p class="- topic/p ">Each <xref format="dita" scope="local" href="plan_functions.dita" class="- topic/xref ">execution function</xref> returns an object type <codeph translate="no" class="+ topic/ph pr-d/codeph ">ResultSet</codeph>. For each node that the execution takes place on, this object contains a <codeph translate="no" class="+ topic/ph pr-d/codeph ">Result</codeph> object. The <xref format="dita" scope="local" href="applying_manifest_blocks.dita" class="- topic/xref ">apply action</xref> returns a <codeph translate="no" class="+ topic/ph pr-d/codeph ">ResultSet</codeph> containing <codeph translate="no" class="+ topic/ph pr-d/codeph ">ApplyResult</codeph> objects. </p><p class="- topic/p ">A <codeph translate="no" class="+ topic/ph pr-d/codeph ">ResultSet</codeph> has the following methods:</p><p class="- topic/p ">
+            <ul class="- topic/ul "><li class="- topic/li ">
+                    <p class="- topic/p "> <codeph translate="no" class="+ topic/ph pr-d/codeph ">names()</codeph>: The <codeph translate="no" class="+ topic/ph pr-d/codeph ">String</codeph> names (node URIs) of all nodes in the set as an <codeph translate="no" class="+ topic/ph pr-d/codeph ">Array</codeph>.</p>
+                </li><li class="- topic/li ">
+                    <p class="- topic/p "> <codeph translate="no" class="+ topic/ph pr-d/codeph ">empty()</codeph>: Returns <codeph translate="no" class="+ topic/ph pr-d/codeph ">Boolean</codeph> if the execution result set is empty.</p>
+                </li><li class="- topic/li ">
+                    <p class="- topic/p "> <codeph translate="no" class="+ topic/ph pr-d/codeph ">count()</codeph>: Returns an <codeph translate="no" class="+ topic/ph pr-d/codeph ">Integer</codeph> count of nodes.</p>
+                </li><li class="- topic/li ">
+                    <p class="- topic/p "> <codeph translate="no" class="+ topic/ph pr-d/codeph ">first()</codeph>: The first <codeph translate="no" class="+ topic/ph pr-d/codeph ">Result</codeph> object, useful to unwrap single results.</p>
+                </li><li class="- topic/li ">
+                    <p class="- topic/p "> <codeph translate="no" class="+ topic/ph pr-d/codeph ">find(String $target_name)</codeph>: Look up the <codeph translate="no" class="+ topic/ph pr-d/codeph ">Result</codeph> for a specific target.</p>
+                </li><li class="- topic/li ">
+                    <p class="- topic/p "> <codeph translate="no" class="+ topic/ph pr-d/codeph ">error_set()</codeph>: A <codeph translate="no" class="+ topic/ph pr-d/codeph ">ResultSet </codeph>containing only the results of failed nodes. </p>
+                </li><li class="- topic/li ">
+                    <p class="- topic/p "> <codeph translate="no" class="+ topic/ph pr-d/codeph ">ok_set()</codeph>: A <codeph translate="no" class="+ topic/ph pr-d/codeph ">ResultSet</codeph> containing only the successful results. </p>
+                </li><li class="- topic/li ">
+                    <p class="- topic/p "><codeph translate="no" class="+ topic/ph pr-d/codeph ">filter_set(block)</codeph>: Filters a <codeph class="+ topic/ph pr-d/codeph ">ResultSet</codeph> with the given block and returns a <codeph class="+ topic/ph pr-d/codeph ">ResultSet</codeph> object (where the <xref href="https://puppet.com/docs/puppet/latest/function.html#filter" scope="external" class="- topic/xref ">filter function</xref> returns an array or hash).</p>
+                </li><li class="- topic/li ">
+                    <p class="- topic/p "> <codeph translate="no" class="+ topic/ph pr-d/codeph ">targets()</codeph>: An array of all the <codeph translate="no" class="+ topic/ph pr-d/codeph ">Target</codeph> objects from every <codeph translate="no" class="+ topic/ph pr-d/codeph ">Result </codeph>in the set.</p>
+                </li><li class="- topic/li ">
+                    <p class="- topic/p "> <codeph translate="no" class="+ topic/ph pr-d/codeph ">ok():</codeph> <codeph translate="no" class="+ topic/ph pr-d/codeph ">Boolean</codeph> that is the same as <codeph translate="no" class="+ topic/ph pr-d/codeph ">error_nodes.empty</codeph>.</p>
+                </li><li class="- topic/li ">
+                    <p class="- topic/p "><codeph class="+ topic/ph pr-d/codeph ">to_data()</codeph>: An array of hashes representing either <codeph class="+ topic/ph pr-d/codeph ">Result</codeph> or <codeph class="+ topic/ph pr-d/codeph ">ApplyResults</codeph>.</p>
+                </li></ul>
+        </p><p class="- topic/p ">A <codeph translate="no" class="+ topic/ph pr-d/codeph ">Result</codeph> has the following methods:</p><p class="- topic/p ">
+            <ul class="- topic/ul "><li class="- topic/li ">
+                    <p class="- topic/p "> <codeph translate="no" class="+ topic/ph pr-d/codeph ">value()</codeph>: The hash containing the value of the <codeph translate="no" class="+ topic/ph pr-d/codeph ">Result</codeph>.</p>
+                </li><li class="- topic/li ">
+                    <p class="- topic/p "> <codeph translate="no" class="+ topic/ph pr-d/codeph ">target()</codeph>: The <codeph translate="no" class="+ topic/ph pr-d/codeph ">Target</codeph> object that the <codeph translate="no" class="+ topic/ph pr-d/codeph ">Result</codeph> is from.</p>
+                </li><li class="- topic/li ">
+                    <p class="- topic/p "> <codeph translate="no" class="+ topic/ph pr-d/codeph ">error()</codeph>: An <codeph translate="no" class="+ topic/ph pr-d/codeph ">Error</codeph> object constructed from the <codeph translate="no" class="+ topic/ph pr-d/codeph ">_error</codeph> in the value.</p>
+                </li><li class="- topic/li ">
+                    <p class="- topic/p "> <codeph translate="no" class="+ topic/ph pr-d/codeph ">message()</codeph>: The <codeph translate="no" class="+ topic/ph pr-d/codeph ">_output</codeph> key from the value.</p>
+                </li><li class="- topic/li ">
+                    <p class="- topic/p "> <codeph translate="no" class="+ topic/ph pr-d/codeph ">ok()</codeph>: Returns <codeph translate="no" class="+ topic/ph pr-d/codeph ">true</codeph> if the <codeph translate="no" class="+ topic/ph pr-d/codeph ">Result</codeph> was successful.</p>
+                </li><li class="- topic/li ">
+                    <p class="- topic/p "> <codeph translate="no" class="+ topic/ph pr-d/codeph ">[]</codeph>: Accesses the value hash directly.</p>
+                </li><li class="- topic/li ">
+                    <p class="- topic/p "><codeph class="+ topic/ph pr-d/codeph ">to_data()</codeph>: Hash representation of <codeph class="+ topic/ph pr-d/codeph ">Result</codeph>.</p>
+                </li><li class="- topic/li ">
+                    <p class="- topic/p "><codeph class="+ topic/ph pr-d/codeph ">action()</codeph>: String representation of result type (task, command, etc.).</p>
+                </li></ul>
+        </p><p class="- topic/p ">An <codeph translate="no" class="+ topic/ph pr-d/codeph ">ApplyResult</codeph> has the following methods:</p><p class="- topic/p ">
+            <ul class="- topic/ul "><li class="- topic/li ">
+                    <p class="- topic/p "> <codeph translate="no" class="+ topic/ph pr-d/codeph ">report()</codeph>: The hash containing the <ph conkeyref="ProductNames/puppet" class="- topic/ph "/> report from the application.</p>
+                </li><li class="- topic/li ">
+                    <p class="- topic/p "> <codeph translate="no" class="+ topic/ph pr-d/codeph ">target()</codeph>: The <codeph translate="no" class="+ topic/ph pr-d/codeph ">Target</codeph> object that the <codeph translate="no" class="+ topic/ph pr-d/codeph ">Result</codeph> is from.</p>
+                </li><li class="- topic/li ">
+                    <p class="- topic/p "> <codeph translate="no" class="+ topic/ph pr-d/codeph ">error()</codeph>: An <codeph translate="no" class="+ topic/ph pr-d/codeph ">Error</codeph> object constructed from the <codeph translate="no" class="+ topic/ph pr-d/codeph ">_error</codeph> in the value.</p>
+                </li><li class="- topic/li ">
+                    <p class="- topic/p "> <codeph translate="no" class="+ topic/ph pr-d/codeph ">ok()</codeph>: Returns <codeph translate="no" class="+ topic/ph pr-d/codeph ">true</codeph> if the <codeph translate="no" class="+ topic/ph pr-d/codeph ">Result</codeph> was successful.</p>
+                </li><li class="- topic/li ">
+                    <p class="- topic/p "><codeph class="+ topic/ph pr-d/codeph ">to_data()</codeph>: Hash representation of <codeph class="+ topic/ph pr-d/codeph ">ApplyResult</codeph>.</p>
+                </li><li class="- topic/li ">
+                    <p class="- topic/p "><codeph class="+ topic/ph pr-d/codeph ">action()</codeph>: String representation of result type (apply).</p>
+                </li></ul>
+        </p><p class="- topic/p ">An instance of <codeph translate="no" class="+ topic/ph pr-d/codeph ">ResultSet</codeph> is <codeph translate="no" class="+ topic/ph pr-d/codeph ">Iterable</codeph> as if it were an <codeph translate="no" class="+ topic/ph pr-d/codeph ">Array[Variant[Result, ApplyResult]]</codeph> so that iterative functions such as <codeph translate="no" class="+ topic/ph pr-d/codeph ">each</codeph>, <codeph translate="no" class="+ topic/ph pr-d/codeph ">map</codeph>, <codeph translate="no" class="+ topic/ph pr-d/codeph ">reduce</codeph>, or <codeph translate="no" class="+ topic/ph pr-d/codeph ">filter</codeph> work directly on the ResultSet returning each result. </p><p class="- topic/p ">This example checks if a task ran correctly on all nodes. If it did not, the check fails:</p><p class="- topic/p ">
+            <codeblock translate="no" xml:space="preserve" class="+ topic/pre pr-d/codeblock ">$r = run_task('sometask', ..., '_catch_errors' =&gt; true)
+unless $r.ok {
+  fail("Running sometask failed on the nodes ${r.error_nodes.names}")
+}</codeblock>
+        </p><p class="- topic/p ">You can do iteration and checking if the result is an Error. This example outputs feedback about the result of a task:</p><p class="- topic/p ">
+            <codeblock translate="no" xml:space="preserve" class="+ topic/pre pr-d/codeblock ">$r = run_task('sometask', ..., '_catch_errors' =&gt; true)
+$r.each |$result| {
+  $node = $result.target.name
+  if $result.ok {
+    notice("${node} returned a value: ${result.value}")
+  } else {
+    notice("${node} errored with a message: ${result.error.message}")
+  }
+}</codeblock>
+        </p><p class="- topic/p ">Similarly, you can iterate over the array of hashes returned by calling <codeph class="+ topic/ph pr-d/codeph ">to_data</codeph> on a<codeph class="+ topic/ph pr-d/codeph ">ResultSet</codeph> and access hash values. For example:
+            <codeblock class="+ topic/pre pr-d/codeblock ">$r = run_command('whoami', 'localhost,local://0.0.0.0')
+$r.to_data.each |$result_hash| { notice($result_hash['result']['stdout']) }</codeblock>
+        </p><p class="- topic/p ">You can also use <codeph class="+ topic/ph pr-d/codeph ">filter_set</codeph> to filter a <codeph class="+ topic/ph pr-d/codeph ">ResultSet</codeph> and apply a <codeph class="+ topic/ph pr-d/codeph ">ResultSet</codeph> function such as <codeph class="+ topic/ph pr-d/codeph ">targets</codeph> to the output:
+            <codeblock class="+ topic/pre pr-d/codeblock ">$filtered = $result.filter_set |$r| {
+  $r['tag'] == "you're it"
+}.targets</codeblock>
+        </p></conbody></concept>

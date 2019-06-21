@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//PUPPET//DTD DITA Puppet Concept//EN" "concept.dtd">
+<concept xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" ditaarch:DITAArchVersion="1.2" domains="(topic concept)                            (topic hi-d)                            (topic ut-d)                            (topic indexing-d)                             (topic pr-d)                            (topic sw-d)                            (topic ui-d)   " id="concept-4161" class="- topic/topic concept/concept "><title class="- topic/title ">Run a command on  remote nodes</title><shortdesc class="- topic/shortdesc ">Specify the command you want to run and  which nodes to run it on.</shortdesc><prolog class="- topic/prolog "><author translate="no" type="creator" class="- topic/author ">Jean Bond &lt;jean@puppet.com&gt;</author></prolog><conbody class="- topic/body  concept/conbody "><p class="- topic/p ">When you have credentials on remote systems, you can use <ph conkeyref="ProductNames/bolt" class="- topic/ph "/> to run commands across 
+those systems. </p><ul class="- topic/ul "><li class="- topic/li ">
+            <p class="- topic/p ">To run a command on a list of nodes:
+			                 <codeblock translate="no" xml:space="preserve" class="+ topic/pre pr-d/codeblock ">bolt command run &lt;COMMAND&gt; --nodes &lt;NODE NAME&gt;,&lt;NODE NAME&gt;,&lt;NODE NAME&gt;</codeblock></p>
+         </li><li class="- topic/li ">
+            <p class="- topic/p ">To run a command on WinRM nodes, indicate the WinRM protocol in the nodes string:
+				 <codeblock translate="no" xml:space="preserve" class="+ topic/pre pr-d/codeblock ">bolt command run &lt;COMMAND&gt; --nodes winrm://&lt;WINDOWS.NODE&gt; --user &lt;USERNAME&gt; --password &lt;PASSWORD&gt;</codeblock></p>
+         </li><li class="- topic/li ">
+            <p class="- topic/p ">To run a command that contains spaces or shell special characters, wrap the command in single  quotation marks:     <codeblock translate="no" xml:space="preserve" class="+ topic/pre pr-d/codeblock ">bolt command run 'echo $HOME' --nodes web5.mydomain.edu,web6.mydomain.edu</codeblock><codeblock translate="no" xml:space="preserve" class="+ topic/pre pr-d/codeblock ">bolt command run "netstat -an | grep 'tcp.*LISTEN'" --nodes web5.mydomain.edu,web6.mydomain.edu</codeblock></p>
+         </li><li class="- topic/li ">
+            <p class="- topic/p ">To run a  cross-platform command:</p>
+            <codeblock translate="no" xml:space="preserve" class="+ topic/pre pr-d/codeblock ">bolt command run "echo 'hello world'"</codeblock>
+
+            <note type="note" class="- topic/note ">When connecting to 
+
+            <ph conkeyref="ProductNames/bolt" class="- topic/ph "/> hosts over WinRM that have not configured SSL for port 5986, passing the <codeph translate="no" class="+ topic/ph pr-d/codeph ">--no-ssl</codeph> switch is required to connect to the default WinRM port 5985. </note>
+         </li></ul></conbody></concept>

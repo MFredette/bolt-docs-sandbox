@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//PUPPET//DTD DITA Puppet Concept//EN" "concept.dtd">
+<concept xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" ditaarch:DITAArchVersion="1.2" domains="(topic concept)                            (topic hi-d)                            (topic ut-d)                            (topic indexing-d)                             (topic pr-d)                            (topic sw-d)                            (topic ui-d)   " id="concept-677" class="- topic/topic concept/concept "><title class="- topic/title ">Task metadata</title><shortdesc class="- topic/shortdesc ">Task metadata files describe task parameters, validate input, and control how the task runner executes the task. </shortdesc><prolog class="- topic/prolog "><author translate="no" type="creator" class="- topic/author ">Jean Bond &lt;jean@puppet.com&gt;</author></prolog><conbody class="- topic/body  concept/conbody "><p class="- topic/p "><draft-comment class="- topic/draft-comment ">Shared between Bolt and PE 2018.1+</draft-comment></p><p class="- topic/p ">Your task must have metadata to be published and shared on the <ph conkeyref="ProductNames/forge" class="- topic/ph "/>. Specify task metadata in a JSON file with the naming convention <codeph translate="no" class="+ topic/ph pr-d/codeph ">&lt;TASKNAME&gt;.json</codeph> . Place this file in the module's <codeph translate="no" class="+ topic/ph pr-d/codeph ">./tasks</codeph> folder along with your task file.</p><example class="- topic/example "><p class="- topic/p "> For example, the module <codeph translate="no" class="+ topic/ph pr-d/codeph ">puppetlabs-mysql</codeph> includes the <codeph translate="no" class="+ topic/ph pr-d/codeph ">mysql::sql</codeph> task with the metadata file, <codeph translate="no" class="+ topic/ph pr-d/codeph ">sql.json</codeph>.</p><codeblock translate="no" xml:space="preserve" class="+ topic/pre pr-d/codeblock ">{
+  "description": "Allows you to execute arbitrary SQL",
+  "input_method": "stdin",
+  "parameters": {
+    "database": {
+      "description": "Database to connect to",
+      "type": "Optional[String[1]]"
+    },
+    "user": {
+      "description": "The user",
+      "type": "Optional[String[1]]"
+    },
+    "password": {
+      "description": "The password",
+      "type": "Optional[String[1]]",
+      "sensitive": true
+    },
+     "sql": {
+      "description": "The SQL you want to execute",
+      "type": "String[1]"
+    }
+  }
+}</codeblock></example></conbody></concept>

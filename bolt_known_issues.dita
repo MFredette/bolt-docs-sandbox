@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//PUPPET//DTD DITA Puppet Concept//EN" "concept.dtd">
+<concept xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" ditaarch:DITAArchVersion="1.2" domains="(topic concept)                            (topic hi-d)                            (topic ut-d)                            (topic indexing-d)                             (topic pr-d)                            (topic sw-d)                            (topic ui-d)   " id="concept-2826" class="- topic/topic concept/concept "><title class="- topic/title ">Known issues</title><shortdesc class="- topic/shortdesc ">Known issues for the 
+
+      <ph conkeyref="ProductNames/bolt" class="- topic/ph "/> 1.x release series.</shortdesc><prolog class="- topic/prolog "><author translate="no" type="creator" class="- topic/author ">Jean Bond &lt;jean@puppet.com&gt;</author></prolog><conbody class="- topic/body  concept/conbody "><section class="- topic/section "><title class="- topic/title ">JSON strings as command arguments might require additional escaping in <ph conkeyref="ProductNames/powershell" class="- topic/ph "/></title><p class="- topic/p ">When passing complex arguments to tasks with <codeph class="+ topic/ph pr-d/codeph ">--params</codeph>,  JSON strings (typically created with the <codeph class="+ topic/ph pr-d/codeph ">ConvertTo-Json</codeph> cmdlet) might require additional escaping. In some cases, you can use the <ph conkeyref="ProductNames/powershell" class="- topic/ph "/> stop parsing symbol <codeph class="+ topic/ph pr-d/codeph ">--%</codeph> as a workaround. (<xref href="https://tickets.puppetlabs.com/browse/BOLT-1130" scope="external" class="- topic/xref ">BOLT-1130</xref>)</p></section><section class="- topic/section ">
+         <title class="- topic/title ">SSH keys generated with ssh-keygen from OpenSSH 7.8+ fail</title>
+
+         <p class="- topic/p ">OpenSSH 7.8 switched to generating private keys with its own format rather than the OpenSSL PEM format. The 
+
+            <ph conkeyref="ProductNames/bolt" class="- topic/ph "/> SSH implementation assumes any key using the OpenSSH format uses ed25519, resulting in false errors such as:<codeblock class="+ topic/pre pr-d/codeblock "> OpenSSH keys only supported if ED25519 is available net-ssh requires the following gems for ed25519 support: * ed25519 (&gt;= 1.2, &lt; 2.0) * bcrypt_pbkdf (&gt;= 1.0, &lt; 2.0) See https://github.com/net-ssh/net-ssh/issues/565 for more information Gem::LoadError : "ed25519 is not part of the bundle. Add it to your Gemfile."</codeblock> or <codeblock class="+ topic/pre pr-d/codeblock ">Failed to connect to HOST: expected 64-byte String, got NUM</codeblock></p>
+
+         <p class="- topic/p ">As a workaround, you can generate new keys with the ssh-keygen <codeph class="+ topic/ph pr-d/codeph ">-m PEM</codeph> flag. For existing keys, you can try exporting keys from the OpenSSH format using the <codeph class="+ topic/ph pr-d/codeph ">-e</codeph> option, although export is not implemented for all private key types. (<xref href="https://tickets.puppetlabs.com/browse/BOLT-920" scope="external" class="- topic/xref ">BOLT-920</xref>)</p>
+      </section><section class="- topic/section "><title class="- topic/title ">Commands fail in remote 
+
+            <ph conkeyref="ProductNames/windows" class="- topic/ph "/> sessions</title> Interactive tools fail when run in a remote 
+
+         <ph conkeyref="ProductNames/powershell" class="- topic/ph "/> session. For example, using <codeph class="+ topic/ph pr-d/codeph ">--password</codeph> to prompt for a password when running 
+
+         <ph conkeyref="ProductNames/bolt" class="- topic/ph "/> triggers an error. As a workaround, consider putting the password in <codeph class="+ topic/ph pr-d/codeph ">bolt.yaml</codeph> or an inventory file, or passing the password on the command line. (<xref href="https://tickets.puppetlabs.com/browse/BOLT-1075" scope="external" class="- topic/xref ">BOLT-1075</xref>) </section><section class="- topic/section ">
+         <title class="- topic/title ">No Kerberos support</title>
+
+         <p class="- topic/p ">A license incompatibility with other components distributed with 
+
+            <ph conkeyref="ProductNames/bolt" class="- topic/ph "/> prevents authenticating with Kerberos over SSH using the net-ssh-krb gem. (<xref href="https://tickets.puppetlabs.com/browse/BOLT-980" scope="external" class="- topic/xref ">BOLT-980</xref>) </p>
+
+         <p class="- topic/p ">Kerberos over WinRM, both from 
+
+            <ph conkeyref="ProductNames/windows" class="- topic/ph "/> and non- 
+
+            <ph conkeyref="ProductNames/windows" class="- topic/ph "/> hosts, is also not supported. (<xref href="https://tickets.puppetlabs.com/browse/BOLT-126" scope="external" class="- topic/xref ">BOLT-126</xref>)</p>
+      </section></conbody></concept>

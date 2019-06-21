@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE reference PUBLIC "-//PUPPET//DTD DITA Puppet Reference//EN" "reference.dtd">
+<reference id="objects-v2" class="- topic/topic       reference/reference "><title class="- topic/title ">Objects</title><shortdesc class="- topic/shortdesc ">The inventory file uses the following objects.</shortdesc><prolog class="- topic/prolog "><author translate="no" type="creator" class="- topic/author ">Melissa Amos &lt;melissa.amos@puppet.com&gt;</author></prolog><refbody class="- topic/body        reference/refbody "><section class="- topic/section ">
+            
+             
+            <p class="- topic/p "> 
+                <dl class="- topic/dl "><dlentry class="- topic/dlentry "><dt class="- topic/dt ">Config</dt><dd class="- topic/dd ">A config is a map that contains transport specific configuration options.</dd></dlentry><dlentry class="- topic/dlentry "><dt class="- topic/dt ">Group</dt><dd class="- topic/dd "> 
+                            <p class="- topic/p ">A group is a map that requires a <codeph translate="no" class="+ topic/ph pr-d/codeph ">name</codeph> and can contain any of the following:</p> 
+                            <ul class="- topic/ul "><li class="- topic/li "> 
+                                    <p class="- topic/p "><codeph translate="no" class="+ topic/ph pr-d/codeph ">targets</codeph> : <codeph translate="no" class="+ topic/ph pr-d/codeph ">Array[Node]</codeph></p> 
+                                </li><li class="- topic/li "><codeph translate="no" class="+ topic/ph pr-d/codeph ">groups</codeph>&#160;: Groups object</li><li class="- topic/li "> 
+                                    <p class="- topic/p "><codeph translate="no" class="+ topic/ph pr-d/codeph ">config</codeph> : Config object</p> 
+                                </li><li class="- topic/li "> 
+                                    <p class="- topic/p "><codeph translate="no" class="+ topic/ph pr-d/codeph ">facts</codeph> : Facts object</p> 
+                                </li><li class="- topic/li "> 
+                                    <p class="- topic/p "><codeph translate="no" class="+ topic/ph pr-d/codeph ">vars</codeph> : Vars object</p> 
+                                </li><li class="- topic/li "> 
+                                    <p class="- topic/p "><codeph translate="no" class="+ topic/ph pr-d/codeph ">features</codeph> : <codeph translate="no" class="+ topic/ph pr-d/codeph ">Array[Feature]</codeph></p> 
+                                </li></ul> 
+                            <p class="- topic/p "> A group name must match the regular expression values <codeph translate="no" class="+ topic/ph pr-d/codeph ">/[a-zA-Z]\w+/</codeph>. These are the same values used for environments.</p> 
+                            <p class="- topic/p ">A group may contain other groups. Any nodes in the nested groups will also be in the parent group. The configuration of nested groups will override the parent group.</p> 
+                        </dd></dlentry><dlentry class="- topic/dlentry "><dt class="- topic/dt ">Groups</dt><dd class="- topic/dd ">An array of group objects. </dd></dlentry><dlentry class="- topic/dlentry "><dt class="- topic/dt ">Facts</dt><dd class="- topic/dd ">A map of fact names and values. Values may include arrays or nested maps.</dd></dlentry><dlentry class="- topic/dlentry "><dt class="- topic/dt ">Feature</dt><dd class="- topic/dd ">A string describing a feature of the target.</dd></dlentry><dlentry class="- topic/dlentry "><dt class="- topic/dt ">Target</dt><dd class="- topic/dd ">A target can be just the string of its target URI  or a map that requires a name key and can contain a config. For example, a target block can contain any of the following:</dd><dd class="- topic/dd "> 
+                            <codeblock translate="no" xml:space="preserve" class="+ topic/pre pr-d/codeblock ">"host1.example.com"</codeblock> 
+                            <codeblock xml:space="preserve" class="+ topic/pre pr-d/codeblock ">uri: "host1.example.com"</codeblock> 
+                            <codeblock xml:space="preserve" class="+ topic/pre pr-d/codeblock ">uri: "host1.example.com"
+config:
+					   transport: "ssh"</codeblock> 
+                            <p class="- topic/p ">If the target entry is a map, it may contain any of the following: 
+                                <ul class="- topic/ul "><li class="- topic/li "> 
+                                        <p class="- topic/p "><codeph translate="no" class="+ topic/ph pr-d/codeph ">alias</codeph> : <codeph translate="no" class="+ topic/ph pr-d/codeph ">String</codeph> or <codeph translate="no" class="+ topic/ph pr-d/codeph ">Array[String]</codeph> </p> 
+                                    </li><li class="- topic/li "> 
+                                        <p class="- topic/p "><codeph translate="no" class="+ topic/ph pr-d/codeph ">config</codeph> : Config object </p> 
+                                    </li><li class="- topic/li "> 
+                                        <p class="- topic/p "><codeph translate="no" class="+ topic/ph pr-d/codeph ">facts</codeph> : Facts object </p> 
+                                    </li><li class="- topic/li "> 
+                                        <p class="- topic/p "><codeph translate="no" class="+ topic/ph pr-d/codeph ">vars</codeph> : Vars object </p> 
+                                    </li><li class="- topic/li "> 
+                                        <p class="- topic/p "><codeph translate="no" class="+ topic/ph pr-d/codeph ">features</codeph> : <codeph translate="no" class="+ topic/ph pr-d/codeph ">Array[Feature]</codeph> </p> 
+                                    </li></ul>
+                            </p> 
+                        </dd></dlentry><dlentry class="- topic/dlentry "><dt class="- topic/dt ">Target name</dt><dd class="- topic/dd ">The name used to refer to a target.</dd></dlentry><dlentry class="- topic/dlentry "><dt class="- topic/dt ">Targets</dt><dd class="- topic/dd ">An array of target objects.</dd></dlentry><dlentry class="- topic/dlentry "><dt class="- topic/dt ">Vars</dt><dd class="- topic/dd ">A map of value names and values. Values may include arrays or nested maps.</dd></dlentry></dl> 
+            </p>
+        </section></refbody></reference>

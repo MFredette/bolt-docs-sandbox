@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE reference PUBLIC "-//PUPPET//DTD DITA Puppet Reference//EN" "reference.dtd">
+<reference id="project-directory-types" class="- topic/topic       reference/reference "><title class="- topic/title ">Types of project directories</title><shortdesc class="- topic/shortdesc ">There are three types of project directories that you can use depending on how
+you're using 
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <ph conkeyref="ProductNames/bolt" class="- topic/ph "/>.</shortdesc><prolog class="- topic/prolog "><author translate="no" type="creator" class="- topic/author ">Melissa Amos &lt;melissa.amos@puppet.com&gt;</author></prolog><refbody class="- topic/body        reference/refbody "><section class="- topic/section ">
+         <title id="local-project-directory" class="- topic/title ">Local project directory</title>
+
+         <p class="- topic/p "><ph conkeyref="ProductNames/bolt" class="- topic/ph "/> treats a directory containing a <codeph class="+ topic/ph pr-d/codeph ">bolt.yaml</codeph> file as a project directory. Use
+this type of  directory to track and share management code in a
+dedicated repository.
+         </p>
+
+         <p class="- topic/p ">
+            <note type="tip" class="- topic/note ">You can use an existing control repo as a 
+
+               
+
+               
+
+               
+
+               
+
+               
+
+               
+
+               
+
+               <ph conkeyref="ProductNames/bolt" class="- topic/ph "/> project directory by adding a <codeph class="+ topic/ph pr-d/codeph ">bolt.yaml</codeph> file to it and configuring the <codeph class="+ topic/ph pr-d/codeph ">modulepath</codeph> to match the <codeph class="+ topic/ph pr-d/codeph ">modulepath</codeph> in <codeph class="+ topic/ph pr-d/codeph ">environment.conf</codeph>.</note>
+         </p>
+
+         <p class="- topic/p ">A project directory of this type has a structure like:
+
+            <codeblock class="+ topic/pre pr-d/codeblock ">project/
+├── Puppetfile
+├── bolt.yaml
+├── data
+│   └── common.yaml
+├── inventory.yaml
+└── site-modules
+    └── project
+        ├── manifests
+        │   └── my_class.pp
+        ├── plans
+        │   ├── deploy.pp
+        │   └── diagnose.pp
+        └── tasks
+            ├── init.json
+            └── init.py</codeblock></p>
+      </section><section class="- topic/section ">
+         <title id="embedded-project-directory" class="- topic/title ">Embedded project directory</title>
+
+         <p class="- topic/p "><ph conkeyref="ProductNames/bolt" class="- topic/ph "/> treats a directory containing a subdirectory called <codeph class="+ topic/ph pr-d/codeph ">Boltdir</codeph> as a project
+directory. Use this type of  directory to embed 
+
+            
+
+            
+
+            
+
+            
+
+            <ph conkeyref="ProductNames/bolt" class="- topic/ph "/> management code
+into another repo.</p>
+
+         <p class="- topic/p ">For example, you can store management code in the same repo
+as the application it manages without cluttering up the top level with multiple
+files. This structure  allows you to run 
+
+            
+
+            
+
+            <ph conkeyref="ProductNames/bolt" class="- topic/ph "/> from anywhere in the application's
+          directory structure.</p>
+
+         <p class="- topic/p ">A project with an embedded project directory has a structure like:<codeblock class="+ topic/pre pr-d/codeblock ">project/
+├── Boltdir
+│   ├── Puppetfile
+│   ├── bolt.yaml
+│   ├── data
+│   │   └── common.yaml
+│   ├── inventory.yaml
+│   └── site-modules
+│       └── project
+│           ├── manifests
+│           │   └── my_class.pp
+│           ├── plans
+│           │   ├── deploy.pp
+│           │   └── diagnose.pp
+│           └── tasks
+│               ├── init.json
+│               └── init.py
+├── src #non Bolt source code for the project
+└── tests #non Bolt tests for the project</codeblock></p>
+
+         <p class="- topic/p ">
+            <note class="- topic/note ">If a directory contains both <codeph class="+ topic/ph pr-d/codeph ">Boltdir</codeph> and <codeph class="+ topic/ph pr-d/codeph ">bolt.yaml</codeph>, the <codeph class="+ topic/ph pr-d/codeph ">Boltdir</codeph>
+directory is used as the project directory rather then the parent.</note>
+         </p>
+      </section><section class="- topic/section ">
+         <title id="user-project-directory" class="- topic/title ">User project directory</title>
+        <p class="- topic/p ">If <ph conkeyref="ProductNames/bolt" class="- topic/ph "/> can't find a project directory based on <codeph class="+ topic/ph pr-d/codeph ">Boltdir</codeph> or <codeph class="+ topic/ph pr-d/codeph ">bolt.yaml</codeph>, it
+uses <codeph class="+ topic/ph pr-d/codeph ">~/.puppetlabs/bolt</codeph> as the project directory. Use this type of
+ directory if you have a single set of <ph conkeyref="ProductNames/bolt" class="- topic/ph "/> code and data that you use
+across all projects.</p>
+      </section></refbody></reference>

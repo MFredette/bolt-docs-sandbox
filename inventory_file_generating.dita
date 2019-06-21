@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//PUPPET//DTD DITA Puppet Concept//EN" "concept.dtd">
+<concept xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" ditaarch:DITAArchVersion="1.2" domains="(topic concept)                            (topic hi-d)                            (topic ut-d)                            (topic indexing-d)                             (topic pr-d)                            (topic sw-d)                            (topic ui-d)   " id="concept-1566" class="- topic/topic concept/concept "><title class="- topic/title ">Generating inventory files</title><shortdesc class="- topic/shortdesc "> Use the <codeph translate="no" class="+ topic/ph pr-d/codeph ">bolt-inventory-pdb</codeph> script to generate inventory files based on PuppetDB queries. </shortdesc><prolog class="- topic/prolog "><author translate="no" type="creator" class="- topic/author ">Kate Lopresti &lt;kate.lopresti@puppet.com&gt;</author></prolog><conbody class="- topic/body  concept/conbody "><section class="- topic/section ">
+            <title class="- topic/title ">Usage</title>
+            <p class="- topic/p ">The <codeph translate="no" class="+ topic/ph pr-d/codeph ">bolt-inventory-pdb</codeph> script accepts a single argument: the path of the source file used to generate the inventory file. It queries PuppetDB to resolve node lists and prints inventory yaml output to stdout or to a file you specify with the <codeph translate="no" class="+ topic/ph pr-d/codeph ">-o</codeph> flag. </p>
+            <codeblock translate="no" xml:space="preserve" class="+ topic/pre pr-d/codeblock ">bolt-inventory-pdb pdb.yaml -o ~/.puppetlabs/bolt/inventory.yaml</codeblock>
+            <p class="- topic/p ">For full usage information, type <codeph translate="no" class="+ topic/ph pr-d/codeph ">bolt-inventory-pdb --help</codeph>.</p>
+        </section><section class="- topic/section ">
+            <title class="- topic/title ">Configuration</title>
+            <p class="- topic/p ">The <codeph translate="no" class="+ topic/ph pr-d/codeph ">bolt-inventory-pdb</codeph> script uses the configuration file <codeph translate="no" class="+ topic/ph pr-d/codeph ">puppetdb.conf</codeph>, which is stored at: </p>
+            <p class="- topic/p ">
+                <ul class="- topic/ul "><li class="- topic/li ">
+                        <p class="- topic/p "> <b class="+ topic/ph hi-d/b "><ph conkeyref="ProductNames/nix" class="- topic/ph "/> systems</b> <codeph translate="no" class="+ topic/ph pr-d/codeph ">$HOME/.puppetlabs/client-tools/puppetdb.conf</codeph> </p>
+                    </li><li class="- topic/li ">
+                        <p class="- topic/p "> <b class="+ topic/ph hi-d/b "><ph conkeyref="ProductNames/windows" class="- topic/ph "/></b> <codeph translate="no" class="+ topic/ph pr-d/codeph ">%USERPROFILE%\.puppetlabs\client-tools\puppetdb.conf</codeph> </p>
+                    </li></ul>
+            </p>
+            <note type="note" class="- topic/note ">The precedence used to load puppetdb config is:
+                <ol class="- topic/ol "><li class="- topic/li "><codeph translate="no" class="+ topic/ph pr-d/codeph ">configfile</codeph> (optionally specified with <codeph translate="no" class="+ topic/ph pr-d/codeph ">--configfile</codeph>) </li><li class="- topic/li "> <codeph translate="no" class="+ topic/ph pr-d/codeph ">$HOME/.puppetlabs/client-tools/puppetdb.conf</codeph> </li><li class="- topic/li "><codeph translate="no" class="+ topic/ph pr-d/codeph ">/etc/puppetlabs/client-tools/puppetdb.conf</codeph> (<ph conkeyref="ProductNames/windows" class="- topic/ph "/>: <codeph translate="no" class="+ topic/ph pr-d/codeph ">C:\ProgramData\PuppetLabs\client-tools\puppetdb.conf</codeph>) </li></ol>
+            </note>
+            <p class="- topic/p "><codeph translate="no" class="+ topic/ph pr-d/codeph ">bolt-inventory-pdb</codeph> configuration can also be passed on the command line. These settings are required:</p>
+            <p class="- topic/p ">
+                <ul class="- topic/ul "><li class="- topic/li ">
+                        <p class="- topic/p "><codeph translate="no" class="+ topic/ph pr-d/codeph ">--cacert</codeph> The path for the certification authority (CA) certificate. </p>
+                        <p class="- topic/p "><ph conkeyref="ProductNames/nix" class="- topic/ph "/> systems - /etc/puppetlabs/puppet/ssl/certs/ca.pem</p>
+                        <p class="- topic/p "><ph conkeyref="ProductNames/windows" class="- topic/ph "/> - C:\ProgramData\PuppetLabs\puppet\etc\ssl\certs\ca.pem</p>
+                    </li><li class="- topic/li ">
+                        <p class="- topic/p "><codeph translate="no" class="+ topic/ph pr-d/codeph ">--url</codeph> The URL of your PuppetDB server.</p>
+                    </li></ul> One of these authentication methods is required:
+                <ul class="- topic/ul "><li class="- topic/li ">
+                        <p class="- topic/p "><codeph class="+ topic/ph pr-d/codeph ">--token-file</codeph> The path to the PE authorization token.</p>
+                    </li><li class="- topic/li ">
+                        <p class="- topic/p "><codeph class="+ topic/ph pr-d/codeph ">--cert</codeph> and <codeph class="+ topic/ph pr-d/codeph ">--key</codeph> The path to a client ssl certificate, and the private key for that certificate.</p>
+                    </li></ul>
+            </p>
+            <codeblock translate="no" xml:space="preserve" class="+ topic/pre pr-d/codeblock ">$ bolt-inventory-pdb pdb.yaml -o myfile.yaml --token-file ~/mytoken --cacert /etc/puppetlabs/puppet/ssl/certs/ca.pem --url  https://&lt;PUPPETDB_HOST&gt;:8081</codeblock>
+        </section><section class="- topic/section ">
+            <title class="- topic/title "> File format </title>
+            <p class="- topic/p ">The <codeph translate="no" class="+ topic/ph pr-d/codeph ">bolt-inventory-pdb</codeph> tool generates an inventory file from a source yaml file. This file has the same format as the inventory file except instead of nodes keys it has query keys. The query should be a <ph conkeyref="ProductNames/puppetdb" class="- topic/ph "/> query in either <xref format="html" href="https://puppet.com/docs/puppetdb/latest/api/query/v4/pql.html" scope="external" class="- topic/xref ">Puppet Query Language (PQL)</xref> or <xref href="https://puppet.com/docs/puppetdb/latest/api/query/v4/ast.html" scope="external" class="- topic/xref "><ph conkeyref="ProductNames/puppetdb" class="- topic/ph "/> AST</xref> syntax. When <codeph translate="no" class="+ topic/ph pr-d/codeph ">bolt-inventory-pdb</codeph> runs it makes queries against PuppetDB and creates a nodes item for each group. This is an example of a file that adds all nodes to the top-level group, creates a <ph conkeyref="ProductNames/windows" class="- topic/ph "/> group configured to use the WinRM transport and a basil group for nodes with basil in the certname.</p>
+            <codeblock translate="no" xml:space="preserve" class="+ topic/pre pr-d/codeblock ">query: "nodes[certname] {}"
+groups:
+  - name: windows
+     query: "inventory[certname] { facts.osfamily = 'windows' }"
+     config:
+     transport: winrm
+  - name: basil
+    query: "nodes[certname] { certname ~ '^basil' }"</codeblock>
+        </section></conbody></concept>

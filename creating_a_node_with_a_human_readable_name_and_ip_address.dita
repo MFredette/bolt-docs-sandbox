@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//PUPPET//DTD DITA Puppet Concept//EN" "concept.dtd">
+<concept id="human-readable-name" class="- topic/topic concept/concept "><title class="- topic/title ">Creating a node with a human readable name and IP address</title><shortdesc class="- topic/shortdesc ">With version 2 of the inventory file, you can create a node with a human readable name even when an IP address is used for connecting.</shortdesc><prolog class="- topic/prolog "><author translate="no" type="creator" class="- topic/author ">Melissa Amos &lt;melissa.amos@puppet.com&gt;</author></prolog><conbody class="- topic/body  concept/conbody "><p class="- topic/p ">You do so by setting both a <codeph class="+ topic/ph pr-d/codeph ">uri</codeph> and <codeph class="+ topic/ph pr-d/codeph ">name</codeph>, or by setting <codeph class="+ topic/ph pr-d/codeph ">host</codeph> in the transport config in addition to the <codeph class="+ topic/ph pr-d/codeph ">name</codeph>.
+                <codeblock class="+ topic/pre pr-d/codeblock ">targets:
+  - name: my_device
+    config:
+      transport: remote
+      remote:
+        host: 192.168.100.179
+  - name: my_device2
+    uri: 192.168.100.179</codeblock>
+            </p></conbody></concept>

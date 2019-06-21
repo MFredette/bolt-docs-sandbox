@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//PUPPET//DTD DITA Puppet Concept//EN" "concept.dtd">
+<concept xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" ditaarch:DITAArchVersion="1.2" domains="(topic concept)                            (topic hi-d)                            (topic ut-d)                            (topic indexing-d)                             (topic pr-d)                            (topic sw-d)                            (topic ui-d)   " id="concept-2414" class="- topic/topic concept/concept "><title class="- topic/title ">Returning errors in tasks</title><shortdesc class="- topic/shortdesc ">To return a detailed error message if your task fails, include an <codeph translate="no" class="+ topic/ph pr-d/codeph ">Error</codeph> object in the task's result. </shortdesc><prolog class="- topic/prolog "><author translate="no" type="creator" class="- topic/author ">Kate Lopresti &lt;kate.lopresti@puppet.com&gt;</author></prolog><conbody class="- topic/body  concept/conbody "><p class="- topic/p "><draft-comment class="- topic/draft-comment ">Shared between Bolt and PE 2018.1+</draft-comment></p><p class="- topic/p ">When a task exits non-zero, the task runner checks for an error key (`_error`). If one is not present, the task runner generates a generic error  and adds it to the result. If there is no text on <codeph translate="no" class="+ topic/ph pr-d/codeph ">stdout</codeph> but text is present on <codeph translate="no" class="+ topic/ph pr-d/codeph ">stderr</codeph>, the <codeph translate="no" class="+ topic/ph pr-d/codeph ">stderr</codeph> text is included in the message.</p><codeblock translate="no" xml:space="preserve" class="+ topic/pre pr-d/codeblock ">{ "_error": {
+    "msg": "Task exited 1:\nSomething on stderr",
+    "kind": "puppetlabs.tasks/task-error",
+    "details": { "exitcode": 1 }
+}</codeblock><p class="- topic/p ">An error object includes the following keys:
+</p><dl class="- topic/dl "><dlentry class="- topic/dlentry "><dt class="- topic/dt ">msg</dt><dd class="- topic/dd ">A human readable string that appears in the UI.</dd></dlentry><dlentry class="- topic/dlentry "><dt class="- topic/dt ">kind</dt><dd class="- topic/dd ">A standard string for machines to handle. You may share kinds between your modules or namespace kinds per module.</dd></dlentry><dlentry class="- topic/dlentry "><dt class="- topic/dt ">details</dt><dd class="- topic/dd "> An object of structured data about the tasks.</dd></dlentry></dl><p class="- topic/p ">Tasks can provide more details about the failure by including their own error
+object in the result at <codeph translate="no" class="+ topic/ph pr-d/codeph ">_error</codeph>.<codeblock translate="no" xml:space="preserve" class="+ topic/pre pr-d/codeblock ">#!/opt/puppetlabs/puppet/bin/ruby
+
+require 'json'
+
+begin
+  params = JSON.parse(STDIN.read)
+  result = {}
+  result['result'] = params['dividend'] / params['divisor']
+
+rescue ZeroDivisionError
+  result[:_error] = { msg: "Cannot divide by zero",
+                      # namespace the error to this module
+                      kind: "puppetlabs-example_modules/dividebyzero",
+                      details: { divisor: divisor },
+                    }
+rescue Exception =&gt; e
+  result[:_error] = { msg: e.message,
+                     kind: "puppetlabs-example_modules/unknown",
+                     details: { class: e.class.to_s },
+                   }
+end
+
+puts result.to_json</codeblock></p></conbody></concept>

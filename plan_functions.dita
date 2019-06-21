@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//PUPPET//DTD DITA Puppet Concept//EN" "concept.dtd">
+<concept xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" id="concept-6192" domains="(topic concept)                            (topic hi-d)                            (topic ut-d)                            (topic indexing-d)                             (topic pr-d)                            (topic sw-d)                            (topic ui-d)   " ditaarch:DITAArchVersion="1.2" class="- topic/topic concept/concept "><title class="- topic/title ">Plan execution functions and standard libraries</title><shortdesc class="- topic/shortdesc ">Your plan can execute multiple functions on remote systems.</shortdesc><prolog class="- topic/prolog "><author type="creator" translate="no" class="- topic/author ">Jean Bond &lt;jean@puppet.com&gt;</author></prolog><conbody class="- topic/body  concept/conbody "><p class="- topic/p ">Your plan can include functions to run commands, scripts, tasks, and other plans on remote nodes. These execution functions correspond to task runner commands.
+</p><note type="note" class="- topic/note ">
+            All the&#160;$nodes&#160;arguments support the patterns supported by&#160;--nodes&#160;(except for shell expansion).
+         </note></conbody></concept>

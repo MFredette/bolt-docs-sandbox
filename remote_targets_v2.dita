@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//PUPPET//DTD DITA Puppet Concept//EN" "concept.dtd">
+<concept id="remote-targets-v2" class="- topic/topic concept/concept "><title class="- topic/title ">Remote targets</title><shortdesc class="- topic/shortdesc "/><prolog class="- topic/prolog "><author translate="no" type="creator" class="- topic/author ">Melissa Amos &lt;melissa.amos@puppet.com&gt;</author></prolog><conbody class="- topic/body  concept/conbody "><p class="- topic/p ">Configure a remote target. When using the remote transport, the protocol of the target name does not have to map to the transport if you set the transport config option. This is useful if the target is an http API, for example: 
+            <codeblock translate="no" xml:space="preserve" class="+ topic/pre pr-d/codeblock ">targets:
+  - host1.example.com
+  - uri: https://user1:secret@remote.example.com
+    config:
+      transport: remote
+      remote:
+        # The remote transport will use the host1.example.com target from
+        # inventory to proxy tasks execution on.
+        run-on: host1.example.com
+  # This will execute on localhost.
+  - remote://my_aws_account</codeblock> 
+        </p></conbody></concept>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE concept PUBLIC "-//PUPPET//DTD DITA Puppet Concept//EN" "concept.dtd">
+<concept id="project-directory-selection" class="- topic/topic concept/concept "><title class="- topic/title ">How the project directory is chosen</title><shortdesc class="- topic/shortdesc ">
+      <ph conkeyref="ProductNames/bolt" class="- topic/ph "/> uses these methods, in order, to choose a project directory.</shortdesc><prolog class="- topic/prolog "><author translate="no" type="creator" class="- topic/author ">Melissa Amos &lt;melissa.amos@puppet.com&gt;</author></prolog><conbody class="- topic/body  concept/conbody "><p class="- topic/p ">
+
+         
+
+         <ol class="- topic/ol "><li class="- topic/li ">
+               <p class="- topic/p ">Manually specified</p>
+
+               <p class="- topic/p ">You can specify on the command line what directory 
+
+                  <ph conkeyref="ProductNames/bolt" class="- topic/ph "/> should use with <codeph class="+ topic/ph pr-d/codeph ">--boltdir &lt;DIRECTORY_PATH&gt;</codeph>. There is not an equivalent
+   configuration setting because the  project directory must be known in order to
+   load configuration.
+               </p>
+            </li><li class="- topic/li ">
+               <p class="- topic/p ">Parent directory</p>
+
+               <p class="- topic/p ">
+                  <ph conkeyref="ProductNames/bolt" class="- topic/ph "/>  traverses parents of the current directory until
+                 it finds a directory containing a <codeph class="+ topic/ph pr-d/codeph ">Boltdir</codeph> or <codeph class="+ topic/ph pr-d/codeph ">bolt.yaml</codeph>, or it reaches the
+   root of the file system.
+               </p>
+            </li><li class="- topic/li ">
+               <p class="- topic/p ">User project directory</p>
+               <p class="- topic/p ">If no directory is specified manually or found in a
+   parent directory, the user project directory is used.</p>
+            </li></ol></p></conbody></concept>
