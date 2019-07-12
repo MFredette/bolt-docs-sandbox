@@ -1,6 +1,7 @@
 ---
 title: Bolt Hands-on Lab
 ---
+# Bolt Hands-on Lab
 
 ## Introduction
 

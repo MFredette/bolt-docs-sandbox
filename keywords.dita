@@ -1,3 +1,255 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
-<concept xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" id="concept-8893" xml:lang="en-us" domains="(topic concept)                            (topic hi-d)                             (topic ut-d)                             (topic indexing-d)                            (topic hazard-d)                            (topic abbrev-d)                            (topic pr-d)                             (topic sw-d)                            (topic ui-d)    " ditaarch:DITAArchVersion="1.2" class="- topic/topic concept/concept "><title translate="no" class="- topic/title ">keywords</title><titlealts class="- topic/titlealts "><navtitle class="- topic/navtitle ">keywords</navtitle><searchtitle class="- topic/searchtitle ">keywords</searchtitle></titlealts><shortdesc translate="no" class="- topic/shortdesc ">This page contains keyword elements that writers should use in their topics (with the conkeyref property) instead of writing out the keywords. That way, we can update them easier and maintain consistency. To discuss any changes to these, contact kari@puppet.com or raise it as an issue with the Tech Pubs team.</shortdesc><prolog class="- topic/prolog "><author translate="no" type="creator" class="- topic/author ">kari halsted &lt;kari@puppet.com&gt;</author></prolog><conbody class="- topic/body concept/conbody "><section translate="no" class="- topic/section "><title class="- topic/title ">Insert a keyword in your topic</title><p class="- topic/p "> <ul class="- topic/ul "><li class="- topic/li "><p class="- topic/p ">Ensure that the maps that call your topic have a keydef entry: <codeph class="+ topic/ph pr-d/codeph "> &lt;keydef keys="ProductNames" href="keywords.dita"/&gt;</codeph> </p></li><li class="- topic/li "><p class="- topic/p ">In your topic, click <menucascade class="+ topic/ph ui-d/menucascade "> <uicontrol class="+ topic/ph ui-d/uicontrol ">Re-use Content</uicontrol> <uicontrol class="+ topic/ph ui-d/uicontrol ">Insert Conkeyref</uicontrol> </menucascade>.</p></li><li class="- topic/li "><p class="- topic/p ">In the filter field that pops up, enter or select the keyword ID. For example, to insert "Puppet Enterprise" enter <codeph class="+ topic/ph pr-d/codeph ">pe_long</codeph>.</p></li></ul> </p><p class="- topic/p ">Sometimes it takes saving, closing, reopening, or even running a build transform before you'll see the keyword's text (instead of ID) appear in your topic.</p><p class="- topic/p ">If another map uses your topic and needs these keywords to have different values, we can create a different conkeyref file for it to use in the href value in its keydef. Talk to Melissa or Kari to make this happen. Leave plenty of time for setup and testing. <note type="important" class="- topic/note ">No terms in this list should be localized. translate="no" set on all content, intentionally.</note> </p></section><section translate="no" class="- topic/section "><title class="- topic/title ">Puppet keywords</title><p class="- topic/p "> <ph id="pe_long" class="- topic/ph ">Puppet Enterprise</ph> </p><p class="- topic/p "> <ph id="pe_plus_init" class="- topic/ph ">Puppet Enterprise (PE)</ph> </p><p class="- topic/p "> <ph id="pe" class="- topic/ph ">PE</ph> </p><p class="- topic/p "> <ph id="puppet_discovery" class="- topic/ph ">Puppet Discovery</ph> </p><p class="- topic/p "> <ph id="bolt" class="- topic/ph ">Bolt</ph> </p><p class="- topic/p "> <ph id="cm_long" class="- topic/ph ">Code Manager</ph> </p><p class="- topic/p "> <ph id="facter" class="- topic/ph ">Facter</ph> </p><p class="- topic/p "> <ph id="forge" class="- topic/ph ">Forge</ph> </p><p class="- topic/p "> <ph id="hiera" class="- topic/ph ">Hiera</ph> </p><p class="- topic/p "> <ph id="mco" class="- topic/ph ">MCollective</ph> </p><p class="- topic/p "> <ph id="puppet" class="- topic/ph ">Puppet</ph> </p><p class="- topic/p "> <ph id="puppet_inc" class="- topic/ph ">Puppet, Inc.</ph> </p><p class="- topic/p "> <ph id="pql_long" class="- topic/ph ">Puppet Query Language</ph> </p><p class="- topic/p "> <ph id="pql_plus_init" class="- topic/ph ">Puppet Query Language (PQL)</ph> </p><p class="- topic/p "> <ph id="pql" class="- topic/ph ">PQL</ph> </p><p class="- topic/p "> <ph id="paccess" class="- topic/ph ">Puppet Access</ph> </p><p class="- topic/p "> <ph id="pserver" class="- topic/ph ">Puppet Server</ph> </p><p class="- topic/p "> <ph id="puppetconf" class="- topic/ph ">PuppetConf</ph> </p><p class="- topic/p "> <ph id="puppetdb" class="- topic/ph ">PuppetDB</ph> </p><p class="- topic/p "> <ph id="puppetfile" class="- topic/ph ">Puppetfile</ph> </p><p class="- topic/p "> <ph id="r10k" class="- topic/ph ">r10k</ph> </p><p class="- topic/p "> <ph id="razor" class="- topic/ph ">Razor</ph> </p><p class="- topic/p "> <ph id="pxp_long" class="- topic/ph ">Puppet Execution Protocol</ph> </p><p class="- topic/p "> <ph id="pxp_long_plus_init" class="- topic/ph ">Puppet Execution Protocol (PXP)</ph> </p><p class="- topic/p "> <ph id="pxp" class="- topic/ph ">PXP</ph> </p><p class="- topic/p "> <ph id="pcp_long" class="- topic/ph ">Puppet Communications Protocol</ph> </p><p class="- topic/p "> <ph id="pcp_long_plus_init" class="- topic/ph ">Puppet Communications Protocol (PCP)</ph> </p><p class="- topic/p "> <ph id="pcp" class="- topic/ph ">PCP</ph> </p><p class="- topic/p "> <ph id="pdk_long" class="- topic/ph ">Puppet Development Kit</ph> </p><p class="- topic/p "> <ph id="pdk_long_plus_init" class="- topic/ph ">Puppet Development Kit (PDK)</ph> </p><p class="- topic/p "> <ph id="pdk" class="- topic/ph ">PDK</ph> </p><p class="- topic/p "> <ph id="pp" class="- topic/ph ">Puppet Pipelines</ph> </p><p class="- topic/p "> <ph id="pfc" class="- topic/ph ">Pipelines for Containers</ph> </p><p class="- topic/p "> <ph id="pfa" class="- topic/ph ">Pipelines for Applications</ph> </p><p class="- topic/p "> <ph id="cd_long" class="- topic/ph ">Continuous Delivery for Puppet Enterprise</ph> </p><p class="- topic/p "> <ph id="cd_plus_init" class="- topic/ph ">Continuous Delivery for Puppet Enterprise (PE)</ph> </p><p class="- topic/p "> <ph id="cd" class="- topic/ph ">Continuous Delivery for PE</ph> </p><p class="- topic/p "> <ph id="strings_long" class="- topic/ph ">Puppet Strings</ph> </p><p class="- topic/p "> <ph id="strings" class="- topic/ph ">Strings</ph> </p><p class="- topic/p "> <ph id="plm" class="- topic/ph ">Puppet License Manager</ph> </p><p class="- topic/p "> <ph id="remediate" class="- topic/ph ">Puppet Remediate</ph> </p></section><section translate="no" class="- topic/section "><title class="- topic/title ">Third party keywords</title><p class="- topic/p "> <ph id="nix" class="- topic/ph ">*nix</ph> </p><p class="- topic/p "> <ph id="activemq" class="- topic/ph ">ActiveMQ</ph> </p><p class="- topic/p "> <ph id="aix" class="- topic/ph ">AIX</ph> </p><p class="- topic/p "> <ph id="apache" class="- topic/ph ">Apache</ph> </p><p class="- topic/p "> <ph id="centos" class="- topic/ph ">CentOS</ph> </p><p class="- topic/p "> <ph id="debian" class="- topic/ph ">Debian</ph> </p><p class="- topic/p "> <ph id="el" class="- topic/ph ">Enterprise Linux</ph> </p><p class="- topic/p "> <ph id="fedora" class="- topic/ph ">Fedora</ph> </p><p class="- topic/p "> <ph id="github" class="- topic/ph ">GitHub</ph> </p><p class="- topic/p "> <ph id="github_enterprise" class="- topic/ph ">GitHub Enterprise</ph> </p><p class="- topic/p "> <ph id="gitlab" class="- topic/ph ">GitLab</ph> </p><p class="- topic/p "> <ph id="linux" class="- topic/ph ">Linux</ph> </p><p class="- topic/p "> <ph id="macosx" class="- topic/ph ">Mac OS X</ph> </p><p class="- topic/p "> <ph id="macos" class="- topic/ph ">macOS</ph> </p><p class="- topic/p "> <ph id="oracle_linux" class="- topic/ph ">Oracle Linux</ph> </p><p class="- topic/p "> <ph id="postgresql" class="- topic/ph ">PostgreSQL</ph> </p><p class="- topic/p "> <ph id="redhat" class="- topic/ph ">Red Hat</ph> </p><p class="- topic/p "> <ph id="rhel_long" class="- topic/ph ">Red Hat Enterprise Linux</ph> </p><p class="- topic/p "> <ph id="rhel_plus_init" class="- topic/ph ">Red Hat Enterprise Linux (RHEL)</ph> </p><p class="- topic/p "> <ph id="rhel" class="- topic/ph ">RHEL</ph> </p><p class="- topic/p "> <ph id="rsync" class="- topic/ph ">Rsync</ph> </p><p class="- topic/p "> <ph id="ruby" class="- topic/ph ">Ruby</ph> </p><p class="- topic/p "> <ph id="jruby" class="- topic/ph ">JRuby</ph> </p><p class="- topic/p "> <ph id="git" class="- topic/ph ">Git</ph> </p><p class="- topic/p "> <ph id="scientific_linux" class="- topic/ph ">Scientific Linux</ph> </p><p class="- topic/p "> <ph id="shiro" class="- topic/ph ">Shiro</ph> </p><p class="- topic/p "> <ph id="solaris" class="- topic/ph ">Solaris</ph> </p><p class="- topic/p "> <ph id="suseles" class="- topic/ph ">SUSE Linux Enterprise Server</ph> </p><p class="- topic/p "> <ph id="ubuntu" class="- topic/ph ">Ubuntu</ph> </p><p class="- topic/p "> <ph id="unix" class="- topic/ph ">Unix</ph> </p><p class="- topic/p "> <ph id="vmware" class="- topic/ph ">VMware</ph> </p><p class="- topic/p "> <ph id="vmware_fusion" class="- topic/ph ">VMWare Fusion</ph> </p><p class="- topic/p "> <ph id="vra" class="- topic/ph ">vRealize Automation</ph> </p><p class="- topic/p "> <ph id="google_chrome" class="- topic/ph ">Google Chrome</ph> </p><p class="- topic/p "> <ph id="chrome" class="- topic/ph ">Chrome</ph> </p><p class="- topic/p "> <ph id="mozilla_firefox" class="- topic/ph ">Mozilla Firefox</ph> </p><p class="- topic/p "> <ph id="firefox" class="- topic/ph ">Firefox</ph> </p><p class="- topic/p "> <ph id="microsoft_edge" class="- topic/ph ">Microsoft Edge</ph> </p><p class="- topic/p "> <ph id="edge" class="- topic/ph ">Edge</ph> </p><p class="- topic/p "> <ph id="ms_internet_explorer" class="- topic/ph ">Microsoft Internet Explorer</ph> </p><p class="- topic/p "> <ph id="internet_explorer" class="- topic/ph ">Internet Explorer</ph> </p><p class="- topic/p "> <ph id="apple_safari" class="- topic/ph ">Apple Safari</ph> </p><p class="- topic/p "> <ph id="safari" class="- topic/ph ">Safari</ph> </p><p class="- topic/p "> <ph id="microsoft" class="- topic/ph ">Microsoft</ph> </p><p class="- topic/p "> <ph id="windows" class="- topic/ph ">Windows</ph> </p><p class="- topic/p "> <ph id="ibm" class="- topic/ph ">IBM</ph> </p><p class="- topic/p "> <ph id="Amazon" class="- topic/ph ">Amazon</ph> </p><p class="- topic/p "> <ph id="aws_long" class="- topic/ph ">Amazon Web Services</ph> </p><p class="- topic/p "> <ph id="aws_long_plus_init" class="- topic/ph ">Amazon Web Services (AWS)</ph> </p><p class="- topic/p "> <ph id="aws" class="- topic/ph ">AWS</ph> </p><p class="- topic/p "> <ph id="powershell" class="- topic/ph ">PowerShell</ph> </p><p class="- topic/p "> <ph id="ami_long" class="- topic/ph ">Amazon Machine Image</ph> </p><p class="- topic/p "> <ph id="ami_plus_init" class="- topic/ph ">Amazon Machine Image (AMI)</ph> </p><p class="- topic/p "> <ph id="ami" class="- topic/ph ">AMI</ph> </p><p class="- topic/p "> <ph id="cloudformation" class="- topic/ph ">CloudFormation</ph> </p><p class="- topic/p "> <ph id="azure" class="- topic/ph ">Azure</ph> </p><p class="- topic/p "> <ph id="stack_azure" class="- topic/ph ">Azure Stack</ph> </p><p class="- topic/p "> <ph id="opnstack" class="- topic/ph ">OpenStack</ph> </p></section></conbody></concept>
+<concept xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" id="concept-8893"
+    xml:lang="en-us"
+    domains="(topic concept)                            (topic hi-d)                             (topic ut-d)                             (topic indexing-d)                            (topic hazard-d)                            (topic abbrev-d)                            (topic pr-d)                             (topic sw-d)                            (topic ui-d)    "
+    ditaarch:DITAArchVersion="1.2" class="- topic/topic concept/concept ">
+    <title translate="no" class="- topic/title ">keywords</title>
+    <titlealts class="- topic/titlealts ">
+        <navtitle class="- topic/navtitle ">keywords</navtitle>
+        <searchtitle class="- topic/searchtitle ">keywords</searchtitle>
+    </titlealts>
+    <shortdesc translate="no" class="- topic/shortdesc ">This page contains keyword elements that
+        writers should use in their topics (with the conkeyref property) instead of writing out the
+        keywords. That way, we can update them easier and maintain consistency. To discuss any
+        changes to these, contact kari@puppet.com or raise it as an issue with the Tech Pubs
+        team.</shortdesc>
+    <prolog class="- topic/prolog ">
+        <author translate="no" type="creator" class="- topic/author ">kari halsted
+            &lt;kari@puppet.com&gt;</author>
+    </prolog>
+    <conbody class="- topic/body concept/conbody ">
+        <section translate="no" class="- topic/section "><title class="- topic/title ">Insert a
+                keyword in your topic</title><p class="- topic/p ">
+                <ul class="- topic/ul ">
+                    <li class="- topic/li "><p class="- topic/p ">Ensure that the maps that call
+                            your topic have a keydef entry: <codeph class="+ topic/ph pr-d/codeph ">
+                                &lt;keydef keys="ProductNames" href="keywords.dita"/&gt;</codeph>
+                        </p></li>
+                    <li class="- topic/li "><p class="- topic/p ">In your topic, click <menucascade
+                                class="+ topic/ph ui-d/menucascade ">
+                                <uicontrol class="+ topic/ph ui-d/uicontrol ">Re-use
+                                    Content</uicontrol>
+                                <uicontrol class="+ topic/ph ui-d/uicontrol ">Insert
+                                    Conkeyref</uicontrol>
+                            </menucascade>.</p></li>
+                    <li class="- topic/li "><p class="- topic/p ">In the filter field that pops up,
+                            enter or select the keyword ID. For example, to insert "Puppet
+                            Enterprise" enter <codeph class="+ topic/ph pr-d/codeph "
+                                >pe_long</codeph>.</p></li>
+                </ul>
+            </p><p class="- topic/p ">Sometimes it takes saving, closing, reopening, or even running
+                a build transform before you'll see the keyword's text (instead of ID) appear in
+                your topic.</p><p class="- topic/p ">If another map uses your topic and needs these
+                keywords to have different values, we can create a different conkeyref file for it
+                to use in the href value in its keydef. Talk to Melissa or Kari to make this happen.
+                Leave plenty of time for setup and testing. <note type="important"
+                    class="- topic/note ">No terms in this list should be localized. translate="no"
+                    set on all content, intentionally.</note>
+            </p></section>
+        <section translate="no" class="- topic/section "><title class="- topic/title ">Puppet
+                keywords</title><p class="- topic/p ">
+                <ph id="pe_long" class="- topic/ph ">Puppet Enterprise</ph>
+            </p><p class="- topic/p ">
+                <ph id="pe_plus_init" class="- topic/ph ">Puppet Enterprise (PE)</ph>
+            </p><p class="- topic/p ">
+                <ph id="pe" class="- topic/ph ">PE</ph>
+            </p><p class="- topic/p ">
+                <ph id="puppet_discovery" class="- topic/ph ">Puppet Discovery</ph>
+            </p><p class="- topic/p ">
+                <ph id="bolt" class="- topic/ph ">Bolt</ph>
+            </p><p class="- topic/p ">
+                <ph id="cm_long" class="- topic/ph ">Code Manager</ph>
+            </p><p class="- topic/p ">
+                <ph id="facter" class="- topic/ph ">Facter</ph>
+            </p><p class="- topic/p ">
+                <ph id="forge" class="- topic/ph ">Forge</ph>
+            </p><p class="- topic/p ">
+                <ph id="hiera" class="- topic/ph ">Hiera</ph>
+            </p><p class="- topic/p ">
+                <ph id="mco" class="- topic/ph ">MCollective</ph>
+            </p><p class="- topic/p ">
+                <ph id="puppet" class="- topic/ph ">Puppet</ph>
+            </p><p class="- topic/p ">
+                <ph id="puppet_inc" class="- topic/ph ">Puppet, Inc.</ph>
+            </p><p class="- topic/p ">
+                <ph id="pql_long" class="- topic/ph ">Puppet Query Language</ph>
+            </p><p class="- topic/p ">
+                <ph id="pql_plus_init" class="- topic/ph ">Puppet Query Language (PQL)</ph>
+            </p><p class="- topic/p ">
+                <ph id="pql" class="- topic/ph ">PQL</ph>
+            </p><p class="- topic/p ">
+                <ph id="paccess" class="- topic/ph ">Puppet Access</ph>
+            </p><p class="- topic/p ">
+                <ph id="pserver" class="- topic/ph ">Puppet Server</ph>
+            </p><p class="- topic/p ">
+                <ph id="puppetconf" class="- topic/ph ">PuppetConf</ph>
+            </p><p class="- topic/p ">
+                <ph id="puppetdb" class="- topic/ph ">PuppetDB</ph>
+            </p><p class="- topic/p ">
+                <ph id="puppetfile" class="- topic/ph ">Puppetfile</ph>
+            </p><p class="- topic/p ">
+                <ph id="r10k" class="- topic/ph ">r10k</ph>
+            </p><p class="- topic/p ">
+                <ph id="razor" class="- topic/ph ">Razor</ph>
+            </p><p class="- topic/p ">
+                <ph id="pxp_long" class="- topic/ph ">Puppet Execution Protocol</ph>
+            </p><p class="- topic/p ">
+                <ph id="pxp_long_plus_init" class="- topic/ph ">Puppet Execution Protocol (PXP)</ph>
+            </p><p class="- topic/p ">
+                <ph id="pxp" class="- topic/ph ">PXP</ph>
+            </p><p class="- topic/p ">
+                <ph id="pcp_long" class="- topic/ph ">Puppet Communications Protocol</ph>
+            </p><p class="- topic/p ">
+                <ph id="pcp_long_plus_init" class="- topic/ph ">Puppet Communications Protocol
+                    (PCP)</ph>
+            </p><p class="- topic/p ">
+                <ph id="pcp" class="- topic/ph ">PCP</ph>
+            </p><p class="- topic/p ">
+                <ph id="pdk_long" class="- topic/ph ">Puppet Development Kit</ph>
+            </p><p class="- topic/p ">
+                <ph id="pdk_long_plus_init" class="- topic/ph ">Puppet Development Kit (PDK)</ph>
+            </p><p class="- topic/p ">
+                <ph id="pdk" class="- topic/ph ">PDK</ph>
+            </p><p class="- topic/p ">
+                <ph id="pp" class="- topic/ph ">Puppet Pipelines</ph>
+            </p><p class="- topic/p ">
+                <ph id="pfc" class="- topic/ph ">Pipelines for Containers</ph>
+            </p><p class="- topic/p ">
+                <ph id="pfa" class="- topic/ph ">Pipelines for Applications</ph>
+            </p><p class="- topic/p ">
+                <ph id="cd_long" class="- topic/ph ">Continuous Delivery for Puppet Enterprise</ph>
+            </p><p class="- topic/p ">
+                <ph id="cd_plus_init" class="- topic/ph ">Continuous Delivery for Puppet Enterprise
+                    (PE)</ph>
+            </p><p class="- topic/p ">
+                <ph id="cd" class="- topic/ph ">Continuous Delivery for PE</ph>
+            </p><p class="- topic/p ">
+                <ph id="strings_long" class="- topic/ph ">Puppet Strings</ph>
+            </p><p class="- topic/p ">
+                <ph id="strings" class="- topic/ph ">Strings</ph>
+            </p><p class="- topic/p ">
+                <ph id="plm" class="- topic/ph ">Puppet License Manager</ph>
+            </p><p class="- topic/p ">
+                <ph id="remediate" class="- topic/ph ">Puppet Remediate</ph>
+            </p></section>
+        <section translate="no" class="- topic/section "><title class="- topic/title ">Third party
+                keywords</title><p class="- topic/p ">
+                <ph id="nix" class="- topic/ph ">*nix</ph>
+            </p><p class="- topic/p ">
+                <ph id="activemq" class="- topic/ph ">ActiveMQ</ph>
+            </p><p class="- topic/p ">
+                <ph id="aix" class="- topic/ph ">AIX</ph>
+            </p><p class="- topic/p ">
+                <ph id="apache" class="- topic/ph ">Apache</ph>
+            </p><p class="- topic/p ">
+                <ph id="centos" class="- topic/ph ">CentOS</ph>
+            </p><p class="- topic/p ">
+                <ph id="debian" class="- topic/ph ">Debian</ph>
+            </p><p class="- topic/p ">
+                <ph id="el" class="- topic/ph ">Enterprise Linux</ph>
+            </p><p class="- topic/p ">
+                <ph id="fedora" class="- topic/ph ">Fedora</ph>
+            </p><p class="- topic/p ">
+                <ph id="github" class="- topic/ph ">GitHub</ph>
+            </p><p class="- topic/p ">
+                <ph id="github_enterprise" class="- topic/ph ">GitHub Enterprise</ph>
+            </p><p class="- topic/p ">
+                <ph id="gitlab" class="- topic/ph ">GitLab</ph>
+            </p><p class="- topic/p ">
+                <ph id="linux" class="- topic/ph ">Linux</ph>
+            </p><p class="- topic/p ">
+                <ph id="macosx" class="- topic/ph ">Mac OS X</ph>
+            </p><p class="- topic/p ">
+                <ph id="macos" class="- topic/ph ">macOS</ph>
+            </p><p class="- topic/p ">
+                <ph id="oracle_linux" class="- topic/ph ">Oracle Linux</ph>
+            </p><p class="- topic/p ">
+                <ph id="postgresql" class="- topic/ph ">PostgreSQL</ph>
+            </p><p class="- topic/p ">
+                <ph id="redhat" class="- topic/ph ">Red Hat</ph>
+            </p><p class="- topic/p ">
+                <ph id="rhel_long" class="- topic/ph ">Red Hat Enterprise Linux</ph>
+            </p><p class="- topic/p ">
+                <ph id="rhel_plus_init" class="- topic/ph ">Red Hat Enterprise Linux (RHEL)</ph>
+            </p><p class="- topic/p ">
+                <ph id="rhel" class="- topic/ph ">RHEL</ph>
+            </p><p class="- topic/p ">
+                <ph id="rsync" class="- topic/ph ">Rsync</ph>
+            </p><p class="- topic/p ">
+                <ph id="ruby" class="- topic/ph ">Ruby</ph>
+            </p><p class="- topic/p ">
+                <ph id="jruby" class="- topic/ph ">JRuby</ph>
+            </p><p class="- topic/p ">
+                <ph id="git" class="- topic/ph ">Git</ph>
+            </p><p class="- topic/p ">
+                <ph id="scientific_linux" class="- topic/ph ">Scientific Linux</ph>
+            </p><p class="- topic/p ">
+                <ph id="shiro" class="- topic/ph ">Shiro</ph>
+            </p><p class="- topic/p ">
+                <ph id="solaris" class="- topic/ph ">Solaris</ph>
+            </p><p class="- topic/p ">
+                <ph id="suseles" class="- topic/ph ">SUSE Linux Enterprise Server</ph>
+            </p><p class="- topic/p ">
+                <ph id="ubuntu" class="- topic/ph ">Ubuntu</ph>
+            </p><p class="- topic/p ">
+                <ph id="unix" class="- topic/ph ">Unix</ph>
+            </p><p class="- topic/p ">
+                <ph id="vmware" class="- topic/ph ">VMware</ph>
+            </p><p class="- topic/p ">
+                <ph id="vmware_fusion" class="- topic/ph ">VMWare Fusion</ph>
+            </p><p class="- topic/p ">
+                <ph id="vra" class="- topic/ph ">vRealize Automation</ph>
+            </p><p class="- topic/p ">
+                <ph id="google_chrome" class="- topic/ph ">Google Chrome</ph>
+            </p><p class="- topic/p ">
+                <ph id="chrome" class="- topic/ph ">Chrome</ph>
+            </p><p class="- topic/p ">
+                <ph id="mozilla_firefox" class="- topic/ph ">Mozilla Firefox</ph>
+            </p><p class="- topic/p ">
+                <ph id="firefox" class="- topic/ph ">Firefox</ph>
+            </p><p class="- topic/p ">
+                <ph id="microsoft_edge" class="- topic/ph ">Microsoft Edge</ph>
+            </p><p class="- topic/p ">
+                <ph id="edge" class="- topic/ph ">Edge</ph>
+            </p><p class="- topic/p ">
+                <ph id="ms_internet_explorer" class="- topic/ph ">Microsoft Internet Explorer</ph>
+            </p><p class="- topic/p ">
+                <ph id="internet_explorer" class="- topic/ph ">Internet Explorer</ph>
+            </p><p class="- topic/p ">
+                <ph id="apple_safari" class="- topic/ph ">Apple Safari</ph>
+            </p><p class="- topic/p ">
+                <ph id="safari" class="- topic/ph ">Safari</ph>
+            </p><p class="- topic/p ">
+                <ph id="microsoft" class="- topic/ph ">Microsoft</ph>
+            </p><p class="- topic/p ">
+                <ph id="windows" class="- topic/ph ">Windows</ph>
+            </p><p class="- topic/p ">
+                <ph id="ibm" class="- topic/ph ">IBM</ph>
+            </p><p class="- topic/p ">
+                <ph id="Amazon" class="- topic/ph ">Amazon</ph>
+            </p><p class="- topic/p ">
+                <ph id="aws_long" class="- topic/ph ">Amazon Web Services</ph>
+            </p><p class="- topic/p ">
+                <ph id="aws_long_plus_init" class="- topic/ph ">Amazon Web Services (AWS)</ph>
+            </p><p class="- topic/p ">
+                <ph id="aws" class="- topic/ph ">AWS</ph>
+            </p><p class="- topic/p ">
+                <ph id="powershell" class="- topic/ph ">PowerShell</ph>
+            </p><p class="- topic/p ">
+                <ph id="ami_long" class="- topic/ph ">Amazon Machine Image</ph>
+            </p><p class="- topic/p ">
+                <ph id="ami_plus_init" class="- topic/ph ">Amazon Machine Image (AMI)</ph>
+            </p><p class="- topic/p ">
+                <ph id="ami" class="- topic/ph ">AMI</ph>
+            </p><p class="- topic/p ">
+                <ph id="cloudformation" class="- topic/ph ">CloudFormation</ph>
+            </p><p class="- topic/p ">
+                <ph id="azure" class="- topic/ph ">Azure</ph>
+            </p><p class="- topic/p ">
+                <ph id="stack_azure" class="- topic/ph ">Azure Stack</ph>
+            </p><p class="- topic/p ">
+                <ph id="opnstack" class="- topic/ph ">OpenStack</ph>
+            </p></section>
+    </conbody>
+</concept>

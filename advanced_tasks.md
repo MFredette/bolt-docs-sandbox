@@ -4,19 +4,21 @@ difficulty: Intermediate
 time: Approximately 10 minutes
 ---
 
+# Writing advanced tasks
+
 In this exercise you will write a task with metadata.
 
-# Prerequisites
+## Prerequisites
 Complete the following before you start this lesson:
 
 1. [Installing Bolt](../01-installing-bolt)
 1. [Acquiring nodes](../02-acquiring-nodes)
 1. [Writing tasks](../05-writing-tasks)
 
-# About task metadata
+## About task metadata
 Task metadata files describe task parameters, validate input, and control how tasks are executed.  Adding metadata to your tasks helps others use them.  You write metadata for a task in JSON and save it with the same name as your task. For example, if you write a task called `great_metadata.py` its corresponding metadata file is named `great_metadata.json`.
 
-# Writing your first task with metadata
+## Writing your first task with metadata
 Write a simple task that formats the parameters a user gives it.
 
 Save the following file to `modules/exercise8/tasks/great_metadata.py`:
@@ -31,7 +33,7 @@ Write the accompanying metadata and save the file to `modules/exercise8/tasks/gr
 {% include_relative modules/exercise8/tasks/great_metadata.json -%}
 ```
 
-# Using your task with metadata
+## Using your task with metadata
 
 Run 'bolt task show' to verify that the task you created appears with its description in the list of available tasks.
 
@@ -77,7 +79,7 @@ MODULE:
 tasks-hands-on-lab/08-writing-advanced-tasks/modules/exercise8
 ```
 
-# Testing your task's metadata validation
+## Testing your task's metadata validation
 
 Bolt can use the types that you have specified in your metadata to validate parameters passed to your task.  Run your task with an incorrect value for the `action` parameter and see what happens.
 
@@ -134,7 +136,7 @@ Successful on 1 node: node1
 Ran on 1 node in 0.97 seconds
 ```
 
-# Creating a task that supports no-operation mode (noop)
+## Creating a task that supports no-operation mode (noop)
 
 You can write tasks that support no-operation mode (noop). You use noop to see what changes a task would make, but without taking any action.
 
@@ -187,7 +189,7 @@ Successful on 1 node: node1
 Ran on 1 node in 0.98 seconds
 ```
 
-# Next steps
+## Next steps
 
 Now that you know how to write task metadata and include the `--noop` flag you can move on to:
 

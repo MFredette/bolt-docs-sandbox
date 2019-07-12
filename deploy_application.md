@@ -4,6 +4,8 @@ difficulty: Advanced
 time: Approximately 20 minutes
 ---
 
+# Deploying an application with a plan
+
 In this exercise you will further explore Bolt Plans by writing a
 multi-stage plan to deploy a sample application.
 
@@ -22,7 +24,7 @@ them. When a new version of the application is released the following steps must
 1. Clean up the old version of the application.
 
 
-# Prerequisites
+## Prerequisites
 
 For the following exercises you should have `bolt` installed and have four
 Linux nodes available. The following guides will help:
@@ -35,7 +37,7 @@ Linux nodes available. The following guides will help:
 
 This lesson requires four nodes. If you set up nodes in [lesson 2](../02-acquiring-nodes), you need to provision an extra node.
 
-### Provision extra nodes on Vagrant
+## Provision extra nodes on Vagrant
 If you set up nodes in Vagrant in lesson `02-acquiring-nodes/`, run:
 
 ```
@@ -44,7 +46,7 @@ NODES=4 vagrant up
 > Note: Vagrantfile looks for environment variable `NODES` for number of centos nodes to provision.
 > Set environmnet variable based on your shell, for example bash shell: `export NODES=4`. 
 
-### Provision extra nodes on Docker
+## Provision extra nodes on Docker
 If you set up nodes in Docker in lesson `02-acquiring-nodes`, run:
 
 ```
@@ -181,7 +183,7 @@ Finished: Check load before starting deploy with 0 failures in 0.89 sec
 }
 ```
 
-### Parameters
+## Parameters
 
 ```puppet
 plan my_app::deploy(
@@ -205,7 +207,7 @@ plan my_app::deploy(
 - `$force` an option to ignore errors and force the deploy to complete.
 
 
-### Install application
+## Install application
 
 The first step in the plan is to install the new version of the code
 so all application servers can serve a new version of the assets and to migrate the
@@ -224,7 +226,7 @@ provide clearer log messages for the installation step. You can include the vers
 installed. Use the result of the task to store the old versions of the
 application for the uninstall step.
 
-### Loop over each application server
+## Loop over each application server
 
 Now the application is staged loop over each app server and update it to use
 the new code.
@@ -259,7 +261,7 @@ each server drain connections from the load balancer, deploy the new version of
 application and then add the server back to the load balancer.  Afterwards log
 a notice message to inform the user that the deploy is complete on that server.
 
-### Perform checks before the deploy
+## Perform checks before the deploy
 
 The plan doesn't support multiple load balancers so validate that the
 TargetSpec passed for `$lb_server` resolves to only a single target and fail
@@ -291,7 +293,7 @@ stop the current plan execution and the execution of any calling plan. It
 accepts a message that will be displayed to the user if the error is not
 caught.
 
-### Check server status before deploy
+## Check server status before deploy
 
 ```puppet
 # Check stats and print a message to the user
@@ -309,7 +311,7 @@ action and name of the server that is about to be deployed to and save the
 result the `$stats` variable. Then use those stats to print an informative
 notice about which server is going to be deployed to next.
 
-### Suppress default log messages
+## Suppress default log messages
 
 Bolt logs every action on each node which results in 5 messages for each node.
 By default these messages are logged at the `notice` level and can make it hard
@@ -335,7 +337,7 @@ without_default_logging() || {
 > required for puppet block syntax. The `()` is required to avoid parser
 > ambiguity with the empty pipes.
 
-### Catch errors for force
+## Catch errors for force
 
 ```puppet
 run_task('my_app::lb', $lb_server,
@@ -351,7 +353,7 @@ parameter is specified we have to use the `_catch_errors` metaparam. For each
 `run_task` command  that should continue when in force mode add `_catch_errors =>
 true` to the parameters.
 
-# Next steps
+## Next steps
 
 Congratulations! You should now have a basic understanding of `bolt` and Bolt Tasks. Here are a few ideas for what to do next:
 

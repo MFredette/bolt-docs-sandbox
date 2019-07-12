@@ -4,6 +4,8 @@ difficulty: Advanced
 time: Approximately 20 minutes
 ---
 
+# Applying Manifest Code With Bolt
+
 In this exercise you will further explore Bolt Plans by using the `apply` keyword to leverage existing content from the [Puppet Forge](https://forge.puppet.com/).
 
 You can read more about using bolt `apply` in Masterless Workflows in a [Blog Post](https://puppet.com/blog/introducing-masterless-puppet-bolt) written by Bolt developer Michael Smith. 
@@ -14,14 +16,14 @@ You will deploy two web servers and a load balancer to distribute the traffic ev
 1. Write a Puppet Class to abstract the configuration of an Nginx web server. 
 1. Write a Bolt Plan to `apply` puppet code and orchestrate the deployment of a static website. 
 
-# Prerequisites
+## Prerequisites
 
 For the following exercises you should have `bolt` Docker and docker-compose installed. The following guides will help:
 
 1. [Acquiring Nodes](../02-acquiring-nodes)
 1. [Writing Advanced Plans](../09-writing-advanced-plans)
 
-# Acquire nodes
+## Acquire nodes
 
 This lesson requires three nodes. You can use the [docker-compose.yml](docker-compose.yml) file in this repository to provision the nodes necessary for this exercise. 
 
@@ -34,7 +36,7 @@ You can verify nodes are created with `docker ps`
 26c47f8c4bad        lab_node            "/usr/sbin/sshd -D"   About an hour ago   Up About an hour    0.0.0.0:20022->22/tcp, 0.0.0.0:20080->80/tcp   lb
 ```
 
-# Build a Boltdir
+## Build a Boltdir
 
 By default `$HOME/.puppetlabs/bolt/` is the base directory for user-supplied data such as the configuration and inventory files. It is effectively the default `Boltdir`. 
 You may find it useful to maintain a project specific `Boltdir`. When you commit a `Boltdir` to a project you can share Bolt configuration and code between users.
@@ -47,7 +49,7 @@ Build an inventory to organize provisioned nodes. This will be the first configu
 
 **Note**: Example outputs in the lab are for nodes provisioned with Docker. 
 
-### Docker nodes
+## Docker nodes
 If you provisioned your nodes with the docker-compose file provided with this exercise save the following in `Boltdir/inventory.yaml`.
 
 ```yaml
@@ -119,7 +121,7 @@ Take note of the following features of the plan:
 
 1. This plan has three parameters, the server nodes, the load balancer nodes and a string to be statically served by our load balanced Nginx servers. 
 1. Notice the `apply_prep` function call. `apply_prep` is used to install packages needed by apply on remote nodes as well as to gather facts about the nodes.
-1. The first apply block configures the Nginx servers. The site content is defined by default to be "Hello from [node name]" where node name is a fact gathered by `apply_prep`. The `site_content` parameter can be configured in the bolt plan invocation. 
+1. The first apply block configures the Nginx servers. The site content is defined by default to be `"Hello from <node name>"` where node name is a fact gathered by `apply_prep`. The `site_content` parameter can be configured in the bolt plan invocation. 
 1. The second apply block uses information about the Nginx servers to configure a load balancer to direct traffic between the two servers. 
 
 ```puppet
@@ -175,6 +177,6 @@ hello! from 127.0.0.1
 ```
 **Note**: You can also navigate to `http://0.0.0.0:20080/` in a web browser. Just be aware that your browser will likely cache the result and therefore you may not see the oscillation between the two servers behind the load balancer. 
 
-# Next steps
+## Next steps
 
 Now that you have learned about applying existing module content you can harness the power of the Puppet forge to manage infrastructure and deploy great applications!

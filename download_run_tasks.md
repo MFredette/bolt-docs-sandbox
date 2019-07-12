@@ -3,13 +3,14 @@ title: Running Existing Tasks
 difficulty: Intermediate
 time: Approximately 10 minutes
 ---
+# Running Existing Tasks 
 
 In this exercise you will explore existing tasks, including several tasks that take advantage of Puppet under-the-hood.
 
 - [Install Puppet using Bolt](#use-the-puppet_agent-module-to-install-puppet-agent)
 - [The Tasks Playground](#more-tips-tricks-and-ideas-on-the-tasks-playground)
 
-# Prerequisites
+## Prerequisites
 Complete the following before you start this lesson:
 
 1. [Installing Bolt](../01-installing-bolt)
@@ -17,7 +18,7 @@ Complete the following before you start this lesson:
 1. [Running Commands](../03-running-commands)
 1. [Running Scripts](../04-running-scripts)
 
-# Inspect installed tasks
+## Inspect installed tasks
 
 Bolt is packaged with useful modules and task content.
 
@@ -49,7 +50,7 @@ service::windows                   Manage the state of Windows services (without
 Use bolt task show <task-name> to view details and parameters for a specific task.
 ```
 
-# Use the puppet_agent module to install puppet agent. 
+## Use the puppet_agent module to install puppet agent. 
 
 Install puppet agent with the install_agent task
 
@@ -76,7 +77,7 @@ Successful on 3 nodes: node1,node2,node3
 Ran on 3 nodes in 68.71 seconds
 ```
 
-# View and use parameters for a specific task
+## View and use parameters for a specific task
 
 Run `bolt task show package` to view the parameters that the package task uses. 
 
@@ -156,12 +157,12 @@ Successful on 3 nodes: node1,node2,node3
 Ran on 3 nodes in 10.03 seconds
 ```
 
-# More tips, tricks and ideas on the Tasks Playground
+## More tips, tricks and ideas on the Tasks Playground
 
 See the [installing modules](https://puppet.com/docs/bolt/latest/bolt_installing_modules.html) documentation to learn how to install external modules. 
 These exercises introduce you to Bolt tasks. You'll find lots more tips, tricks, examples and hacks on the [Bolt Tasks Playground](https://github.com/puppetlabs/tasks-playground).
 
-# Next steps
+## Next steps
 
 Now that you know how to run existing tasks with Bolt you can move on to:
 

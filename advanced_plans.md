@@ -4,11 +4,17 @@ difficulty: Intermediate
 time: Approximately 10 minutes
 ---
 
+# Writing advanced plans
+
 In this exercise you will further explore Bolt Plans:
 
-- [Write a plan which uses input and output](#write-a-plan-which-uses-input-and-output)
-- [Write a plan with custom Ruby functions](#write-a-plan-with-custom-ruby-functions)
-- [Write a plan which handles errors](#write-a-plan-which-handles-errors)
+- [Writing advanced plans](#Writing-advanced-plans)
+- [Prerequisites](#Prerequisites)
+- [About Bolt's Plan Language](#About-Bolts-Plan-Language)
+- [Write a plan which uses input and output](#Write-a-plan-which-uses-input-and-output)
+- [Write a plan with custom Ruby functions](#Write-a-plan-with-custom-Ruby-functions)
+- [Write a plan which handles errors](#Write-a-plan-which-handles-errors)
+- [Next steps](#Next-steps)
 
 # Prerequisites
 Complete the following before you start this lesson:
