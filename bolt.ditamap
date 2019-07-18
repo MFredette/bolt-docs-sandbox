@@ -42,7 +42,7 @@
         </topicref>
         <topicref chunk="to-content" href="bolt_command_reference.dita" class="- map/topicref "/>
     </topicref>
-    <topicref href="introduction.md" format="mdita">
+    <topicref href="introduction.md" chunk="to-content" format="markdown">
         <topicref href="installing_bolt.md" format="markdown"></topicref>
         <topicref href="acquiring_nodes.md" format="markdown"></topicref>
         <topicref href="running_commands.md" format="markdown"></topicref>
