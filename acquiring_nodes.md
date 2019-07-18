@@ -5,7 +5,7 @@ time: Approximately 5 minutes
 ---
 # Setting up test nodes to use with Bolt
 
-In this exercise you will create nodes that you can use to experiment with [bolt]. You can also use existing nodes in your system if you prefer.
+In this exercise you will create nodes that you can use to experiment with Bolt. You can also use existing nodes in your system if you prefer.
 
 # Prerequisites
 To use an attached configuration file to set up test nodes, you must have one of the following installed on your machine:
