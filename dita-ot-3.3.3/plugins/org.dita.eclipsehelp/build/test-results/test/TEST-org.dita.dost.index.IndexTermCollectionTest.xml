@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="org.dita.dost.index.IndexTermCollectionTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2019-07-13T09:16:39" hostname="travis-job-2637b70e-5cf1-45dd-9be7-d62c09ba72bc" time="0.18">
+  <properties/>
+  <testcase name="testOutputTerms" classname="org.dita.dost.index.IndexTermCollectionTest" time="0.18"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
