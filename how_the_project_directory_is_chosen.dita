@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE concept PUBLIC "-//PUPPET//DTD DITA Puppet Concept//EN" "concept.dtd">
-<concept id="project-directory-selection" class="- topic/topic concept/concept "><title class="- topic/title ">How the project directory is chosen</title><shortdesc class="- topic/shortdesc ">
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd"> <concept id="project-directory-selection" class="- topic/topic concept/concept "><title class="- topic/title ">How the project directory is chosen</title><shortdesc class="- topic/shortdesc ">
       <ph conkeyref="ProductNames/bolt" class="- topic/ph "/> uses these methods, in order, to choose a project directory.</shortdesc><prolog class="- topic/prolog "><author translate="no" type="creator" class="- topic/author ">Melissa Amos &lt;melissa.amos@puppet.com&gt;</author></prolog><conbody class="- topic/body  concept/conbody "><p class="- topic/p ">
 
          

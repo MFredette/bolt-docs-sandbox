@@ -1,19 +1,60 @@
-<?xml version="1.0" encoding="UTF-8"?><plugins><plugin id="org.dita.pdf2.xep" version="3.3.3" xml:base="../plugins/org.dita.pdf2.xep/plugin.xml">
-  <require plugin="org.dita.pdf2"/>
-  <!-- extensions -->
-  <feature extension="depend.org.dita.pdf2.init.pre" value="transform.fo2pdf.xep.init"/>
-  <feature extension="depend.org.dita.pdf2.format" value="transform.fo2pdf.xep"/>
-  <feature extension="dita.conductor.lib.import" file="lib/xep.jar"/>
-  <transtype desc="PDF" name="pdf">
-    <param desc="Specifies the XSL processor." name="pdf.formatter" type="enum">
-      <val desc="RenderX XEP Engine">xep</val>
-    </param>
-    <param desc="Specifies the user configuration file for RenderX." name="custom.xep.config" type="file"/>
-    <param desc="Specifies the amount of memory allocated to the RenderX process." name="maxJavaMemory"/>
-  </transtype>
-  <feature extension="ant.import" file="build_xep.xml"/>
-  <feature extension="dita.conductor.pdf2.formatter.check" value="xep"/>
-  <template file="xsl/fo/topic2fo_shell_xep_template.xsl"/>
+<?xml version="1.0" encoding="UTF-8"?><plugins><plugin id="com.puppet.html5" version="0.0.0" xml:base="../plugins/com.puppet.html5/plugin.xml">
+    <require plugin="org.dita.html5"/>
+    <transtype desc="Puppet HTML5" extends="common-html" name="pup-html5"/>
+    <feature extension="dita.conductor.target.relative" file="build_html5_puppet.xml"/>
+    <!-- Puppet: Add XSLT override file for tasks. -->
+    <feature extension="dita.xsl.html5" file="xsl/xslhtml/pup_taskdisplay.xsl"/>
+</plugin><plugin id="org.lwdita" version="0.0.0" xml:base="../plugins/org.lwdita/plugin.xml">
+  <!-- DITA to Markdown -->
+  <transtype desc="Markdown" name="markdown"/>
+  <transtype desc="GitHub-flavored Markdown" name="markdown_github"/>
+  <transtype desc="GitBook" name="markdown_gitbook"/>
+  <feature extension="dita.conductor.target.relative" file="conductor.xml"/>
+  <!-- common -->
+  <feature extension="dita.conductor.lib.import" file="lib/org.lwdita-2.3.0.jar"/>
+  <feature extension="dita.conductor.lib.import" file="lib/htmlparser-1.4.jar"/>
+  <!-- Markdown to DITA -->
+  <template file="build-markdown_template.xml"/>
+  <template file="xsl/dita2markdown_template.xsl"/>
+  <!--template file="xsl/map2markdown-toc_template.xsl"/-->
+  <template file="xsl/map2markdown-cover_template.xsl"/>
+  <feature extension="dita.conductor.lib.import" file="lib/flexmark-profile-pegdown-0.50.18.jar"/>
+  <feature extension="dita.conductor.lib.import" file="lib/flexmark-ext-abbreviation-0.50.18.jar"/>
+  <feature extension="dita.conductor.lib.import" file="lib/flexmark-ext-anchorlink-0.50.18.jar"/>
+  <feature extension="dita.conductor.lib.import" file="lib/flexmark-ext-aside-0.50.18.jar"/>
+  <feature extension="dita.conductor.lib.import" file="lib/flexmark-ext-autolink-0.50.18.jar"/>
+  <feature extension="dita.conductor.lib.import" file="lib/flexmark-ext-definition-0.50.18.jar"/>
+  <feature extension="dita.conductor.lib.import" file="lib/flexmark-html-parser-0.50.18.jar"/>
+  <feature extension="dita.conductor.lib.import" file="lib/flexmark-ext-escaped-character-0.50.18.jar"/>
+  <feature extension="dita.conductor.lib.import" file="lib/flexmark-ext-footnotes-0.50.18.jar"/>
+  <feature extension="dita.conductor.lib.import" file="lib/flexmark-jira-converter-0.50.18.jar"/>
+  <feature extension="dita.conductor.lib.import" file="lib/flexmark-youtrack-converter-0.50.18.jar"/>
+  <feature extension="dita.conductor.lib.import" file="lib/flexmark-ext-gfm-strikethrough-0.50.18.jar"/>
+  <feature extension="dita.conductor.lib.import" file="lib/flexmark-ext-gfm-tables-0.50.18.jar"/>
+  <feature extension="dita.conductor.lib.import" file="lib/flexmark-ext-gfm-tasklist-0.50.18.jar"/>
+  <feature extension="dita.conductor.lib.import" file="lib/flexmark-ext-jekyll-front-matter-0.50.18.jar"/>
+  <feature extension="dita.conductor.lib.import" file="lib/flexmark-ext-jekyll-tag-0.50.18.jar"/>
+  <feature extension="dita.conductor.lib.import" file="lib/flexmark-ext-ins-0.50.18.jar"/>
+  <feature extension="dita.conductor.lib.import" file="lib/flexmark-ext-superscript-0.50.18.jar"/>
+  <feature extension="dita.conductor.lib.import" file="lib/flexmark-ext-tables-0.50.18.jar"/>
+  <feature extension="dita.conductor.lib.import" file="lib/flexmark-ext-toc-0.50.18.jar"/>
+  <feature extension="dita.conductor.lib.import" file="lib/flexmark-ext-typographic-0.50.18.jar"/>
+  <feature extension="dita.conductor.lib.import" file="lib/flexmark-ext-wikilink-0.50.18.jar"/>
+  <feature extension="dita.conductor.lib.import" file="lib/flexmark-ext-yaml-front-matter-0.50.18.jar"/>
+  <feature extension="dita.conductor.lib.import" file="lib/flexmark-formatter-0.50.18.jar"/>
+  <feature extension="dita.conductor.lib.import" file="lib/flexmark-0.50.18.jar"/>
+  <feature extension="dita.conductor.lib.import" file="lib/flexmark-util-0.50.18.jar"/>
+  <feature extension="dita.conductor.lib.import" file="lib/autolink-0.6.0.jar"/>
+  <feature extension="dita.parser">
+    <parser class="com.elovirta.dita.markdown.MarkdownReader" format="markdown"/>
+    <parser class="com.elovirta.dita.markdown.MarkdownReader" format="md"/>
+    <parser class="com.elovirta.dita.markdown.MDitaReader" format="mdita"/>
+  </feature>
+  <!-- HTML to DITA -->
+  <template file="build-html_template.xml"/>
+  <feature extension="dita.parser">
+    <parser class="com.elovirta.dita.html.HDitaReader" format="hdita"/>
+  </feature>
 </plugin><plugin id="org.dita.pdf2" version="3.3.3" xml:base="../plugins/org.dita.pdf2/plugin.xml">
   <!-- extension points -->
   <extension-point id="dita.xsl.xslfo" name="PDF XSLT import"/>
@@ -76,53 +117,22 @@
   <template file="xsl/fo/i18n-postprocess_template.xsl"/>
   <template file="xsl/fo/topic2fo_shell_template.xsl"/>
   <template file="xsl/common/topicmerge_template.xsl"/>
-</plugin><plugin id="com.sophos.tocjs" version="0.0.0" xml:base="../plugins/com.sophos.tocjs/plugin.xml">
-  <transtype desc="TocJS" extends="html5" name="tocjs"/>
-  <feature extension="dita.conductor.target" file="integrator.xml"/>
-</plugin><plugin id="org.dita.pdf2.fop" version="3.3.3" xml:base="../plugins/org.dita.pdf2.fop/plugin.xml">
+</plugin><plugin id="org.dita.pdf2.xep" version="3.3.3" xml:base="../plugins/org.dita.pdf2.xep/plugin.xml">
   <require plugin="org.dita.pdf2"/>
   <!-- extensions -->
-  <feature extension="depend.org.dita.pdf2.init.pre" value="transform.fo2pdf.fop.init"/>
-  <feature extension="depend.org.dita.pdf2.format" value="transform.fo2pdf.fop"/>
-  <feature extension="dita.conductor.lib.import" file="lib/avalon-framework-api-4.3.1.jar"/>
-  <feature extension="dita.conductor.lib.import" file="lib/avalon-framework-impl-4.3.1.jar"/>
-  <feature extension="dita.conductor.lib.import" file="lib/batik-all-1.10.jar"/>
-  <feature extension="dita.conductor.lib.import" file="lib/fontbox-2.0.13.jar"/>
-  <feature extension="dita.conductor.lib.import" file="lib/fop-pdf-images-2.3.jar"/>
-  <feature extension="dita.conductor.lib.import" file="lib/pdfbox-2.0.13.jar"/>
-  <feature extension="dita.conductor.lib.import" file="lib/fop-2.3.jar"/>
-  <feature extension="dita.conductor.lib.import" file="lib/jcl-over-slf4j-1.7.25.jar"/>
-  <feature extension="dita.conductor.lib.import" file="lib/xml-apis-ext-1.3.04.jar"/>
-  <feature extension="dita.conductor.lib.import" file="lib/xmlgraphics-commons-2.3.jar"/>
+  <feature extension="depend.org.dita.pdf2.init.pre" value="transform.fo2pdf.xep.init"/>
+  <feature extension="depend.org.dita.pdf2.format" value="transform.fo2pdf.xep"/>
+  <feature extension="dita.conductor.lib.import" file="lib/xep.jar"/>
   <transtype desc="PDF" name="pdf">
     <param desc="Specifies the XSL processor." name="pdf.formatter" type="enum">
-      <val default="true" desc="Apache FOP">fop</val>
+      <val desc="RenderX XEP Engine">xep</val>
     </param>
-    <param desc="Specifies the user configuration file for FOP." name="args.fo.userconfig" type="file"/>
+    <param desc="Specifies the user configuration file for RenderX." name="custom.xep.config" type="file"/>
+    <param desc="Specifies the amount of memory allocated to the RenderX process." name="maxJavaMemory"/>
   </transtype>
-  <feature extension="dita.conductor.pdf2.formatter.check" value="fop"/>
-  <feature extension="ant.import" file="build_fop.xml"/>
-  <template file="xsl/fo/topic2fo_shell_fop_template.xsl"/>
-</plugin><plugin id="org.dita.htmlhelp" version="3.3.3" xml:base="../plugins/org.dita.htmlhelp/plugin.xml">
-  <!-- extension points -->
-  <extension-point id="dita.xsl.htmlhelp.map2hhp" name="HTML Help project XSLT import"/>
-  <extension-point id="dita.xsl.htmlhelp.map2hhc" name="HTML Help content XSLT import"/>
-  <!-- extensions -->
-  <transtype desc="Microsoft Compiled HTML Help" extends="base-html" name="htmlhelp">
-    <param desc="Specifies the name of a file that you want included in the HTML Help." name="args.htmlhelp.includefile" type="file"/>
-  </transtype>
-  <require plugin="org.dita.xhtml"/>
-  <feature extension="ant.import" file="build_dita2htmlhelp.xml"/>
-  <feature extension="dita.conductor.lib.import" file="lib/htmlhelp.jar"/>
-  <feature extension="dita.xsl.messages" file="resource/messages.xml"/>
-  <template file="xsl/map2hhc_template.xsl"/>
-  <template file="xsl/map2hhp_template.xsl"/>
-  <template file="build_dita2htmlhelp_template.xml"/>
-</plugin><plugin id="org.oasis-open.dita.v1_3" version="1.3" xml:base="../plugins/org.oasis-open.dita.v1_3/plugin.xml">
-  <feature extension="dita.specialization.catalog.relative" file="catalog.xml"/>
-</plugin><plugin id="org.dita.normalize" version="0.0.0" xml:base="../plugins/org.dita.normalize/plugin.xml">
-  <transtype desc="Normalized DITA" name="dita"/>
-  <feature extension="dita.conductor.target.relative" file="conductor.xml"/>
+  <feature extension="ant.import" file="build_xep.xml"/>
+  <feature extension="dita.conductor.pdf2.formatter.check" value="xep"/>
+  <template file="xsl/fo/topic2fo_shell_xep_template.xsl"/>
 </plugin><plugin id="org.dita.base" version="3.3.3" xml:base="../plugins/org.dita.base/plugin.xml">
   <!-- base extension points -->
   <extension-point id="package.version" name="Plug-in version"/>
@@ -311,6 +321,72 @@
   <template file="xsl/preprocess/conref_template.xsl"/>
   <template file="xsl/preprocess/map-conref_template.xsl"/>
   <template file="xsl/preprocess/topicpull_template.xsl"/>
+</plugin><plugin id="org.oasis-open.dita.v1_3" version="1.3" xml:base="../plugins/org.oasis-open.dita.v1_3/plugin.xml">
+  <feature extension="dita.specialization.catalog.relative" file="catalog.xml"/>
+</plugin><plugin id="org.dita.specialization.dita11" version="1.1" xml:base="../plugins/org.dita.specialization.dita11/plugin.xml">
+        <feature extension="dita.specialization.catalog.relative" file="catalog.xml"/>
+    </plugin><plugin id="org.dita.pdf2.axf" version="3.3.3" xml:base="../plugins/org.dita.pdf2.axf/plugin.xml">
+  <require plugin="org.dita.pdf2"/>
+  <!-- extensions -->
+  <feature extension="depend.org.dita.pdf2.init.pre" value="transform.fo2pdf.ah.init"/>
+  <feature extension="depend.org.dita.pdf2.format" value="transform.fo2pdf.ah"/>
+  <feature extension="dita.conductor.lib.import" file="lib/axf.jar"/>
+  <transtype desc="PDF" name="pdf">
+    <param desc="Specifies the XSL processor." name="pdf.formatter" type="enum">
+      <val desc="Antenna House Formatter">ah</val>
+    </param>
+    <param desc="Specifies whether draft-comment and required-cleanup elements are included in the output." name="publish.required.cleanup" type="enum">
+      <val>yes</val>
+      <val>no</val>
+    </param>
+    <param desc="Specifies the user configuration file for Antenna House Formatter." name="axf.opt" type="file"/>
+    <param desc="Specifies the path to the Antenna House Formatter executable." name="axf.cmd" type="file"/>
+  </transtype>
+  <feature extension="ant.import" file="build_axf.xml"/>
+  <feature extension="dita.conductor.pdf2.formatter.check" value="ah"/>
+  <template file="xsl/fo/topic2fo_shell_axf_template.xsl"/>
+</plugin><plugin id="org.dita.eclipsehelp" version="3.3.3" xml:base="../plugins/org.dita.eclipsehelp/plugin.xml">
+  <!-- extension points -->
+  <extension-point id="dita.xsl.eclipse.plugin" name="Eclipse plugin XSLT import"/>
+  <extension-point id="dita.map.eclipse.index.pre" name="Eclipse index extraction pre-target"/>
+  <extension-point id="dita.xsl.eclipse.toc" name="Eclipse TOC XSLT import"/>
+  <extension-point id="dita.conductor.eclipse.toc.param" name="Eclipse Help TOC XSLT parameter"/>
+  <!-- extensions -->
+  <transtype desc="Eclipse Help" extends="base-html" name="eclipsehelp">
+    <param desc="Specifies that the output should be zipped and returned using this name." name="args.eclipsehelp.jar.name" type="string"/>
+    <param desc="Specifies the region for the language that is specified by the args." name="args.eclipsehelp.country" type="string"/> 
+    <param desc="Specifies the base language for translated content, such as en for English." name="args.eclipsehelp.language" type="string"/> 
+    <param desc="Specifies the name of the person or organization that provides the Eclipse help." name="args.eclipse.provider" type="string">
+      <val default="true">DITA</val>
+    </param>
+    <param desc="Specifies the version number to include in the output." name="args.eclipse.version" type="string">
+      <val default="true">0.0.0</val>
+    </param>
+    <param desc="Specifies the symbolic name (aka plugin ID) in the output for an Eclipse Help project." name="args.eclipse.symbolic.name" type="string">
+      <val default="true">org.sample.help.doc</val>
+    </param>
+  </transtype>
+  <require plugin="org.dita.xhtml"/>
+  <feature extension="dita.conductor.lib.import" file="lib/eclipsehelp.jar"/>
+  <feature extension="ant.import" file="build_dita2eclipsehelp.xml"/>
+  <template file="build_dita2eclipsehelp_template.xml"/>
+  <template file="xsl/map2eclipse_template.xsl"/>
+  <template file="xsl/map2plugin_template.xsl"/>
+</plugin><plugin id="org.dita.htmlhelp" version="3.3.3" xml:base="../plugins/org.dita.htmlhelp/plugin.xml">
+  <!-- extension points -->
+  <extension-point id="dita.xsl.htmlhelp.map2hhp" name="HTML Help project XSLT import"/>
+  <extension-point id="dita.xsl.htmlhelp.map2hhc" name="HTML Help content XSLT import"/>
+  <!-- extensions -->
+  <transtype desc="Microsoft Compiled HTML Help" extends="base-html" name="htmlhelp">
+    <param desc="Specifies the name of a file that you want included in the HTML Help." name="args.htmlhelp.includefile" type="file"/>
+  </transtype>
+  <require plugin="org.dita.xhtml"/>
+  <feature extension="ant.import" file="build_dita2htmlhelp.xml"/>
+  <feature extension="dita.conductor.lib.import" file="lib/htmlhelp.jar"/>
+  <feature extension="dita.xsl.messages" file="resource/messages.xml"/>
+  <template file="xsl/map2hhc_template.xsl"/>
+  <template file="xsl/map2hhp_template.xsl"/>
+  <template file="build_dita2htmlhelp_template.xml"/>
 </plugin><plugin id="org.dita.xhtml" version="3.3.3" xml:base="../plugins/org.dita.xhtml/plugin.xml">
   <!-- extension points -->
   <extension-point id="dita.xsl.xhtml" name="HTML/XHTML XSLT import"/>
@@ -375,61 +451,6 @@
   <template file="xsl/dita2html-base_template.xsl"/>
   <template file="xsl/map2htmltoc_template.xsl"/>
   <template file="xsl/map2html-coverImpl_template.xsl"/>
-</plugin><plugin id="org.dita.troff" version="0.0.0" xml:base="../plugins/org.dita.troff/plugin.xml">
-  <extension-point id="dita.xsl.troff-ast" name="Troff AST XSLT import"/>
-  <extension-point id="dita.xsl.troff" name="Troff XSLT import"/>
-  <feature extension="dita.conductor.transtype.check" value="troff"/>
-  <feature extension="ant.import" file="build_dita2troff.xml"/>
-  <template file="xsl/dita2troff-ast-shell_template.xsl"/>
-  <template file="xsl/dita2troff-step2-shell_template.xsl"/>
-  <require plugin="org.dita.base"/>
-</plugin><plugin id="org.dita.eclipsehelp" version="3.3.3" xml:base="../plugins/org.dita.eclipsehelp/plugin.xml">
-  <!-- extension points -->
-  <extension-point id="dita.xsl.eclipse.plugin" name="Eclipse plugin XSLT import"/>
-  <extension-point id="dita.map.eclipse.index.pre" name="Eclipse index extraction pre-target"/>
-  <extension-point id="dita.xsl.eclipse.toc" name="Eclipse TOC XSLT import"/>
-  <extension-point id="dita.conductor.eclipse.toc.param" name="Eclipse Help TOC XSLT parameter"/>
-  <!-- extensions -->
-  <transtype desc="Eclipse Help" extends="base-html" name="eclipsehelp">
-    <param desc="Specifies that the output should be zipped and returned using this name." name="args.eclipsehelp.jar.name" type="string"/>
-    <param desc="Specifies the region for the language that is specified by the args." name="args.eclipsehelp.country" type="string"/> 
-    <param desc="Specifies the base language for translated content, such as en for English." name="args.eclipsehelp.language" type="string"/> 
-    <param desc="Specifies the name of the person or organization that provides the Eclipse help." name="args.eclipse.provider" type="string">
-      <val default="true">DITA</val>
-    </param>
-    <param desc="Specifies the version number to include in the output." name="args.eclipse.version" type="string">
-      <val default="true">0.0.0</val>
-    </param>
-    <param desc="Specifies the symbolic name (aka plugin ID) in the output for an Eclipse Help project." name="args.eclipse.symbolic.name" type="string">
-      <val default="true">org.sample.help.doc</val>
-    </param>
-  </transtype>
-  <require plugin="org.dita.xhtml"/>
-  <feature extension="dita.conductor.lib.import" file="lib/eclipsehelp.jar"/>
-  <feature extension="ant.import" file="build_dita2eclipsehelp.xml"/>
-  <template file="build_dita2eclipsehelp_template.xml"/>
-  <template file="xsl/map2eclipse_template.xsl"/>
-  <template file="xsl/map2plugin_template.xsl"/>
-</plugin><plugin id="org.dita.pdf2.axf" version="3.3.3" xml:base="../plugins/org.dita.pdf2.axf/plugin.xml">
-  <require plugin="org.dita.pdf2"/>
-  <!-- extensions -->
-  <feature extension="depend.org.dita.pdf2.init.pre" value="transform.fo2pdf.ah.init"/>
-  <feature extension="depend.org.dita.pdf2.format" value="transform.fo2pdf.ah"/>
-  <feature extension="dita.conductor.lib.import" file="lib/axf.jar"/>
-  <transtype desc="PDF" name="pdf">
-    <param desc="Specifies the XSL processor." name="pdf.formatter" type="enum">
-      <val desc="Antenna House Formatter">ah</val>
-    </param>
-    <param desc="Specifies whether draft-comment and required-cleanup elements are included in the output." name="publish.required.cleanup" type="enum">
-      <val>yes</val>
-      <val>no</val>
-    </param>
-    <param desc="Specifies the user configuration file for Antenna House Formatter." name="axf.opt" type="file"/>
-    <param desc="Specifies the path to the Antenna House Formatter executable." name="axf.cmd" type="file"/>
-  </transtype>
-  <feature extension="ant.import" file="build_axf.xml"/>
-  <feature extension="dita.conductor.pdf2.formatter.check" value="ah"/>
-  <template file="xsl/fo/topic2fo_shell_axf_template.xsl"/>
 </plugin><plugin id="org.oasis-open.xdita.v0_2_2" version="0.2.2" xml:base="../plugins/org.oasis-open.xdita.v0_2_2/plugin.xml">
 <title>Lightweight DITA</title>
 
@@ -444,8 +465,6 @@
 public IDs and system IDs for any DTD modules included in this plugin. -->
 <feature extension="dita.specialization.catalog.relative" type="file" value="catalog-dita.xml"/>
 
-</plugin><plugin id="org.oasis-open.dita.v1_2" version="1.2" xml:base="../plugins/org.oasis-open.dita.v1_2/plugin.xml">
-  <feature extension="dita.specialization.catalog.relative" file="catalog.xml"/>
 </plugin><plugin id="org.dita.html5" version="3.3.3" xml:base="../plugins/org.dita.html5/plugin.xml">
   <!-- extension points -->
   <extension-point id="dita.xsl.html5" name="HTML5 XSLT import"/>
@@ -510,63 +529,44 @@ public IDs and system IDs for any DTD modules included in this plugin. -->
   <template file="build_dita2html5_template.xml"/>
   <template file="xsl/dita2html5Impl_template.xsl"/>
   <template file="xsl/map2html5-coverImpl_template.xsl"/>
-</plugin><plugin id="com.puppet.html5" version="0.0.0" xml:base="../plugins/com.puppet.html5/plugin.xml">
-    <require plugin="org.dita.html5"/>
-    <transtype desc="Puppet HTML5" extends="common-html" name="pup-html5"/>
-    <feature extension="dita.conductor.target.relative" file="build_html5_puppet.xml"/>
-    <!-- Puppet: Add XSLT override file for tasks. -->
-    <feature extension="dita.xsl.html5" file="xsl/xslhtml/pup_taskdisplay.xsl"/>
-</plugin><plugin id="org.lwdita" version="0.0.0" xml:base="../plugins/org.lwdita/plugin.xml">
-  <!-- DITA to Markdown -->
-  <transtype desc="Markdown" name="markdown"/>
-  <transtype desc="GitHub-flavored Markdown" name="markdown_github"/>
-  <transtype desc="GitBook" name="markdown_gitbook"/>
+</plugin><plugin id="org.dita.troff" version="0.0.0" xml:base="../plugins/org.dita.troff/plugin.xml">
+  <extension-point id="dita.xsl.troff-ast" name="Troff AST XSLT import"/>
+  <extension-point id="dita.xsl.troff" name="Troff XSLT import"/>
+  <feature extension="dita.conductor.transtype.check" value="troff"/>
+  <feature extension="ant.import" file="build_dita2troff.xml"/>
+  <template file="xsl/dita2troff-ast-shell_template.xsl"/>
+  <template file="xsl/dita2troff-step2-shell_template.xsl"/>
+  <require plugin="org.dita.base"/>
+</plugin><plugin id="org.oasis-open.dita.v1_2" version="1.2" xml:base="../plugins/org.oasis-open.dita.v1_2/plugin.xml">
+  <feature extension="dita.specialization.catalog.relative" file="catalog.xml"/>
+</plugin><plugin id="org.dita.pdf2.fop" version="3.3.3" xml:base="../plugins/org.dita.pdf2.fop/plugin.xml">
+  <require plugin="org.dita.pdf2"/>
+  <!-- extensions -->
+  <feature extension="depend.org.dita.pdf2.init.pre" value="transform.fo2pdf.fop.init"/>
+  <feature extension="depend.org.dita.pdf2.format" value="transform.fo2pdf.fop"/>
+  <feature extension="dita.conductor.lib.import" file="lib/avalon-framework-api-4.3.1.jar"/>
+  <feature extension="dita.conductor.lib.import" file="lib/avalon-framework-impl-4.3.1.jar"/>
+  <feature extension="dita.conductor.lib.import" file="lib/batik-all-1.10.jar"/>
+  <feature extension="dita.conductor.lib.import" file="lib/fontbox-2.0.13.jar"/>
+  <feature extension="dita.conductor.lib.import" file="lib/fop-pdf-images-2.3.jar"/>
+  <feature extension="dita.conductor.lib.import" file="lib/pdfbox-2.0.13.jar"/>
+  <feature extension="dita.conductor.lib.import" file="lib/fop-2.3.jar"/>
+  <feature extension="dita.conductor.lib.import" file="lib/jcl-over-slf4j-1.7.25.jar"/>
+  <feature extension="dita.conductor.lib.import" file="lib/xml-apis-ext-1.3.04.jar"/>
+  <feature extension="dita.conductor.lib.import" file="lib/xmlgraphics-commons-2.3.jar"/>
+  <transtype desc="PDF" name="pdf">
+    <param desc="Specifies the XSL processor." name="pdf.formatter" type="enum">
+      <val default="true" desc="Apache FOP">fop</val>
+    </param>
+    <param desc="Specifies the user configuration file for FOP." name="args.fo.userconfig" type="file"/>
+  </transtype>
+  <feature extension="dita.conductor.pdf2.formatter.check" value="fop"/>
+  <feature extension="ant.import" file="build_fop.xml"/>
+  <template file="xsl/fo/topic2fo_shell_fop_template.xsl"/>
+</plugin><plugin id="org.dita.normalize" version="0.0.0" xml:base="../plugins/org.dita.normalize/plugin.xml">
+  <transtype desc="Normalized DITA" name="dita"/>
   <feature extension="dita.conductor.target.relative" file="conductor.xml"/>
-  <!-- common -->
-  <feature extension="dita.conductor.lib.import" file="lib/org.lwdita-2.3.0.jar"/>
-  <feature extension="dita.conductor.lib.import" file="lib/htmlparser-1.4.jar"/>
-  <!-- Markdown to DITA -->
-  <template file="build-markdown_template.xml"/>
-  <template file="xsl/dita2markdown_template.xsl"/>
-  <!--template file="xsl/map2markdown-toc_template.xsl"/-->
-  <template file="xsl/map2markdown-cover_template.xsl"/>
-  <feature extension="dita.conductor.lib.import" file="lib/flexmark-profile-pegdown-0.50.18.jar"/>
-  <feature extension="dita.conductor.lib.import" file="lib/flexmark-ext-abbreviation-0.50.18.jar"/>
-  <feature extension="dita.conductor.lib.import" file="lib/flexmark-ext-anchorlink-0.50.18.jar"/>
-  <feature extension="dita.conductor.lib.import" file="lib/flexmark-ext-aside-0.50.18.jar"/>
-  <feature extension="dita.conductor.lib.import" file="lib/flexmark-ext-autolink-0.50.18.jar"/>
-  <feature extension="dita.conductor.lib.import" file="lib/flexmark-ext-definition-0.50.18.jar"/>
-  <feature extension="dita.conductor.lib.import" file="lib/flexmark-html-parser-0.50.18.jar"/>
-  <feature extension="dita.conductor.lib.import" file="lib/flexmark-ext-escaped-character-0.50.18.jar"/>
-  <feature extension="dita.conductor.lib.import" file="lib/flexmark-ext-footnotes-0.50.18.jar"/>
-  <feature extension="dita.conductor.lib.import" file="lib/flexmark-jira-converter-0.50.18.jar"/>
-  <feature extension="dita.conductor.lib.import" file="lib/flexmark-youtrack-converter-0.50.18.jar"/>
-  <feature extension="dita.conductor.lib.import" file="lib/flexmark-ext-gfm-strikethrough-0.50.18.jar"/>
-  <feature extension="dita.conductor.lib.import" file="lib/flexmark-ext-gfm-tables-0.50.18.jar"/>
-  <feature extension="dita.conductor.lib.import" file="lib/flexmark-ext-gfm-tasklist-0.50.18.jar"/>
-  <feature extension="dita.conductor.lib.import" file="lib/flexmark-ext-jekyll-front-matter-0.50.18.jar"/>
-  <feature extension="dita.conductor.lib.import" file="lib/flexmark-ext-jekyll-tag-0.50.18.jar"/>
-  <feature extension="dita.conductor.lib.import" file="lib/flexmark-ext-ins-0.50.18.jar"/>
-  <feature extension="dita.conductor.lib.import" file="lib/flexmark-ext-superscript-0.50.18.jar"/>
-  <feature extension="dita.conductor.lib.import" file="lib/flexmark-ext-tables-0.50.18.jar"/>
-  <feature extension="dita.conductor.lib.import" file="lib/flexmark-ext-toc-0.50.18.jar"/>
-  <feature extension="dita.conductor.lib.import" file="lib/flexmark-ext-typographic-0.50.18.jar"/>
-  <feature extension="dita.conductor.lib.import" file="lib/flexmark-ext-wikilink-0.50.18.jar"/>
-  <feature extension="dita.conductor.lib.import" file="lib/flexmark-ext-yaml-front-matter-0.50.18.jar"/>
-  <feature extension="dita.conductor.lib.import" file="lib/flexmark-formatter-0.50.18.jar"/>
-  <feature extension="dita.conductor.lib.import" file="lib/flexmark-0.50.18.jar"/>
-  <feature extension="dita.conductor.lib.import" file="lib/flexmark-util-0.50.18.jar"/>
-  <feature extension="dita.conductor.lib.import" file="lib/autolink-0.6.0.jar"/>
-  <feature extension="dita.parser">
-    <parser class="com.elovirta.dita.markdown.MarkdownReader" format="markdown"/>
-    <parser class="com.elovirta.dita.markdown.MarkdownReader" format="md"/>
-    <parser class="com.elovirta.dita.markdown.MDitaReader" format="mdita"/>
-  </feature>
-  <!-- HTML to DITA -->
-  <template file="build-html_template.xml"/>
-  <feature extension="dita.parser">
-    <parser class="com.elovirta.dita.html.HDitaReader" format="hdita"/>
-  </feature>
-</plugin><plugin id="org.dita.specialization.dita11" version="1.1" xml:base="../plugins/org.dita.specialization.dita11/plugin.xml">
-        <feature extension="dita.specialization.catalog.relative" file="catalog.xml"/>
-    </plugin></plugins>
+</plugin><plugin id="com.sophos.tocjs" version="0.0.0" xml:base="../plugins/com.sophos.tocjs/plugin.xml">
+  <transtype desc="TocJS" extends="html5" name="tocjs"/>
+  <feature extension="dita.conductor.target" file="integrator.xml"/>
+</plugin></plugins>

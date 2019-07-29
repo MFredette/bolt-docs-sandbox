@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE map PUBLIC "-//PUPPET//DTD DITA Puppet Map//EN" "map.dtd">
+<!DOCTYPE map PUBLIC "-//OASIS//DTD DITA Map//EN" "map.dtd">
 <map id="ditamap-8881" title="Bolt" class="- map/map ">
     <topicref linking="targetonly" href="bolt.dita" class="- map/topicref "/>
     <topicref href="bolt_release_notes.dita" class="- map/topicref ">

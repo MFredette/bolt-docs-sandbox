@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE concept PUBLIC "-//PUPPET//DTD DITA Puppet Concept//EN" "concept.dtd">
-<concept id="concept-6910" class="- topic/topic concept/concept "><title class="- topic/title ">Modules for projects</title><shortdesc class="- topic/shortdesc ">Modules developed to support a particular project can be developed directly in
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd"> <concept id="concept-6910" class="- topic/topic concept/concept "><title class="- topic/title ">Modules for projects</title><shortdesc class="- topic/shortdesc ">Modules developed to support a particular project can be developed directly in
      the <codeph class="+ topic/ph pr-d/codeph ">site-modules</codeph> directory of the 
 
       <ph conkeyref="ProductNames/bolt" class="- topic/ph "/> project

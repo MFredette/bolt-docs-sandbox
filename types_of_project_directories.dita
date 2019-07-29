@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE reference PUBLIC "-//PUPPET//DTD DITA Puppet Reference//EN" "reference.dtd">
-<reference id="project-directory-types" class="- topic/topic       reference/reference "><title class="- topic/title ">Types of project directories</title><shortdesc class="- topic/shortdesc ">There are three types of project directories that you can use depending on how
+<!DOCTYPE reference PUBLIC "-//OASIS//DTD DITA Reference//EN" "reference.dtd"> <reference id="project-directory-types" class="- topic/topic       reference/reference "><title class="- topic/title ">Types of project directories</title><shortdesc class="- topic/shortdesc ">There are three types of project directories that you can use depending on how
 you're using 
 
       

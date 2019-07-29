@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE concept PUBLIC "-//PUPPET//DTD DITA Puppet Concept//EN" "concept.dtd">
-<concept id="concept-4733" class="- topic/topic concept/concept "><title class="- topic/title ">Directory structures for tasks and plans </title><shortdesc class="- topic/shortdesc ">
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd"> <concept id="concept-4733" class="- topic/topic concept/concept "><title class="- topic/title ">Directory structures for tasks and plans </title><shortdesc class="- topic/shortdesc ">
       <ph conkeyref="ProductNames/puppet" class="- topic/ph "/> tasks, plans, functions, classes and types must exist inside a 
 
       

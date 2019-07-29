@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE concept PUBLIC "-//PUPPET//DTD DITA Puppet Concept//EN" "concept.dtd">
-<concept id="wrapping-existing-script" class="- topic/topic concept/concept "><title class="- topic/title ">Wrapping an existing script</title><shortdesc class="- topic/shortdesc ">If a script is not already installed on targets and you don't want to edit
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd"> <concept id="wrapping-existing-script" class="- topic/topic concept/concept "><title class="- topic/title ">Wrapping an existing script</title><shortdesc class="- topic/shortdesc ">If a script is not already installed on targets and you don't want to edit
 it, for example if it's a script someone else maintains, you can wrap the
      script in a small task without modifying it.</shortdesc><prolog class="- topic/prolog "><author translate="no" type="creator" class="- topic/author ">Melissa Amos &lt;melissa.amos@puppet.com&gt;</author></prolog><conbody class="- topic/body  concept/conbody "><p class="- topic/p "><draft-comment class="- topic/draft-comment ">Shared between Bolt and PE 2019.0.1+</draft-comment></p><p class="- topic/p ">
          <note conref="conref_tasks_concept.dita#concept-6878/note-449" class="- topic/note "/>

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE concept PUBLIC "-//PUPPET//DTD DITA Puppet Concept//EN" "concept.dtd">
-<concept id="directory-structure-module" class="- topic/topic concept/concept "><title class="- topic/title ">Directory structure of a module</title><shortdesc class="- topic/shortdesc ">A module is a sub-directory of one of the directories on the modulepath. In
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd"> <concept id="directory-structure-module" class="- topic/topic concept/concept "><title class="- topic/title ">Directory structure of a module</title><shortdesc class="- topic/shortdesc ">A module is a sub-directory of one of the directories on the modulepath. In
          order for 
 
             
