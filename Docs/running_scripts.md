@@ -6,15 +6,17 @@ time: Approximately 5 minutes
 
 In this exercise you will run existing scripts against remote nodes using Bolt.
 
+- [Prerequisites](#prerequisites)
 - [Test Linux nodes for ShellShock](#test-linux-nodes-for-shellshock)
 - [Test Windows external connectivity](#test-windows-external-connectivity)
+- [Next steps](#next-steps)
 
 # Prerequisites
 Complete the following before you start this lesson:
 
-1. [Installing Bolt](../01-installing-bolt)
-1. [Setting up test nodes](../02-acquiring-nodes)
-1. [Running Commands](../03-running-commands)
+1. [Installing Bolt](./installing_bolt.md)
+2. [Setting up test nodes](./test_nodes.md)
+3. [Running Commands](./running_commands.md)
 
 # Test Linux nodes for ShellShock
 Run the [bashcheck](https://github.com/hannob/bashcheck) script to check on ShellShock and related vulnerabilities.
@@ -94,4 +96,4 @@ Ran on 1 node in 8.55 seconds
 
 Now that you know how to use Bolt to run existing scripts you can move on to:
 
-[Writing Tasks](../05-writing-tasks)
+1. [Writing Tasks](./writing_tasks.md)

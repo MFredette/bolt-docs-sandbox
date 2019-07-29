@@ -18,4 +18,4 @@ Bolt is packaged for the major operating systems. Please refer to the [installat
 
 Now that you have Bolt installed you can move on to:
 
-[Setting up test nodes](../02-acquiring-nodes)
+[Setting up test nodes](./acquiring_nodes.md)

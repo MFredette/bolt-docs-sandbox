@@ -6,18 +6,20 @@ time: Approximately 15 minutes
 
 In this exercise you will write your first Bolt Tasks for use with Bolt. 
 
+- [Prerequisites](#prerequisites)
 - [How do tasks work?](#how-do-tasks-work)
 - [Write your first task in Bash](#write-your-first-task-in-bash)
 - [Write your first task in PowerShell](#write-your-first-task-in-powershell)
 - [Write your first task in Python](#write-your-first-task-in-python)
+- [Next steps](#next-steps)
 
 # Prerequisites
 Complete the following before you start this lesson:
 
-1. [Installing Bolt](../01-installing-bolt)
-1. [Setting up test nodes](../02-acquiring-nodes)
-1. [Running Commands](../03-running-commands)
-1. [Running Scripts](../04-running-scripts)
+1. [Installing Bolt](./installing_bolt.md)
+1. [Setting up test nodes](./test_nodes.md)
+1. [Running Commands](./running_commands.md)
+1. [Running Scripts](./running_scripts.md)
 
 
 # How do tasks work?
@@ -129,4 +131,4 @@ Ran on 1 node in 0.97 seconds
 
 Now that you know how to write tasks you can move on to:
 
-[Downloading and running existing tasks](../06-downloading-and-running-existing-tasks)
+[Downloading and running existing tasks](./download_run_tasks.md)

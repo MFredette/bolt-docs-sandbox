@@ -20,8 +20,8 @@ You will deploy two web servers and a load balancer to distribute the traffic ev
 
 For the following exercises you should have `bolt` Docker and docker-compose installed. The following guides will help:
 
-1. [Acquiring Nodes](../02-acquiring-nodes)
-1. [Writing Advanced Plans](../09-writing-advanced-plans)
+1. [Acquiring Nodes](./acquiring_nodes.md)
+2. [Writing Advanced Plans](./advances_plans.md)
 
 ## Acquire nodes
 
