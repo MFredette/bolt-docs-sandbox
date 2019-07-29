@@ -11,22 +11,22 @@ This repository contains a step-by-step introduction to [Bolt](https://github.co
 
 These exercises will help you get Bolt installed and make sure you have a few nodes to target with tasks and commands. 
 
-1. [Installing Bolt](lab/01-installing-bolt)
-1. [Acquiring nodes](lab/02-acquiring-nodes)
+1. [Installing Bolt](./installing_bolt.md)
+1. [Acquiring nodes](./acquiring_nodes.md)
 
 ## Exercises
 
 These step through the basic functionality of Bolt Tasks and focus on simple commands you can copy and paste.
 
-1. [Running Commands](lab/03-running-commands)
-1. [Running Scripts](lab/04-running-scripts)
-1. [Writing Tasks](lab/05-writing-tasks)
-1. [Downloading and running existing Tasks](lab/06-downloading-and-running-existing-tasks)
-1. [Writing Plans](lab/07-writing-plans)
-1. [Writing advanced Tasks](lab/08-writing-advanced-tasks)
-1. [Writing advanced Plans](lab/09-writing-advanced-plans)
-1. [Deploying an Application](lab/10-deploying-an-application)
-1. [Applying manifest code](lab/11-apply-manifest-code)
+1. [Running Commands](./running_commands.md)
+1. [Running Scripts](./running_scripts.md)
+1. [Writing Tasks](./writing_tasks.md)
+2. [Downloading and running existing Tasks](./download_run_tasks.md)
+3. [Writing Plans](./writing_plans.md)
+4. [Writing advanced Tasks](./advanced_tasks.md)
+5. [Writing advanced Plans](./advanced_plans.md)
+6. [Deploying an Application](./deploy_application.md)
+7. [Applying manifest code](./apply_manifest_code.md)
 
 ## Self-Paced Training
 

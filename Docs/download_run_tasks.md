@@ -13,10 +13,10 @@ In this exercise you will explore existing tasks, including several tasks that t
 ## Prerequisites
 Complete the following before you start this lesson:
 
-1. [Installing Bolt](../01-installing-bolt)
-1. [Setting up test nodes](../02-acquiring-nodes)
-1. [Running Commands](../03-running-commands)
-1. [Running Scripts](../04-running-scripts)
+1. [Installing Bolt](./installing_bolt.md)
+2. [Setting up test nodes](./test_nodes.md)
+3. [Running Commands](./running_commands.md)
+4. [Running Scripts](./running_scripts.md)
 
 ## Inspect installed tasks
 
@@ -166,4 +166,4 @@ These exercises introduce you to Bolt tasks. You'll find lots more tips, tricks,
 
 Now that you know how to run existing tasks with Bolt you can move on to:
 
-[Writing Plans](../07-writing-plans)
+[Writing Plans](./writing_plans.md)

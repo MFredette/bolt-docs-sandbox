@@ -29,13 +29,13 @@ them. When a new version of the application is released the following steps must
 For the following exercises you should have `bolt` installed and have four
 Linux nodes available. The following guides will help:
 
-1. [Acquiring Nodes](../02-acquiring-nodes)
-1. [Writing tasks](../05-writing-tasks)
-1. [Writing Advanced Plans](../09-writing-advanced-plans)
+1. [Acquiring nodes](./acquiring_nodes.md)
+2. [Writing tasks](./writing_tasks.md)
+3. [Writing Advanced Plans](./advanced_plans.md)
 
 ## Acquire nodes 
 
-This lesson requires four nodes. If you set up nodes in [lesson 2](../02-acquiring-nodes), you need to provision an extra node.
+This lesson requires four nodes. If you set up nodes in [Lesson 2](./acquiring_nodes.md), you need to provision an extra node.
 
 ## Provision extra nodes on Vagrant
 If you set up nodes in Vagrant in lesson `02-acquiring-nodes/`, run:
@@ -366,4 +366,4 @@ Congratulations! You should now have a basic understanding of `bolt` and Bolt Ta
 
 You can also move on to:
 
-[Applying Manifest Code With Bolt](../11-apply-manifest-code)
+[Applying Manifest Code With Bolt](./apply_manifest_code.md)

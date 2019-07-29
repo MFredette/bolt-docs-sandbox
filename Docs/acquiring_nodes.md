@@ -96,4 +96,4 @@ When passing nodes to Bolt in the next section you will use `--nodes 127.0.0.1:3
 
 Now that you have set up test nodes to use with Bolt you can move on to:
 
-[Running Commands](../03-running-commands)
+[Running Commands](./running_commands.md)

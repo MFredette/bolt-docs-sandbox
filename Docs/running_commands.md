@@ -8,17 +8,17 @@ time: Approximately 5 minutes
 
 You can use Bolt to run arbitrary commands on a set of remote hosts. Let's see that in practice before we move on to more advanced features. Choose the exercise based on the operating system of your test nodes.
 
-- [Running Commands](#Running-Commands)
-  - [Prerequisites](#Prerequisites)
-  - [Running shell commands on Linux nodes](#Running-shell-commands-on-Linux-nodes)
-  - [Running PowerShell commands on Windows nodes](#Running-PowerShell-commands-on-Windows-nodes)
-  - [Next steps](#Next-steps)
+- [Running Commands](#running-commands)
+  - [Prerequisites](#prerequisites)
+  - [Running shell commands on Linux nodes](#running-shell-commands-on-linux-nodes)
+  - [Running PowerShell commands on Windows nodes](#running-powershell-commands-on-windows-nodes)
+  - [Next steps](#next-steps)
 
 ## Prerequisites
 Complete the following before you start this lesson:
 
-1. [Installing Bolt](../01-installing-bolt)
-1. [Setting up test nodes](../02-acquiring-nodes)
+1. [Installing Bolt](./installing_bolt.md)
+1. [Setting up test nodes](./test_nodes.md)
 
 ## Running shell commands on Linux nodes
 
@@ -131,4 +131,4 @@ bolt command run <command> --nodes winrm://<node>,winrm://<node> --user <user> -
 
 Now that you know how to use Bolt to run adhoc commands you can move on to:
 
-[Running Scripts](../04-running-scripts)
+[Running Scripts](./running_scripts.md)

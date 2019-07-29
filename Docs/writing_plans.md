@@ -6,15 +6,18 @@ time: Approximately 10 minutes
 
 In this exercise you will discover Bolt Plans and how to run them with Bolt.
 
-- [Write a plan using run_command](#write-a-plan-using-run_command)
-- [Write a plan using run_task](#write-a-plan-using-run_task)
+- [Prerequisites](#prerequisites)
+- [About Plans](#about-plans)
+- [Write a plan using run_command](#write-a-plan-using-runcommand)
+- [Write a plan using run_task](#write-a-plan-using-runtask)
+- [Next steps](#next-steps)
 
 # Prerequisites
 Complete the following before you start this lesson:
 
-1. [Installing Bolt](../01-installing-bolt)
-1. [Setting up test nodes](../02-acquiring-nodes)
-1. [Running Commands](../03-running-commands)
+1. [Installing Bolt](./installing_bolt.md)
+2. [Setting up test nodes](./test_nodes.md)
+1. [Running Commands](./running_commands.md)
 
 # About Plans
 
@@ -141,4 +144,4 @@ Plan completed successfully with no result
 
 Now that you know how to create and run basic plans with Bolt you can move on to:
 
-[Writing advanced Tasks](../08-writing-advanced-tasks)
+5. [Writing advanced Plans](./advanced_plans.md)

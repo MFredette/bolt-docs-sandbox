@@ -6,9 +6,11 @@ time: Approximately 5 minutes
 
 In this exercise you will create nodes that you can use to experiment with Bolt. You can also use existing nodes in your system if you prefer.
 
+- [Prerequisites](#prerequisites)
 - [Existing nodes](#existing-nodes)
 - [Using Vagrant](#using-vagrant)
 - [Using Docker](#using-docker)
+- [Next steps](#next-steps)
 
 # Prerequisites
 To use an attached configuration file to set up test nodes, you must have one of the following installed on your machine:
@@ -99,4 +101,4 @@ When passing nodes to Bolt in the next section you will use `--nodes 127.0.0.1:3
 
 Now that you have set up test nodes to use with Bolt you can move on to:
 
-[Running Commands](../03-running-commands)
+[Running Commands](./running_commands.md)

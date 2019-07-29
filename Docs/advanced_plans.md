@@ -8,20 +8,20 @@ time: Approximately 10 minutes
 
 In this exercise you will further explore Bolt Plans:
 
-- [Writing advanced plans](#Writing-advanced-plans)
-- [Prerequisites](#Prerequisites)
-- [About Bolt's Plan Language](#About-Bolts-Plan-Language)
-- [Write a plan which uses input and output](#Write-a-plan-which-uses-input-and-output)
-- [Write a plan with custom Ruby functions](#Write-a-plan-with-custom-Ruby-functions)
-- [Write a plan which handles errors](#Write-a-plan-which-handles-errors)
-- [Next steps](#Next-steps)
+- [Writing advanced plans](#writing-advanced-plans)
+- [Prerequisites](#prerequisites)
+- [About Bolt's Plan Language](#about-bolts-plan-language)
+- [Write a plan which uses input and output](#write-a-plan-which-uses-input-and-output)
+- [Write a plan with custom Ruby functions](#write-a-plan-with-custom-ruby-functions)
+- [Write a plan which handles errors](#write-a-plan-which-handles-errors)
+- [Next steps](#next-steps)
 
 # Prerequisites
 Complete the following before you start this lesson:
 
-1. [Installing Bolt](../01-installing-bolt)
-1. [Setting up test nodes](../02-acquiring-nodes)
-1. [Writing plans](../07-writing-plans)
+1. [Installing Bolt](./installing_bolt.md)
+2. [Setting up test nodes](./test_nodes.md)
+3. [Writing plans](./writing_plans.md)
 
 # About Bolt's Plan Language
 
@@ -198,7 +198,7 @@ Plan completed successfully with no result
 # Next steps
 Now that you have learned about writing advanced plans you can deploy an app with bolt!
 
-[Deploying an Application](../10-deploying-an-application)
+[Deploying an Application](./deploy_application.md)
 
 
 [puppetlabs-stdlib]: https://github.com/puppetlabs/puppetlabs-stdlib
