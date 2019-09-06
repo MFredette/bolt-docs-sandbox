@@ -6,8 +6,6 @@ time: Approximately 5 minutes
 
 # Running Commands
 
-You can use Bolt to run arbitrary commands on a set of remote hosts. Let's see that in practice before we move on to more advanced features. Choose the exercise based on the operating system of your test nodes.
-
 - [Running Commands](#running-commands)
   - [Prerequisites](#prerequisites)
   - [Running shell commands on Linux nodes](#running-shell-commands-on-linux-nodes)
@@ -20,7 +18,7 @@ Complete the following before you start this lesson:
 1. [Installing Bolt](./installing_bolt.md)
 1. [Setting up test nodes](./test_nodes.md)
 
-## Running shell commands on Linux nodes
+### Running shell commands on Linux nodes
 
 Bolt by default uses SSH for transport. If you can connect to systems remotely, you can use Bolt to run shell commands. It reuses your existing SSH configuration for authentication, which is typically provided in `~/.ssh/config`.
 
