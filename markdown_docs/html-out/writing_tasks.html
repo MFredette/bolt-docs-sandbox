@@ -1,0 +1,371 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta charset="UTF-8"><meta name="copyright" content="(C) Copyright 2019"><meta name="DC.rights.owner" content="(C) Copyright 2019"><meta name="DC.type" content="topic"><meta name="DC.creator" content="Jean Bond <jean@puppet.com\&gt;"><meta name="DC.format" content="HTML5"><meta name="DC.identifier" content="writing-tasks"><link rel="stylesheet" type="text/css" href="commonltr.css"><title>Writing tasks</title></head><body id="writing-tasks"><main role="main"><article role="article" aria-labelledby="ariaid-title1"><h1 class="title topictitle1" id="ariaid-title1">Writing tasks</h1><div class="body"><p class="p">Bolt tasks are similar to scripts, but they are kept in modules and can have metadata. This allows you to reuse and share them.</p><p class="p">You can write tasks in any programming language the target nodes run, such as Bash, PowerShell, or Python. A task can even be a compiled binary that runs on the target. Place your task in the <code class="ph codeph">./tasks</code> directory of a module and add a metadata file to describe parameters and configure task behavior.</p><p class="p">For a task to run on remote \*nix systems, it must include a shebang \(<code class="ph codeph">#!</code>\) line at the top of the file to specify the interpreter.</p><p class="p">For example, the Puppet <code class="ph codeph">mysql::sql</code> task is written in Ruby and provides the path to the Ruby interpreter. This example also accepts several parameters as JSON on <code class="ph codeph">stdin</code> and returns an error.</p><pre class="pre codeblock"><code>#!/opt/puppetlabs/puppet/bin/ruby
+require 'json'
+require 'open3'
+require 'puppet'
+
+def get(sql, database, user, password)
+  cmd = ['mysql', '-e', "#{sql} "]
+  cmd &lt;&lt; "--database=#{database}" unless database.nil?
+  cmd &lt;&lt; "--user=#{user}" unless user.nil?
+  cmd &lt;&lt; "--password=#{password}" unless password.nil?
+  stdout, stderr, status = Open3.capture3(*cmd) # rubocop:disable Lint/UselessAssignment
+  raise Puppet::Error, _("stderr: ' %{stderr}') % { stderr: stderr }") if status != 0
+  { status: stdout.strip }
+end
+
+params = JSON.parse(STDIN.read)
+database = params['database']
+user = params['user']
+password = params['password']
+sql = params['sql']
+
+begin
+  result = get(sql, database, user, password)
+  puts result.to_json
+  exit 0
+rescue Puppet::Error =&gt; e
+  puts({ status: 'failure', error: e.message }.to_json)
+  exit 1
+end</code></pre><p class="p"><strong class="ph b">Parent topic:</strong><a class="xref" href="writing_tasks_and_plans.html">Tasks and plans</a></p></div><article class="topic nested1" aria-labelledby="ariaid-title2" id="secure-coding-practices-for-tasks"><h2 class="title topictitle2" id="ariaid-title2">Secure coding practices for tasks</h2><div class="body"><p class="p">Use secure coding practices when you write tasks and help protect your system.</p><p class="p"><strong class="ph b">Note:</strong> The information in this topic covers basic coding practices for writing secure tasks. It is not an exhaustive list.</p><p class="p">One of the methods attackers use to gain access to your systems is remote code execution, where by running an allowed script they gain access to other parts of the system and can make arbitrary changes. Because Bolt executes scripts across your infrastructure, it is important to be aware of certain vulnerabilities, and to code tasks in a way that guards against remote code execution.</p><p class="p">Adding task metadata that validates input is one way to reduce vulnerability. When you require an enumerated \(<code class="ph codeph">enum</code>\) or other non-string types, you prevent improper data from being entered. An arbitrary string parameter does not have this assurance.</p><p class="p">For example, if your task has a parameter that selects from several operational modes that are passed to a shell command, instead of</p><pre class="pre codeblock"><code>String $mode = 'file'</code></pre><p class="p">use</p><pre class="pre codeblock"><code>Enum[file,directory,link,socket] $mode = file</code></pre><p class="p">If your task has a parameter that identifies a file on disk, ensure that a user can't specify a relative path that takes them into areas where they shouldn't be. Reject file names that have slashes.</p><p class="p">Instead of</p><pre class="pre codeblock"><code>String $path</code></pre><p class="p">use</p><pre class="pre codeblock"><code>Pattern[/\A[^\/\\]*\z/] $path</code></pre><p class="p">In addition to these task restrictions, different scripting languages each have their own ways to validate user input.</p></div><article class="topic nested2" aria-labelledby="ariaid-title3" id="powershell"><h3 class="title topictitle3" id="ariaid-title3">PowerShell</h3><div class="body"><p class="p">In PowerShell, code injection exploits calls that specifically evaluate code. Do not call <code class="ph codeph">Invoke-Expression</code> or <code class="ph codeph">Add-Type</code> with user input. These commands evaluate strings as C\# code.</p><p class="p">Reading sensitive files or overwriting critical files can be less obvious. If you plan to allow users to specify a file name or path, use <code class="ph codeph">Resolve-Path</code> to verify that the path doesn't go outside the locations you expect the task to access. Use <code class="ph codeph">Split-Path -Parent $path</code> to check that the resolved path has the desired path as a parent.</p><p class="p">For more information, see <a class="xref" href="https://docs.microsoft.com/en-us/powershell/scripting/PowerShell-Scripting?view=powershell-6" target="_blank">PowerShell Scripting</a> and <a class="xref" href="https://blogs.msdn.microsoft.com/powershell/2008/09/30/powershells-security-guiding-principles/" target="_blank">Powershell's Security Guiding Principles</a>.</p></div></article><article class="topic nested2" aria-labelledby="ariaid-title4" id="bash"><h3 class="title topictitle3" id="ariaid-title4">Bash</h3><div class="body"><p class="p">In Bash and other command shells, shell command injection takes advantage of poor shell implementations. Put quotations marks around arguments to prevent the vulnerable shells from evaluating them.</p><p class="p">Because the <code class="ph codeph">eval</code> command evaluates all arguments with string substitution, avoid using it with user input; however you can use <code class="ph codeph">eval</code> with sufficient quoting to prevent substituted variables from being executed.</p><p class="p">Instead of</p><pre class="pre codeblock"><code>eval "echo $input"</code></pre><p class="p">use</p><pre class="pre codeblock"><code>eval "echo '$input'"</code></pre><p class="p">These are operating system-specific tools to validate file paths: <code class="ph codeph">realpath</code> or <code class="ph codeph">readlink -f</code>.</p></div></article><article class="topic nested2" aria-labelledby="ariaid-title5" id="python"><h3 class="title topictitle3" id="ariaid-title5">Python</h3><div class="body"><p class="p">In Python malicious code can be introduced through commands like <code class="ph codeph">eval</code>, <code class="ph codeph">exec</code>, <code class="ph codeph">os.system</code>, <code class="ph codeph">os.popen</code>, and <code class="ph codeph">subprocess.call</code> with <code class="ph codeph">shell=True</code>. Use <code class="ph codeph">subprocess.call</code> with <code class="ph codeph">shell=False</code> when you include user input in a command or escape variables.</p><p class="p">Instead of</p><pre class="pre codeblock"><code>os.system('echo '+input)
+</code></pre><p class="p">use</p><pre class="pre codeblock"><code>subprocess.check_output(['echo', input])</code></pre><p class="p">Resolve file paths with <code class="ph codeph">os.realpath</code> and confirm them to be within another path by looping over <code class="ph codeph">os.path.dirname</code> and comparing to the desired path.</p><p class="p">For more information on the vulnerabilities of Python or how to escape variables, see Kevin London's blog post on <a class="xref" href="https://www.kevinlondon.com/2015/07/26/dangerous-python-functions.html" target="_blank">Dangerous Python Functions</a>.</p></div></article><article class="topic nested2" aria-labelledby="ariaid-title6" id="ruby"><h3 class="title topictitle3" id="ariaid-title6">Ruby</h3><div class="body"><p class="p">In Ruby, command injection is introduced through commands like <code class="ph codeph">eval</code>, <code class="ph codeph">exec</code>, <code class="ph codeph">system</code>, backtick \(\`\`\) or <code class="ph codeph">%x()</code> execution, or the Open3 module. You can safely call these functions with user input by passing the input as additional arguments instead of a single string.</p><p class="p">Instead of</p><pre class="pre codeblock"><code>system("echo #{flag1} #{flag2}")</code></pre><p class="p">use</p><pre class="pre codeblock"><code>system('echo', flag1, flag2)</code></pre><p class="p">Resolve file paths with <code class="ph codeph">Pathname#realpath</code>, and confirm them to be within another path by looping over <code class="ph codeph">Pathname#parent</code> and comparing to the desired path.</p><p class="p">For more information on securely passing user input, see the blog post <a class="xref" href="https://www.hilman.io/blog/2016/01/stop-using-backtick-to-run-shell-command-in-ruby/" target="_blank">Stop using backtick to run shell command in Ruby</a>.</p></div></article></article><article class="topic nested1" aria-labelledby="ariaid-title7" id="naming-tasks"><h2 class="title topictitle2" id="ariaid-title7">Naming tasks</h2><div class="body"><p class="p">Task names are named based on the filename of the task, the name of the module, and the path to the task within the module.</p><p class="p">You can write tasks in any language that runs on the target nodes. Give task files the extension for the language they are written in \(such as <code class="ph codeph">.rb</code> for Ruby\), and place them in the top level of your module's <code class="ph codeph">./tasks</code> directory.</p><p class="p">Task names are composed of one or two name segments, indicating:</p><ul class="ul"><li class="li"><p class="p">The name of the module where the task is located.</p></li><li class="li"><p class="p">The name of the task file, without the extension.</p></li></ul><p class="p">For example, the <code class="ph codeph">puppetlabs-mysql</code> module has the <code class="ph codeph">sql</code> task in <code class="ph codeph">./mysql/tasks/sql.rb</code>, so the task name is <code class="ph codeph">mysql::sql</code>. This name is how you refer to the task when you run tasks.</p><p class="p">The task filename <code class="ph codeph">init</code> is special: the task it defines is referenced using the module name only. For example, in the <code class="ph codeph">puppetlabs-service</code> module, the task defined in <code class="ph codeph">init.rb</code> is the <code class="ph codeph">service</code> task.</p><p class="p">Each task or plan name segment must begin with a lowercase letter and:</p><ul class="ul"><li class="li"><p class="p">Must start with a lowercase letter.</p></li><li class="li"><p class="p">May include digits.</p></li><li class="li"><p class="p">May include underscores.</p></li><li class="li"><p class="p">Namespace segments must match the following regular expression <code class="ph codeph">\A[a-z][a-z0-9_]*\Z</code></p></li><li class="li"><p class="p">The file extension must not use the reserved extensions .md or .json.</p></li></ul></div><article class="topic nested2" aria-labelledby="ariaid-title8" id="single-platform-tasks"><h3 class="title topictitle3" id="ariaid-title8">Single-platform tasks</h3><div class="body"><p class="p">A task can consist of a single executable with or without a corresponding metadata file. For instance,&nbsp;<code class="ph codeph">./mysql/tasks/sql.rb</code>&nbsp;and&nbsp;<code class="ph codeph">./mysql/tasks/sql.json</code>. In this case, no other&nbsp;<code class="ph codeph">./mysql/tasks/sql.*</code>&nbsp;files can exist.</p></div></article><article class="topic nested2" aria-labelledby="ariaid-title9" id="cross-platform-tasks"><h3 class="title topictitle3" id="ariaid-title9">Cross-platform tasks</h3><div class="body"><p class="p">A task can have multiple implementations, with metadata that explains when to use each one. A primary use case for this is to support different implementations for different target platforms, referred to as cross-platform tasks.</p><p class="p">A task can also have multiple implementations, with metadata that explains when to use each one. A primary use case for this is to support different implementations for different target platforms, referred to as <code class="ph codeph">cross-platform tasks</code>. For instance, consider a module with the following files:</p><pre class="pre codeblock"><code>- tasks
+  - sql_linux.sh
+  - sql_linux.json
+  - sql_windows.ps1
+  - sql_windows.json
+  - sql.json</code></pre><p class="p">This task has two executables \(<code class="ph codeph">sql_linux.sh</code> and <code class="ph codeph">sql_windows.ps1</code>\), each with an implementation metadata file and a task metadata file. The executables have distinct names and are compatible with older task runners such as Puppet Enterprise 2018.1 and earlier. Each implementation has it's own metadata which documents how to use the implementation directly or marks it as private to hide it from UI lists.</p><p class="p">An implementation metadata example:</p><pre class="pre codeblock"><code>{
+  "name": "SQL Linux",
+  "description": "A task to perform sql operations on linux targets",
+  "private": true
+}</code></pre><p class="p">The task metadata file contains an implementations section:</p><pre class="pre codeblock"><code>{
+  "implementations": [
+    {"name": "sql_linux.sh", "requirements": ["shell"]},
+    {"name": "sql_windows.ps1", "requirements": ["powershell"]}
+  ]
+}</code></pre><p class="p">Each implementations has a <code class="ph codeph">name</code> and a list of <code class="ph codeph">requirements</code>. The requirements are the set of <em class="ph i">features</em> which must be available on the target in order for that implementation to be used. In this case, the <code class="ph codeph">sql_linux.sh</code> implementation requires the <code class="ph codeph">shell</code> feature, and the <code class="ph codeph">sql_windows.ps1</code> implementations requires the PowerShell feature.</p><p class="p">The set of features available on the target is determined by the task runner. You can specify additional features for a target via <code class="ph codeph">set_feature</code> or by adding <code class="ph codeph">features</code> in the inventory. The task runner chooses the <em class="ph i">first</em>implementation whose requirements are satisfied.</p><p class="p">The following features are defined by default:</p><ul class="ul"><li class="li"><p class="p"><code class="ph codeph">puppet-agent</code>: Present if the target has the Puppet agent package installed. This feature is automatically added to hosts with the name <code class="ph codeph">localhost</code>.</p></li><li class="li"><p class="p"><code class="ph codeph">shell</code>: Present if the target has a posix shell.</p></li><li class="li"><p class="p"><code class="ph codeph">powershell</code>: Present if the target has PowerShell.</p></li></ul></div></article></article><article class="topic nested1" aria-labelledby="ariaid-title10" id="sharing-executables"><h2 class="title topictitle2" id="ariaid-title10">Sharing executables</h2><div class="body"><p class="p">Multiple task implementations can refer to the same executable file.</p><p class="p">Executables can access the <code class="ph codeph">_task</code> metaparameter, which contains the task name. For example, the following creates the tasks <code class="ph codeph">service::stop</code> and <code class="ph codeph">service::start</code>, which live in the executable but appear as two separate tasks.</p><pre class="pre codeblock"><code>myservice/tasks/init.rb</code></pre><pre class="pre codeblock"><code>#!/usr/bin/env ruby
+require 'json'
+
+params = JSON.parse(STDIN.read)
+action = params['action'] || params['_task']
+if ['start',  'stop'].include?(action)
+  `systemctl #{params['_task']} #{params['service']}`
+end
+</code></pre><pre class="pre codeblock"><code>myservice/tasks/start.json</code></pre><pre class="pre codeblock"><code>{
+  "description": "Start a service",
+  "parameters": {
+    "service": {
+      "type": "String",
+      "description": "The service to start"
+    }
+  },
+  "implementations": [
+    {"name": "init.rb"}
+  ]
+}</code></pre><pre class="pre codeblock"><code>myservice/tasks/stop.json</code></pre><pre class="pre codeblock"><code>{
+  "description": "Stop a service",
+  "parameters": {
+    "service": {
+      "type": "String",
+      "description": "The service to stop"
+    }
+  },
+  "implementations": [
+    {"name": "init.rb"}
+  ]
+}</code></pre></div></article><article class="topic nested1" aria-labelledby="ariaid-title11" id="sharing-task-code"><h2 class="title topictitle2" id="ariaid-title11">Sharing task code</h2><div class="body"><p class="p">Multiple tasks can share common files between them. Tasks can additionally pull library code from other modules.</p><p class="p">To create a task that includes additional files pulled from modules, include the&nbsp;files&nbsp;property in your metadata as an array of paths. A path consists of:</p><ul class="ul"><li class="li"><p class="p">the module name</p></li><li class="li"><p class="p">one of the following directories within the module:</p><ul class="ul"><li class="li"><p class="p"><code class="ph codeph">files</code> — Most helper files. This prevents the file from being treated as a task or added to the Puppet Ruby loadpath.</p></li><li class="li"><p class="p"><code class="ph codeph">tasks</code> — Helper files that can be called as tasks on their own.</p></li><li class="li"><p class="p"><code class="ph codeph">lib</code> — Ruby code that might be reused by types, providers, or Puppet functions.</p></li></ul></li><li class="li"><p class="p">the remaining path to a file or directory; directories must include a trailing slash&nbsp;<code class="ph codeph">/</code></p></li></ul><p class="p">All path separators must be forward slashes. An example would be&nbsp;<code class="ph codeph">stdlib/lib/puppet/</code>.</p><p class="p">The&nbsp;<code class="ph codeph">files</code>&nbsp;property can be included both as a top-level metadata property, and as a property of an implementation, for example:</p><pre class="pre codeblock"><code>{
+  "implementations": [
+    {"name": "sql_linux.sh", "requirements": ["shell"], "files": ["mymodule/files/lib.sh"]},
+    {"name": "sql_windows.ps1", "requirements": ["powershell"], "files": ["mymodule/files/lib.ps1"]}
+  ],
+  "files": ["emoji/files/emojis/"]
+}</code></pre><p class="p">When a task includes the&nbsp;<code class="ph codeph">files</code>&nbsp;property, all files listed in the top-level property and in the specific implementation chosen for a target are copied to a temporary directory on that target. The directory structure of the specified files is preserved such that paths specified with the&nbsp;<code class="ph codeph">files</code>&nbsp;metadata option are available to tasks prefixed with&nbsp;<code class="ph codeph">_installdir</code>. The task executable itself is located in its module location under the <code class="ph codeph">_installdir</code> as well, so other files can be found at <code class="ph codeph">../../mymodule/files/</code>relative to the task executable's location.</p><p class="p">For example, you can create a task and metadata in a module at <code class="ph codeph">~/.puppetlabs/bolt/site-modules/mymodule/tasks/task.{json,rb}</code>.</p><p class="p"><strong class="ph b">Metadata</strong></p><pre class="pre codeblock"><code>{
+  "files": ["multi_task/files/rb_helper.rb"]
+}</code></pre><p class="p"><strong class="ph b">File resource</strong></p><p class="p"><code class="ph codeph">multi_task/files/rb_helper.rb</code></p><pre class="pre codeblock"><code>def useful_ruby
+  { helper: "ruby" }
+end</code></pre><p class="p"><strong class="ph b">Task</strong></p><pre class="pre codeblock"><code>#!/usr/bin/env ruby
+require 'json'
+
+params = JSON.parse(STDIN.read)
+require_relative File.join(params['_installdir'], 'multi_task', 'files', 'rb_helper.rb')
+# Alternatively use relative path
+# require_relative File.join(__dir__, '..', '..', 'multi_task', 'files', 'rb_helper.rb')
+ puts useful_ruby.to_json</code></pre><p class="p"><strong class="ph b">Output</strong></p><pre class="pre codeblock"><code>Started on localhost...
+Finished on localhost:
+  {
+    "helper": "ruby"
+  }
+Successful on 1 node: localhost
+Ran on 1 node in 0.12 seconds</code></pre></div><article class="topic nested2" aria-labelledby="ariaid-title12" id="task-helpers"><h3 class="title topictitle3" id="ariaid-title12">Task helpers</h3><div class="body"><p class="p">To help with writing tasks, Bolt includes <a class="xref" href="https://github.com/puppetlabs/puppetlabs-python_task_helper" target="_blank">python\_task\_helper</a> and <a class="xref" href="https://github.com/puppetlabs/puppetlabs-ruby_task_helper" target="_blank">ruby\_task\_helper</a>. It also makes a useful demonstration of including code from another module.</p></div></article><article class="topic nested2" aria-labelledby="ariaid-title13" id="python-example"><h3 class="title topictitle3" id="ariaid-title13">Python example</h3><div class="body"><p class="p">Create task and metadata in a module at <code class="ph codeph">~/.puppetlabs/bolt/site-modules/mymodule/tasks/task.{json,py}</code>.</p><p class="p"><strong class="ph b">Metadata</strong></p><pre class="pre codeblock"><code>{
+  "files": ["python_task_helper/files/task_helper.py"],
+  "input_method": "stdin"
+}</code></pre><p class="p"><strong class="ph b">Task</strong></p><pre class="pre codeblock"><code>#!/usr/bin/env python
+import os, sys
+sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'python_task_helper', 'files'))
+from task_helper import TaskHelper
+
+class MyTask(TaskHelper):
+  def task(self, args):
+    return {'greeting': 'Hi, my name is '+args['name']}
+
+if __name__ == '__main__':
+    MyTask().run()</code></pre><p class="p"><strong class="ph b">Output</strong></p><pre class="pre codeblock"><code>$ bolt task run mymodule::task -n localhost name='Julia'
+Started on localhost...
+Finished on localhost:
+  {
+    "greeting": "Hi, my name is Julia"
+  }
+Successful on 1 node: localhost
+Ran on 1 node in 0.12 seconds</code></pre></div></article><article class="topic nested2" aria-labelledby="ariaid-title14" id="ruby-example"><h3 class="title topictitle3" id="ariaid-title14">Ruby example</h3><div class="body"><p class="p">Create task and metadata in a new module at <code class="ph codeph">~/.puppetlabs/bolt/site-modules/mymodule/tasks/mytask.{json,rb}</code>.</p><p class="p"><strong class="ph b">Metadata</strong></p><pre class="pre codeblock"><code>{
+  "files": ["ruby_task_helper/files/task_helper.rb"],
+  "input_method": "stdin"
+}</code></pre><p class="p"><strong class="ph b">Task</strong></p><pre class="pre codeblock"><code>#!/usr/bin/env ruby
+require_relative '../../ruby_task_helper/files/task_helper.rb'
+
+class MyTask &lt; TaskHelper 
+  def task(name: nil, **kwargs)
+    { greeting: "Hi, my name is #{name}" }
+  end
+end
+
+
+MyTask.run if __FILE__ == $0</code></pre><p class="p"><strong class="ph b">Output</strong></p><pre class="pre codeblock"><code>$ bolt task run mymodule::mytask -n localhost name="Robert'); DROP TABLE Students;--"
+Started on localhost...
+Finished on localhost:
+  {
+    "greeting": "Hi, my name is Robert'); DROP TABLE Students;--"
+  }
+Successful on 1 node: localhost
+Ran on 1 node in 0.12 seconds</code></pre></div></article></article><article class="topic nested1" aria-labelledby="ariaid-title15" id="writing-remote-tasks"><h2 class="title topictitle2" id="ariaid-title15">Writing remote tasks</h2><div class="body"><p class="p">Some targets are hard or impossible to execute tasks on directly. In these cases, you can write a task that runs on a proxy target and remotely interacts with the real target.</p><p class="p">For example, a network device might have a limited shell environment or a cloud service might be driven only by HTTP APIs. By writing a remote task, Bolt allows you to specify connection information for remote targets in their inventory file and injects them into the <code class="ph codeph">_target</code> metaparam.</p><p class="p">This example shows how to write a task that posts messages to Slack and reads connection information from <code class="ph codeph">inventory.yaml</code>:</p><pre class="pre codeblock"><code>#!/usr/bin/env ruby
+# modules/slack/tasks/message.rb
+
+require 'json'
+require 'net/http'
+
+params = JSON.parse(STDIN.read)
+# the slack API token is passed in from inventory
+token = params['_target']['token']
+		
+uri = URI('https://slack.com/api/chat.postMessage')
+http = Net::HTTP.new(uri.host, uri.port)
+http.use_ssl = true
+
+req = Net::HTTP::Post.new(uri, 'Content-type' =&gt; 'application/json')
+req['Authorization'] = "Bearer #{params['_target']['token']}"
+req.body = { channel: params['channel'], text: params['message'] }.to_json
+
+resp = http.request(req)
+
+puts resp.body</code></pre><p class="p">To prevent accidentally running a normal task on a remote target and breaking its configuration, Bolt won't run a task on a remote target unless its metadata defines it as remote:</p><pre class="pre codeblock"><code>{
+  "remote": true
+}</code></pre><p class="p">Add Slack as a remote target in your inventory file:</p><pre class="pre codeblock"><code>---
+nodes:
+  - name: my_slack
+    config:
+      transport: remote
+      remote:
+	token: &lt;SLACK_API_TOKEN&gt;</code></pre><p class="p">Finally, make <code class="ph codeph">my_slack</code> a target that can run the <code class="ph codeph">slack::message</code>:</p><pre class="pre codeblock"><code>bolt task run slack::message --nodes my_slack message="hello" channel=&lt;slack channel id&gt;</code></pre></div></article><article class="topic nested1" aria-labelledby="ariaid-title16" id="defining-parameters-in-tasks"><h2 class="title topictitle2" id="ariaid-title16">Defining parameters in tasks</h2><div class="body"><p class="p">Allow your task to accept parameters as either environment variables or as a JSON hash on standard input.</p><p class="p">Tasks can receive input as either environment variables, a JSON hash on standard input, or as PowerShell arguments. By default, the task runner submits parameters as both environment variables and as JSON on <code class="ph codeph">stdin</code>.</p><p class="p">If your task should receive parameters only in a certain way, such as <code class="ph codeph">stdin</code> only, you can set the input method in your task metadata. For Windows tasks, it's usually better to use tasks written in PowerShell. See the related topic about task metadata for information about setting the input method.</p><p class="p">Environment variables are the easiest way to implement parameters, and they work well for simple JSON types such as strings and numbers. For arrays and hashes, use structured input instead because parameters with undefined values \(<code class="ph codeph">nil</code>, <code class="ph codeph">undef</code>\) passed as environment variables have the <code class="ph codeph">String</code> value <code class="ph codeph">null</code>. For more information, see <a class="xref" href="writing_tasks.html#">Structured input and output</a>.</p><p class="p">To add parameters to your task as environment variables, pass the argument prefixed with the Puppet task prefix <code class="ph codeph">PT_</code> .</p><p class="p">For example, to add a <code class="ph codeph">message</code> parameter to your task, read it from the environment in task code as <code class="ph codeph">PT_message</code>. When the user runs the task, they can specify the value for the parameter on the command line as <code class="ph codeph">message=hello</code>, and the task runner submits the value <code class="ph codeph">hello</code> to the <code class="ph codeph">PT_message</code> variable.</p><pre class="pre codeblock"><code>#!/usr/bin/env bash
+echo your message is $PT_message</code></pre></div><article class="topic nested2" aria-labelledby="ariaid-title17" id="defining-parameters-in-windows"><h3 class="title topictitle3" id="ariaid-title17">Defining parameters in Windows</h3><div class="body"><p class="p">For Windows tasks, you can pass parameters as environment variables, but it's easier to write your task in PowerShell and use named arguments. By default tasks with a <code class="ph codeph">.ps1</code> extension use PowerShell standard argument handling.</p><p class="p">For example, this PowerShell task takes a process name as an argument and returns information about the process. If no parameter is passed by the user, the task returns all of the processes.</p><pre class="pre codeblock"><code>[CmdletBinding()]
+Param(
+  [Parameter(Mandatory = $False)]
+ [String]
+  $Name
+  )
+
+if ($Name -eq $null -or $Name -eq "") {
+  Get-Process
+} else {
+  $processes = Get-Process -Name $Name
+  $result = @()
+  foreach ($process in $processes) {
+    $result += @{"Name" = $process.ProcessName;
+                 "CPU" = $process.CPU;
+                 "Memory" = $process.WorkingSet;
+                 "Path" = $process.Path;
+                 "Id" = $process.Id}
+  }
+  if ($result.Count -eq 1) {
+    ConvertTo-Json -InputObject $result[0] -Compress
+  } elseif ($result.Count -gt 1) {
+    ConvertTo-Json -InputObject @{"_items" = $result} -Compress
+  }
+}</code></pre><p class="p">To pass parameters in your task as environment variables \(<code class="ph codeph">PT_parameter</code>\), you must set <code class="ph codeph">input_method</code> in your task metadata to <code class="ph codeph">environment</code>. To run Ruby tasks on Windows, the Puppet agent must be installed on the target nodes.</p></div></article></article><article class="topic nested1" aria-labelledby="ariaid-title18" id="returning-errors-in-tasks"><h2 class="title topictitle2" id="ariaid-title18">Returning errors in tasks</h2><div class="body"><p class="p">To return a detailed error message if your task fails, include an <code class="ph codeph">Error</code> object in the task's result.</p><p class="p">When a task exits non-zero, the task runner checks for an error key \(\`\_error\`\). If one is not present, the task runner generates a generic error and adds it to the result. If there is no text on <code class="ph codeph">stdout</code> but text is present on <code class="ph codeph">stderr</code>, the <code class="ph codeph">stderr</code> text is included in the message.</p><pre class="pre codeblock"><code>{ "_error": {
+    "msg": "Task exited 1:\nSomething on stderr",
+    "kind": "puppetlabs.tasks/task-error",
+    "details": { "exitcode": 1 }
+}</code></pre><p class="p">An error object includes the following keys:</p><ul class="ul"><li class="li"><p class="p"><strong class="ph b">msg</strong></p><p class="p">A human readable string that appears in the UI.</p></li><li class="li"><p class="p"><strong class="ph b">kind</strong></p><p class="p">A standard string for machines to handle. You may share kinds between your modules or namespace kinds per module.</p></li><li class="li"><p class="p"><strong class="ph b">details</strong></p><p class="p">An object of structured data about the tasks.</p></li></ul><p class="p">Tasks can provide more details about the failure by including their own error object in the result at <code class="ph codeph">_error</code>.</p><pre class="pre codeblock"><code>#!/opt/puppetlabs/puppet/bin/ruby
+
+require 'json'
+
+begin
+  params = JSON.parse(STDIN.read)
+  result = {}
+  result['result'] = params['dividend'] / params['divisor']
+
+rescue ZeroDivisionError
+  result[:_error] = { msg: "Cannot divide by zero",
+                      # namespace the error to this module
+                      kind: "puppetlabs-example_modules/dividebyzero",
+                      details: { divisor: divisor },
+                    }
+rescue Exception =&gt; e
+  result[:_error] = { msg: e.message,
+                     kind: "puppetlabs-example_modules/unknown",
+                     details: { class: e.class.to_s },
+                   }
+end
+
+puts result.to_json</code></pre></div></article><article class="topic nested1" aria-labelledby="ariaid-title19" id="structured-input-and-output"><h2 class="title topictitle2" id="ariaid-title19">Structured input and output</h2><div class="body"><p class="p">If you have a task that has many options, returns a lot of information, or is part of a task plan, consider using structured input and output with your task.</p><p class="p">The task API is based on JSON. Task parameters are encoded in JSON, and the task runner attempts to parse the output of the tasks as a JSON object.</p><p class="p">The task runner can inject keys into that object, prefixed with <code class="ph codeph">_</code>. If the task does not return a JSON object, the task runner creates one and places the output in an <code class="ph codeph">_output</code> key.</p></div><article class="topic nested2" aria-labelledby="ariaid-title20" id="structured-input"><h3 class="title topictitle3" id="ariaid-title20">Structured input</h3><div class="body"><p class="p">For complex input, such as hashes and arrays, you can accept structured JSON in your task.</p><p class="p">By default, the task runner passes task parameters as both environment variables and as a single JSON object on stdin. The JSON input allows the task to accept complex data structures.</p><p class="p">To accept parameters as JSON on stdin, set the <code class="ph codeph">params</code> key to accept JSON on <code class="ph codeph">stdin</code>.</p><pre class="pre codeblock"><code>#!/opt/puppetlabs/puppet/bin/ruby
+require 'json'
+
+params = JSON.parse(STDIN.read)
+
+exitcode = 0
+params['files'].each do |filename|
+  begin
+    FileUtils.touch(filename)
+    puts "updated file #{filename}"
+  rescue
+    exitcode = 1
+    puts "couldn't update file #{filename}"
+  end
+end
+exit exitcode</code></pre><p class="p">If your task accepts input on <code class="ph codeph">stdin</code> it should specify <code class="ph codeph">"input_method": "stdin"</code> in its <code class="ph codeph">metadata.json</code> file, or it may not work with sudo for some users.</p></div></article><article class="topic nested2" aria-labelledby="ariaid-title21" id="returning-structured-output"><h3 class="title topictitle3" id="ariaid-title21">Returning structured output</h3><div class="body"><p class="p">To return structured data from your task, print only a single JSON object to <code class="ph codeph">stdout</code> in your task.</p><p class="p">Structured output is useful if you want to use the output in another program, or if you want to use the result of the task in a Puppet task plan.</p><pre class="pre codeblock"><code>#!/usr/bin/env python
+import json
+import sys
+minor = sys.version_info
+result = { "major": sys.version_info.major, "minor": sys.version_info.minor }
+json.dump(result, sys.stdout)</code></pre></div></article></article><article class="topic nested1" aria-labelledby="ariaid-title22" id="converting-scripts-to-tasks"><h2 class="title topictitle2" id="ariaid-title22">Converting scripts to tasks</h2><div class="body"><p class="p">To convert an existing script to a task, you can either write a task that wraps the script or you can add logic in your script to check for parameters in environment variables.</p><p class="p">If the script is already installed on the target nodes, you can write a task that wraps the script. In the task, read the script arguments as task parameters and call the script, passing the parameters as the arguments.</p><p class="p">If the script isn't installed or you want to make it into a cohesive task so that you can manage its version with code management tools, add code to your script to check for the environment variables, prefixed with <code class="ph codeph">PT_</code>, and read them instead of arguments.</p><p class="p">CAUTION:</p><p class="p">For any tasks that you intend to use with PE and assign RBAC permissions, makesure the script safely handles parameters or validate them to prevent shell injection vulnerabilities.</p><p class="p">Given a script that accepts positional arguments on the command line:</p><pre class="pre codeblock"><code>version=$1
+[ -z "$version" ] &amp;&amp; echo "Must specify a version to deploy &amp;&amp; exit 1
+
+if [ -z "$2" ]; then
+  filename=$2
+else
+  filename=~/myfile
+fi</code></pre><p class="p">To convert the script into a task, replace this logic with task variables:</p><pre class="pre codeblock"><code>version=$PT_version #no need to validate if we use metadata
+if [ -z "$PT_filename" ]; then
+  filename=$PT_filename
+else
+  filename=~/myfile
+fi</code></pre></div><article class="topic nested2" aria-labelledby="ariaid-title23" id="wrapping-an-existing-script"><h3 class="title topictitle3" id="ariaid-title23">Wrapping an existing script</h3><div class="body"><p class="p">If a script is not already installed on targets and you don't want to edit it, for example if it's a script someone else maintains, you can wrap the script in a small task without modifying it.</p><p class="p">CAUTION:</p><p class="p">For any tasks that you intend to use with PE and assign RBAC permissions, makesure the script safely handles parameters or validate them to prevent shell injection vulnerabilities.</p><p class="p">Given a script, <code class="ph codeph">myscript.sh</code>, that accepts 2 positional args, <code class="ph codeph">filename</code> and <code class="ph codeph">version</code>:</p><ol class="ol"><li class="li"><p class="p">Copy the script to the module's <code class="ph codeph">files/</code> directory.</p></li><li class="li"><p class="p">Create a metadata file for the task that includes the parameters and file dependency.</p></li></ol><pre class="pre codeblock"><code>{
+     "input_method": "environment",
+     "parameters": {
+       "filename": { "type": "String[1]" },
+       "version": { "type": "String[1]" }
+     },
+     "files": [ "script_example/files/myscript.sh" ]
+   }</code></pre><ol class="ol"><li class="li"><p class="p">Create a small wrapper task that reads environment variables and calls the task.</p><pre class="pre codeblock"><code>#!/usr/bin/env bash
+set -e
+
+script_file="$PT__installdir/script_example/files/myscript.sh"
+# If this task is going to be run from windows nodes the wrapper must make sure it's exectutable
+chmod +x $script_file
+commandline=("$script_file" "$PT_filename" "$PT_version")
+# If the stderr output of the script is important redirect it to stdout.
+"${commandline[@]}" 2&gt;&amp;1</code></pre></li></ol></div></article></article><article class="topic nested1" aria-labelledby="ariaid-title24" id="supporting-no-op-in-tasks"><h2 class="title topictitle2" id="ariaid-title24">Supporting no-op in tasks</h2><div class="body"><p class="p">Tasks support no-operation functionality, also known as no-op mode. This function shows what changes the task would make, without actually making those changes.</p><p class="p">No-op support allows a user to pass the <code class="ph codeph">--noop</code> flag with a command to test whether the task will succeed on all targets before making changes.</p><p class="p">To support no-op, your task must include code that looks for the <code class="ph codeph">_noop</code> metaparameter. No-op is supported only in Puppet Enterprise.</p><p class="p">If the user passes the <code class="ph codeph">--noop</code> flag with their command, this parameter is set to <code class="ph codeph">true</code>, and your task must not make changes. You must also set <code class="ph codeph">supports_noop</code> to <code class="ph codeph">true</code> in your task metadata or the task runner will refuse to run the task in noop mode.</p></div><article class="topic nested2" aria-labelledby="ariaid-title25" id="no-op-metadata-example"><h3 class="title topictitle3" id="ariaid-title25">No-op metadata example</h3><div class="body"><pre class="pre codeblock"><code>{
+  "description": "Write content to a file.",
+  "supports_noop": true,
+  "parameters": {
+    "filename": {
+      "description": "the file to write to",
+      "type": "String[1]"
+    },
+    "content": {
+      "description": "The content to write",
+      "type": "String"
+    }
+  }
+}</code></pre></div></article><article class="topic nested2" aria-labelledby="ariaid-title26" id="no-op-task-example"><h3 class="title topictitle3" id="ariaid-title26">No-op task example</h3><div class="body"><pre class="pre codeblock"><code>#!/usr/bin/env python
+import json
+import os
+import sys
+
+params = json.load(sys.stdin)
+filename = params['filename']
+content = params['content']
+noop = params.get('_noop', False)
+
+exitcode = 0
+
+def make_error(msg):
+ &nbsp;error = {
+      "_error": {
+          "kind": "file_error",
+          "msg": msg,
+          "details": {},
+      }
+  }
+  return error
+
+try:
+  if noop:
+    path = os.path.abspath(os.path.join(filename, os.pardir))
+    file_exists = os.access(filename, os.F_OK)
+    file_writable = os.access(filename, os.W_OK)
+    path_writable = os.access(path, os.W_OK)
+
+    if path_writable == False:
+      exitcode = 1
+      result = make_error("Path %s is not writable" % path)
+    elif file_exists == True and file_writable == False:
+      exitcode = 1
+      result = make_error("File %s is not writable" % filename)
+    else:
+      result = { "success": True , '_noop': True }
+  else:
+    with open(filename, 'w') as fh:
+      fh.write(content)
+      result = { "success": True }
+except Exception as e:
+  exitcode = 1
+  result = make_error("Could not open file %s: %s" % (filename, str(e)))
+print(json.dumps(result))
+exit(exitcode)</code></pre></div></article></article><article class="topic nested1" aria-labelledby="ariaid-title27" id="task-metadata"><h2 class="title topictitle2" id="ariaid-title27">Task metadata</h2><div class="body"><p class="p">Task metadata files describe task parameters, validate input, and control how the task runner executes the task.</p><p class="p">Your task must have metadata to be published and shared on the Forge. Specify task metadata in a JSON file with the naming convention <code class="ph codeph">&lt;TASKNAME&gt;.json</code> . Place this file in the module's <code class="ph codeph">./tasks</code> folder along with your task file.</p><p class="p">For example, the module <code class="ph codeph">puppetlabs-mysql</code> includes the <code class="ph codeph">mysql::sql</code> task with the metadata file, <code class="ph codeph">sql.json</code>.</p><pre class="pre codeblock"><code>{
+  "description": "Allows you to execute arbitrary SQL",
+  "input_method": "stdin",
+  "parameters": {
+    "database": {
+      "description": "Database to connect to",
+      "type": "Optional[String[1]]"
+    },
+    "user": {
+      "description": "The user",
+      "type": "Optional[String[1]]"
+    },
+    "password": {
+      "description": "The password",
+      "type": "Optional[String[1]]",
+      "sensitive": true
+    },
+     "sql": {
+      "description": "The SQL you want to execute",
+      "type": "String[1]"
+    }
+  }
+}</code></pre></div><article class="topic nested2" aria-labelledby="ariaid-title28" id="adding-parameters-to-metadata"><h3 class="title topictitle3" id="ariaid-title28">Adding parameters to metadata</h3><div class="body"><p class="p">To document and validate task parameters, add the parameters to the task metadata as JSON object, <code class="ph codeph">parameters</code>.</p><p class="p">If a task includes <code class="ph codeph">parameters</code> in its metadata, the task runner rejects any parameters input to the task that aren't defined in the metadata.</p><p class="p">In the <code class="ph codeph">parameter</code> object, give each parameter a description and specify its Puppet type. For a complete list of types, see the <a class="xref" href="https://docs.puppet.com/puppet/latest/lang_data_type.html" target="_blank">types documentation</a>.</p><p class="p">For example, the following code in a metadata file describes a <code class="ph codeph">provider</code> parameter:</p><pre class="pre codeblock"><code>"provider": {
+  "description": "The provider to use to manage or inspect the service, defaults to the system service manager",
+  "type": "Optional[String[1]]"
+ }</code></pre></div><article class="topic nested3" aria-labelledby="ariaid-title29" id="define-sensitive-parameters"><h4 class="title topictitle4" id="ariaid-title29">Define sensitive parameters</h4><div class="body"><p class="p">You can define task parameters as sensitive, for example, passwords and API keys. These values are masked when they appear in logs and API responses. When you want to view these values, set the log file to <code class="ph codeph">level: debug</code>.</p><p class="p">To define a parameter as sensitive within the JSON metadata, add the <code class="ph codeph">"sensitive": true</code> property.</p><pre class="pre codeblock"><code>{
+  "description": "This task has a sensitive property denoted by its metadata",
+  "input_method": "stdin",
+  "parameters": {
+    "user": {
+      "description": "The user",
+      "type": "String[1]"
+    },
+    "password": {
+      "description": "The password",
+      "type": "String[1]",
+      "sensitive": true
+    }
+  }
+}</code></pre></div></article></article><article class="topic nested2" aria-labelledby="ariaid-title30" id="task-metadata-reference"><h3 class="title topictitle3" id="ariaid-title30">Task metadata reference</h3><div class="body"><p class="p">The following table shows task metadata keys, values, and default values.</p></div><article class="topic nested3" aria-labelledby="ariaid-title31" id="task-metadata-1"><h4 class="title topictitle4" id="ariaid-title31"><strong class="ph b">Task metadata</strong></h4><div class="body"><table class="table"><caption></caption><colgroup><col><col><col><col></colgroup><thead class="thead"><tr class="row"><th class="entry" id="task-metadata-1__entry__1">Metadata key</th><th class="entry" id="task-metadata-1__entry__2">Description</th><th class="entry" id="task-metadata-1__entry__3">Value</th><th class="entry" id="task-metadata-1__entry__4">Default</th></tr></thead><tbody class="tbody"><tr class="row"><td class="entry" headers="task-metadata-1__entry__1">"description"</td><td class="entry" headers="task-metadata-1__entry__2">A description of what the task does.</td><td class="entry" headers="task-metadata-1__entry__3">String</td><td class="entry" headers="task-metadata-1__entry__4">None</td></tr><tr class="row"><td class="entry" headers="task-metadata-1__entry__1">"input\_method"</td><td class="entry" headers="task-metadata-1__entry__2">What input method the task runner should use to pass parameters to the task.</td><td class="entry" headers="task-metadata-1__entry__3">-   <code class="ph codeph">environment</code></td><td class="entry" headers="task-metadata-1__entry__4"></td></tr></tbody></table><ul class="ul"><li class="li"><p class="p"><code class="ph codeph">stdin</code></p></li><li class="li"><p class="p"><code class="ph codeph">powershell</code></p></li></ul><p class="p">|Both <code class="ph codeph">environment</code> and <code class="ph codeph">stdin</code> unless <code class="ph codeph">.ps1</code> tasks, in which case <code class="ph codeph">powershell</code></p><p class="p">|
+|"parameters"|The parameters or input the task accepts listed with a puppet type string and optional description. See <a class="xref" href="writing_tasks.html#">adding parameters to metadata</a> for usage information.|Array of objects describing each parameter|None|
+|"puppet\_task\_version"|The version of the spec used.|Integer|1 \(This is the only valid value.\)|
+|"supports\_noop"|Whether the task supports no-op mode. Required for the task to accept the <code class="ph codeph">--noop</code> option on the command line.|Boolean|False|
+|"implementations"|A list of task implementations and the requirements used to select one to run. See <a class="xref" href="writing_tasks.html#">Cross-platform tasks</a> for usage information.|Array of Objects describing each implementation|None|
+|"files"|A list of files to be provided when running the task, addressed by module. See <a class="xref" href="writing_tasks.html#">Sharing task code</a> for usage information.|Array of Strings|None|
+|"private"|Do not display task by default when listing for UI.|Boolean|False|</p></div></article></article><article class="topic nested2" aria-labelledby="ariaid-title32" id="task-metadata-types"><h3 class="title topictitle3" id="ariaid-title32">Task metadata types</h3><div class="body"><p class="p">Task metadata can accept most Puppet data types.</p></div><article class="topic nested3" aria-labelledby="ariaid-title33" id="common-task-data-types"><h4 class="title topictitle4" id="ariaid-title33">Common task data types</h4><div class="body"><p class="p"><strong class="ph b">Restriction:</strong></p><p class="p">Some types supported by Puppet can not be represented as JSON, such as <code class="ph codeph">Hash[Integer, String]</code>, <code class="ph codeph">Object</code>, or <code class="ph codeph">Resource</code>. These should not be used in tasks, because they can never be matched.</p><table class="table"><caption></caption><colgroup><col><col></colgroup><thead class="thead"><tr class="row"><th class="entry" id="common-task-data-types__entry__1">Type</th><th class="entry" id="common-task-data-types__entry__2">Description</th></tr></thead><tbody class="tbody"><tr class="row"><td class="entry" headers="common-task-data-types__entry__1"><code class="ph codeph">String</code></td><td class="entry" headers="common-task-data-types__entry__2">Accepts any string.</td></tr><tr class="row"><td class="entry" headers="common-task-data-types__entry__1"><code class="ph codeph">String[1]</code></td><td class="entry" headers="common-task-data-types__entry__2">Accepts any non-empty string \(a String of at least length 1\).</td></tr><tr class="row"><td class="entry" headers="common-task-data-types__entry__1"><code class="ph codeph">Enum[choice1, choice2]</code></td><td class="entry" headers="common-task-data-types__entry__2">Accepts one of the listed choices.</td></tr><tr class="row"><td class="entry" headers="common-task-data-types__entry__1"><code class="ph codeph">Pattern[/\A\w+\Z/]</code></td><td class="entry" headers="common-task-data-types__entry__2">Accepts Strings matching the regex <code class="ph codeph">/\w+/</code> or non-empty strings of word characters.</td></tr><tr class="row"><td class="entry" headers="common-task-data-types__entry__1"><code class="ph codeph">Integer</code></td><td class="entry" headers="common-task-data-types__entry__2">Accepts integer values. JSON has no Integer type so this can vary depending on input.</td></tr><tr class="row"><td class="entry" headers="common-task-data-types__entry__1"><code class="ph codeph">Optional[String[1]]</code></td><td class="entry" headers="common-task-data-types__entry__2">Optional makes the parameter optional and permits null values. Tasks have no required nullable values.</td></tr><tr class="row"><td class="entry" headers="common-task-data-types__entry__1"><code class="ph codeph">Array[String]</code></td><td class="entry" headers="common-task-data-types__entry__2">Matches an array of strings.</td></tr><tr class="row"><td class="entry" headers="common-task-data-types__entry__1"><code class="ph codeph">Hash</code></td><td class="entry" headers="common-task-data-types__entry__2">Matches a JSON object.</td></tr><tr class="row"><td class="entry" headers="common-task-data-types__entry__1"><code class="ph codeph">Variant[Integer, Pattern[/\A\d+\Z/]]</code></td><td class="entry" headers="common-task-data-types__entry__2">Matches an integer or a String of an integer</td></tr><tr class="row"><td class="entry" headers="common-task-data-types__entry__1"><code class="ph codeph">Boolean</code></td><td class="entry" headers="common-task-data-types__entry__2">Accepts Boolean values.</td></tr></tbody></table><p class="p"><strong class="ph b">Related information</strong></p><p class="p"><a class="xref" href="https://puppet.com/docs/puppet/latest/lang_data_type.html" target="_blank">Data type syntax</a></p></div></article></article></article><article class="topic nested1" aria-labelledby="ariaid-title34" id="specifying-parameters"><h2 class="title topictitle2" id="ariaid-title34">Specifying parameters</h2><div class="body"><p class="p">Parameters for tasks can be passed to the <code class="ph codeph">bolt</code> command as CLI arguments or as a JSON hash.</p><p class="p">To pass parameters individually to your task or plan, specify the parameter value on the command line in the format <code class="ph codeph">parameter=value</code>. Pass multiple parameters as a space-separated list. Bolt attempts to parse each parameter value as JSON and compares that to the parameter type specified by the task or plan. If the parsed value matches the type, it is used; otherwise, the original string is used.</p><p class="p">For example, to run the <code class="ph codeph">mysql::sql</code>task to show tables from a database called <code class="ph codeph">mydatabase</code>:</p><pre class="pre codeblock"><code>bolt task run mysql::sql database=mydatabase sql="SHOW TABLES" --nodes neptune --modules ~/modules
+</code></pre><p class="p">To pass a string value that is valid JSON to a parameter that would accept both quote the string. For example to pass the string <code class="ph codeph">true</code> to a parameter of type <code class="ph codeph">Variant[String, Boolean]</code> use <code class="ph codeph">'foo="true"'</code>. To pass a String value wrapped in <code class="ph codeph">"</code> quote and escape it <code class="ph codeph">'string="\"val\"'</code>. Alternatively, you can specify parameters as a single JSON object with the <code class="ph codeph">--params</code> flag, passing either a JSON object or a path to a parameter file.</p><p class="p">To specify parameters as JSON, use the parameters flag followed by the JSON: <code class="ph codeph">--params '{"name": "openssl"}'</code></p><p class="p">To set parameters in a file, specify parameters in JSON format in a file, such as <code class="ph codeph">params.json</code>. For example, create a <code class="ph codeph">params.json</code> file that contains the following JSON:</p><pre class="pre codeblock"><code>{
+  "name":"openssl"
+}</code></pre><p class="p">Then specify the path to that file \(starting with an at symbol, <code class="ph codeph">@</code>\) on the command line with the parameters flag: <code class="ph codeph">--params @params.json</code></p></div></article></article></main></body></html>

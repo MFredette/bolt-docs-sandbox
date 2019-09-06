@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE map PUBLIC "-//OASIS//DTD DITA Map//EN" "map.dtd">
+<map id="bolt-md" title="Bolt" class="- map/map " >
+    <topicref href="bolt_release_notes.md" format="markdown">
+        <topicref href="bolt_versioning.md" format="markdown"/>
+        <topicref href="bolt_new_features.md" format="markdown"/>
+        <topicref href="bolt_resolved_issues.md" format="markdown"/>
+        <topicref href="bolt_known_issues.md" format="markdown"/> 
+        <topicref href="bolt_deprecations_and_removals.md" format="markdown"/>
+        <topicref href="lorem.md" format="markdown">
+            <topicmeta>
+                <Author name="Person McPersonface"/>
+                <Date day="9" month="September" year="2019"/>
+            </topicmeta>
+         </topicref>
+    </topicref>
+</map>

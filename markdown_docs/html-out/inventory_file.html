@@ -1,0 +1,96 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta charset="UTF-8"><meta name="copyright" content="(C) Copyright 2019"><meta name="DC.rights.owner" content="(C) Copyright 2019"><meta name="DC.type" content="topic"><meta name="DC.creator" content="Kate Lopresti <kate.lopresti@puppet.com\&gt;"><meta name="DC.format" content="HTML5"><meta name="DC.identifier" content="inventory-file"><link rel="stylesheet" type="text/css" href="commonltr.css"><title>Inventory file</title></head><body id="inventory-file"><main role="main"><article role="article" aria-labelledby="ariaid-title1"><h1 class="title topictitle1" id="ariaid-title1">Inventory file</h1><div class="body"><p class="p">In Bolt, you can use an inventory file to store information about your nodes. For example, you can organize your nodes into groups or set up connection information for nodes or node groups.</p><p class="p">The inventory file is a yaml file stored by default at<code class="ph codeph">inventory.yaml</code> inside the <a class="xref" href="bolt_project_directories.html#">Bolt project directory</a>. At the top level it contains an array of nodes and groups. Each node can have a config, facts, vars, and features specific to that node. Each group can have an array of nodes, an array of child groups, and can set default config, vars, and features for the entire group.</p><p class="p"><strong class="ph b">Note:</strong> Configuration values set at the top level of inventory will only apply to targets included in that inventory file. Set values for unknown targets in the Bolt configuration file.</p></div><article class="topic nested1" aria-labelledby="ariaid-title2" id="inventory-config"><h2 class="title topictitle2" id="ariaid-title2">Inventory config</h2><div class="body"><p class="p">You can set transport configuration only in the inventory file. This means using a top level <code class="ph codeph">transport</code> value to assign a transport to the target and all values in the section named for the transport.</p><p class="p">You can set config on nodes or groups in the inventory file. Bolt performs a depth first search of nodes, followed by a search of groups, and uses the first value it finds. Nested hashes are merged.</p><p class="p">This inventory file example defines two top-level groups:&nbsp;<code class="ph codeph">ssh_nodes</code>&nbsp;and&nbsp;<code class="ph codeph">win_nodes</code>. The&nbsp;<code class="ph codeph">ssh_nodes</code>&nbsp;group contains two other groups:&nbsp;<code class="ph codeph">webservers</code>&nbsp;and&nbsp;<code class="ph codeph">memcached</code>. Five nodes are configured to use ssh transport and four other nodes to use WinRM transport.</p><pre class="pre codeblock"><code>groups:
+  - name: ssh_nodes
+    groups:
+      - name: webservers
+        nodes:
+          - 192.168.100.179
+          - 192.168.100.180
+          - 192.168.100.181
+      - name: memcached
+        nodes:
+          - 192.168.101.50
+          - 192.168.101.60
+        config:
+          ssh:
+            user: root
+    config:
+      transport: ssh
+      ssh:
+        user: centos
+        private-key: ~/.ssh/id_rsa
+        host-key-check: false
+  - name: win_nodes
+    groups:
+      - name: domaincontrollers
+        nodes:
+          - 192.168.110.10
+          - 192.168.110.20
+      - name: testservers
+        nodes:
+          - 172.16.219.20
+          - 172.16.219.30
+        config:
+          winrm:
+            user: vagrant
+            password: vagrant
+            ssl: false
+    config:
+      transport: winrm
+      winrm:
+        user: DOMAIN\opsaccount
+        password: S3cretP@ssword
+        ssl: true
+</code></pre></div></article><article class="topic nested1" aria-labelledby="ariaid-title3" id="override-a-user-for-a-specific-node"><h2 class="title topictitle2" id="ariaid-title3">Override a user for a specific node</h2><div class="body"><pre class="pre codeblock"><code>nodes: 
+  - name: linux1.example.com
+    config: 
+      ssh:
+        user: me</code></pre></div></article><article class="topic nested1" aria-labelledby="ariaid-title4" id="provide-an-alias-to-a-node"><h2 class="title topictitle2" id="ariaid-title4">Provide an alias to a node</h2><div class="body"><p class="p">The inventory can be used to create aliases to refer to a target. Aliases can be useful to refer to nodes with long or complicated names, like db.uswest.acme.example.com, or for targets that include protocol or port for uniqueness, such as 127.0.0.1:2222 and 127.0.0.1:2223. Aliases can also be useful when generating nodes in a dynamic environment to give generated targets stable names to refer to.</p><p class="p">An alias can be a single name or list of names. Each alias must match the regex<code class="ph codeph">/[a-zA-Z]\w+/</code>. When usingBolt, you may refer to a node by its alias anywhere the node name would be applicable, such as the<code class="ph codeph">--nodes</code> command line argument or a<code class="ph codeph">TargetSpec</code>.</p><pre class="pre codeblock"><code>nodes:
+  - name: linux1.example.com
+    alias: linux1
+    config:
+      ssh:
+        port: 2222</code></pre><p class="p">Aliases must be unique across the entire inventory. You can use the same alias multiple places, but they must all refer to the same target. Alias names must not match any group or target names used in the inventory.</p><p class="p">A list of nodes may refer to a node by its alias, for example:</p><pre class="pre codeblock"><code>nodes:
+  - linux1</code></pre></div></article><article class="topic nested1" aria-labelledby="ariaid-title5" id="inventory-facts-vars-and-features"><h2 class="title topictitle2" id="ariaid-title5">Inventory facts, vars, and features</h2><div class="body"><p class="p">In addition to config values you can store information relating to <code class="ph codeph">facts</code>, <code class="ph codeph">vars</code> and <code class="ph codeph">features</code> for nodes in the inventory. <code class="ph codeph">facts</code> represent observed information about the node including what can be collected by Facter. <code class="ph codeph">vars</code> contain arbitrary data that may be passed to run\_\* functions or used for logic in plans. <code class="ph codeph">features</code>&nbsp;represent capabilities of the target that can be used to select a specific task implementation.</p><pre class="pre codeblock"><code>groups:
+  - name: centos_nodes
+    nodes:
+      - foo.example.com
+      - bar.example.com
+      - baz.example.com
+    facts:
+      operatingsystem: CentOS
+  - name: production_nodes
+    vars:
+      environment: production
+    features: ['puppet-agent']
+</code></pre></div></article><article class="topic nested1" aria-labelledby="ariaid-title6" id="objects"><h2 class="title topictitle2" id="ariaid-title6">Objects</h2><div class="body"><p class="p">The inventory file uses the following objects.</p><ul class="ul"><li class="li"><p class="p"><strong class="ph b">Config</strong></p><p class="p">A config is a map that contains transport specific configuration options.</p></li><li class="li"><p class="p"><strong class="ph b">Group</strong></p><p class="p">A group is a map that requires a <code class="ph codeph">name</code> and can contain any of the following:</p><ul class="ul"><li class="li"><p class="p"><code class="ph codeph">nodes</code> : <code class="ph codeph">Array[Node]</code></p></li><li class="li"><p class="p"><code class="ph codeph">groups</code>&nbsp;: Groups object</p></li><li class="li"><p class="p"><code class="ph codeph">config</code> : Config object</p></li><li class="li"><p class="p"><code class="ph codeph">facts</code> : Facts object</p></li><li class="li"><p class="p"><code class="ph codeph">vars</code> : Vars object</p></li><li class="li"><p class="p"><code class="ph codeph">features</code> : <code class="ph codeph">Array[Feature]</code></p></li></ul><p class="p">A group name must match the regular expression values <code class="ph codeph">/[a-zA-Z]\w+/</code>. These are the same values used for environments.</p><p class="p">A group may contain other groups. Any nodes in the nested groups will also be in the parent group. The configuration of nested groups will override the parent group.</p></li><li class="li"><p class="p"><strong class="ph b">Groups</strong></p><p class="p">An array of group objects.</p></li><li class="li"><p class="p"><strong class="ph b">Facts</strong></p><p class="p">A map of fact names and values. Values may include arrays or nested maps.</p></li><li class="li"><p class="p"><strong class="ph b">Feature</strong></p><p class="p">A string describing a feature of the target.</p></li><li class="li"><p class="p"><strong class="ph b">Node</strong></p><p class="p">A node can be just the string of its node name or a map that requires a name key and can contain a config. For example, a node block can contain any of the following:</p><pre class="pre codeblock"><code>"host1.example.com"</code></pre><pre class="pre codeblock"><code>name: "host1.example.com"</code></pre><pre class="pre codeblock"><code>name: "host1.example.com"
+config:
+					   transport: "ssh"</code></pre><p class="p">If the node entry is a map, it may contain any of the following:</p><ul class="ul"><li class="li"><p class="p"><code class="ph codeph">alias</code> : <code class="ph codeph">String</code> or <code class="ph codeph">Array[String]</code></p></li><li class="li"><p class="p"><code class="ph codeph">config</code> : Config object</p></li><li class="li"><p class="p"><code class="ph codeph">facts</code> : Facts object</p></li><li class="li"><p class="p"><code class="ph codeph">vars</code> : Vars object</p></li><li class="li"><p class="p"><code class="ph codeph">features</code> : <code class="ph codeph">Array[Feature]</code></p></li></ul></li><li class="li"><p class="p"><strong class="ph b">Node name</strong></p><p class="p">The URI used to create the node.</p></li><li class="li"><p class="p"><strong class="ph b">Nodes</strong></p><p class="p">An array of node objects.</p></li><li class="li"><p class="p"><strong class="ph b">Vars</strong></p><p class="p">A map of value names and values. Values may include arrays or nested maps.</p></li></ul></div></article><article class="topic nested1" aria-labelledby="ariaid-title7" id="file-format"><h2 class="title topictitle2" id="ariaid-title7">File format</h2><div class="body"><p class="p">The inventory file is a yaml file that contains a single group. This group can be referred to as "all". In addition to the normal group fields, the top level has an inventory file version key that defaults to 1.</p></div></article><article class="topic nested1" aria-labelledby="ariaid-title8" id="precedence"><h2 class="title topictitle2" id="ariaid-title8">Precedence</h2><div class="body"><p class="p">When searching for node config, the URI used to create the target is matched to the node-name. Any URI-based configuration information like host, transport or port will override config values even those defined in the same block. For config values, the first value found for a node is used. Node values take precedence over group values and are searched first. Values are searched for in a depth first order. The first item in an array is searched first.</p><p class="p">Configure transport for nodes.</p><pre class="pre codeblock"><code>groups:
+  - name: linux
+    nodes:
+      - linux1.example.com
+      - linux2.example.com
+      - linux3.example.com
+  - name: win
+    nodes:
+      - win1.example.com
+      - win2.example.com
+      - win3.example.com
+    config:
+      transport: winrm</code></pre><p class="p">Configure login and escalation for a specific node.</p><pre class="pre codeblock"><code>nodes:
+  - name: host1.example.com
+    config:
+      ssh:
+          user: me
+          run-as: root</code></pre></div></article><article class="topic nested1" aria-labelledby="ariaid-title9" id="remote-targets"><h2 class="title topictitle2" id="ariaid-title9">Remote targets</h2><div class="body"><p class="p">Configure a remote target. When using the remote transport, the protocol of the node name does not have to map to the transport if you set the transport config option. This is useful if the target is an http API, for example:</p><pre class="pre codeblock"><code>nodes:
+  - host1.example.com
+  - name: https://user1:secret@remote.example.com
+    config:
+      transport: remote
+      remote:
+        # The remote transport will use the host1.example.com target from
+        # inventory to proxy tasks execution on.
+        run-on: host1.example.com  
+  # This will execute on localhost.
+  - remote://my_aws_account</code></pre><ul class="ul"><li class="li"><p class="p"><strong class="ph b"><a class="xref" href="inventory_file_v2.html#">Inventory file version 2</a></strong>Version 2 of the inventory file is experimental and might experience breaking changes in future releases.</p></li><li class="li"><p class="p"><strong class="ph b"><a class="xref" href="inventory_file_generating.html">Generating inventory files</a></strong>Use the <code class="ph codeph">bolt-inventory-pdb</code> script to generate inventory files based on PuppetDB queries.</p></li></ul><p class="p"><strong class="ph b">Related information</strong></p><p class="p"><a class="xref" href="writing_tasks.html#">Naming tasks</a></p></div></article></article></main></body></html>

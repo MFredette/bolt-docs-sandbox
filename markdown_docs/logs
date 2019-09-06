@@ -1,0 +1,67 @@
+
+init:
+
+html5.init:
+
+init-properties:
+
+check-arg:
+    [mkdir] Created dir: /var/folders/8d/8p8xwm_14j79w1zk5xzjy8k00000gq/T/temp20190906114420119
+
+log-arg:
+     [echo] *****************************************************************
+     [echo] * basedir = /Users/heston.hoffman/repos/nebula-docs/dita-ot-3.3.3
+     [echo] * dita.dir = /Users/heston.hoffman/repos/nebula-docs/dita-ot-3.3.3
+     [echo] * transtype = html5
+     [echo] * tempdir = /var/folders/8d/8p8xwm_14j79w1zk5xzjy8k00000gq/T/temp20190906114420119
+     [echo] * outputdir = /Users/heston.hoffman/Documents/bolt-md/github_markdown/out
+     [echo] * clean.temp = true
+     [echo] * DITA-OT version = 3.3.3
+     [echo] * XML parser = Xerces
+     [echo] * XSLT processor = Saxon
+     [echo] * collator = ICU
+     [echo] *****************************************************************
+     [echo] #Ant properties
+     [echo] #Fri Sep 06 11:44:20 PDT 2019
+     [echo] dita.plugin.org.dita.base.dir=/Users/heston.hoffman/repos/nebula-docs/dita-ot-3.3.3/plugins/org.dita.base
+     [echo] dita.temp.dir=/var/folders/8d/8p8xwm_14j79w1zk5xzjy8k00000gq/T/temp20190906114420119
+     [echo] args.xsl=/Users/heston.hoffman/repos/nebula-docs/dita-ot-3.3.3/plugins/org.dita.html5/xsl/dita2html5.xsl
+     [echo] dita.plugin.org.dita.troff.dir=/Users/heston.hoffman/repos/nebula-docs/dita-ot-3.3.3/plugins/org.dita.troff
+     [echo] args.grammar.cache=yes
+     [echo] dita.plugin.org.oasis-open.xdita.v0_2_2.dir=/Users/heston.hoffman/repos/nebula-docs/dita-ot-3.3.3/plugins/org.oasis-open.xdita.v0_2_2
+     [echo] dita.plugin.com.puppet.html5.dir=/Users/heston.hoffman/repos/nebula-docs/dita-ot-3.3.3/plugins/com.puppet.html5
+     [echo] dita.dir=/Users/heston.hoffman/repos/nebula-docs/dita-ot-3.3.3
+     [echo] dita.plugin.org.dita.pdf2.axf.dir=/Users/heston.hoffman/repos/nebula-docs/dita-ot-3.3.3/plugins/org.dita.pdf2.axf
+     [echo] dita.plugin.com.sophos.tocjs.dir=/Users/heston.hoffman/repos/nebula-docs/dita-ot-3.3.3/plugins/com.sophos.tocjs
+     [echo] dita.plugin.org.oasis-open.dita.v1_3.dir=/Users/heston.hoffman/repos/nebula-docs/dita-ot-3.3.3/plugins/org.oasis-open.dita.v1_3
+     [echo] dita.plugin.org.lwdita.dir=/Users/heston.hoffman/repos/nebula-docs/dita-ot-3.3.3/plugins/org.lwdita
+     [echo] dita.plugin.org.dita.htmlhelp.dir=/Users/heston.hoffman/repos/nebula-docs/dita-ot-3.3.3/plugins/org.dita.htmlhelp
+     [echo] dita.output.dir=/Users/heston.hoffman/Documents/bolt-md/github_markdown/out
+     [echo] dita.plugin.org.dita.eclipsehelp.dir=/Users/heston.hoffman/repos/nebula-docs/dita-ot-3.3.3/plugins/org.dita.eclipsehelp
+     [echo] dita.plugin.org.dita.normalize.dir=/Users/heston.hoffman/repos/nebula-docs/dita-ot-3.3.3/plugins/org.dita.normalize
+     [echo] dita.plugin.org.dita.xhtml.dir=/Users/heston.hoffman/repos/nebula-docs/dita-ot-3.3.3/plugins/org.dita.xhtml
+     [echo] dita.plugin.org.dita.pdf2.xep.dir=/Users/heston.hoffman/repos/nebula-docs/dita-ot-3.3.3/plugins/org.dita.pdf2.xep
+     [echo] dita.plugin.org.dita.specialization.dita11.dir=/Users/heston.hoffman/repos/nebula-docs/dita-ot-3.3.3/plugins/org.dita.specialization.dita11
+     [echo] dita.plugin.org.oasis-open.dita.v1_2.dir=/Users/heston.hoffman/repos/nebula-docs/dita-ot-3.3.3/plugins/org.oasis-open.dita.v1_2
+     [echo] dita.plugin.org.dita.pdf2.fop.dir=/Users/heston.hoffman/repos/nebula-docs/dita-ot-3.3.3/plugins/org.dita.pdf2.fop
+     [echo] args.input=/Users/heston.hoffman/Documents/bolt-md/github_markdown/bolt-md.ditamap
+     [echo] args.xml.systemid.set=yes
+     [echo] dita.plugin.org.dita.pdf2.dir=/Users/heston.hoffman/repos/nebula-docs/dita-ot-3.3.3/plugins/org.dita.pdf2
+     [echo] dita.plugin.org.dita.html5.dir=/Users/heston.hoffman/repos/nebula-docs/dita-ot-3.3.3/plugins/org.dita.html5
+     [echo] dita.html5.reloadstylesheet=false
+     [echo] args.logdir=/Users/heston.hoffman/Documents/bolt-md/github_markdown/out
+     [echo] *****************************************************************
+
+build-init:
+
+preprocess.init:
+     [echo] *****************************************************************
+     [echo] * input = /Users/heston.hoffman/Documents/bolt-md/github_markdown/bolt-md.ditamap
+     [echo] *****************************************************************
+
+ditaval-merge:
+
+gen-list:
+ [gen-list] Using Xerces grammar pool for DTD and schema caching.
+ [gen-list] Processing file:/Users/heston.hoffman/Documents/bolt-md/github_markdown/bolt-md.ditamap
+Error: Failed to run pipeline: [DOTJ012F][FATAL] Failed to parse the input file 'file:/Users/heston.hoffman/Documents/bolt-md/github_markdown/bolt-md.ditamap'.: file:/Users/heston.hoffman/Documents/bolt-md/github_markdown/bolt-md.ditamap Line 12:Element type "Author" must be declared.

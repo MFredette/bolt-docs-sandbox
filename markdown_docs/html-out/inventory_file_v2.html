@@ -1,0 +1,277 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta charset="UTF-8"><meta name="copyright" content="(C) Copyright 2019"><meta name="DC.rights.owner" content="(C) Copyright 2019"><meta name="DC.type" content="topic"><meta name="DC.creator" content="Melissa Amos <melissa.amos@puppet.com\&gt;"><meta name="DC.format" content="HTML5"><meta name="DC.identifier" content="inventory-file-version-2"><link rel="stylesheet" type="text/css" href="commonltr.css"><title>Inventory file version 2</title></head><body id="inventory-file-version-2"><main role="main"><article role="article" aria-labelledby="ariaid-title1"><h1 class="title topictitle1" id="ariaid-title1">Inventory file version 2</h1><div class="body"><p class="p">Version 2 of the inventory file is experimental and might experience breaking changes in future releases.</p><p class="p"><strong class="ph b">Parent topic:</strong><a class="xref" href="inventory_file.html">Inventory file</a></p></div><article class="topic nested1" aria-labelledby="ariaid-title2" id="migrating-to-version-2"><h2 class="title topictitle2" id="ariaid-title2">Migrating to version 2</h2><div class="body"><p class="p">Version 2 of the inventory file changes some terms and syntax. To convert to version 2, you must make these changes.</p><p class="p"><strong class="ph b"><code class="ph codeph">version: 2</code></strong></p><p class="p">The default version for inventory files is version 1. In order to have Bolt treat your inventory file as a version 2 inventory, specify <code class="ph codeph">version: 2</code> at the top level.</p><p class="p"><strong class="ph b"><code class="ph codeph">nodes</code> =\&gt; <code class="ph codeph">targets</code></strong></p><p class="p">In order to standardize terminology across Bolt and capture the breadth of possible targets, such as web services, version 2 of the inventory file uses the <code class="ph codeph">targets</code> section of a group to specify its members instead of <code class="ph codeph">nodes</code>.</p><p class="p"><strong class="ph b"><code class="ph codeph">name</code> =\&gt; <code class="ph codeph">uri</code></strong></p><p class="p">Changing the <code class="ph codeph">name</code> key to <code class="ph codeph">uri</code> results in an inventory file that matches the behavior of version 1.</p><p class="p">In version 1 of the inventory file, Bolt treated the <code class="ph codeph">name</code> field of a node as its URI. This made it impossible to specify a <code class="ph codeph">name</code> that did not include the hostname of a target, which proved limiting for remote targets. In version 2, the optional <code class="ph codeph">uri</code> field sets the URI for a target. Any connection information from the URI, such as a user specified by user@uri can't be overridden with other configuration methods. If the <code class="ph codeph">uri</code> is set, it's used as the default value for the <code class="ph codeph">name</code> key. Every target requires a <code class="ph codeph">name</code>, so either the <code class="ph codeph">name</code> or <code class="ph codeph">uri</code> field must be set.</p><p class="p">If there is a bare string in the target's array, Bolt tries to resolve the string to a target defined elsewhere in the inventory. If no target has a name or alias matching the string, Bolt creates a new target with the string as its URI.</p></div></article><article class="topic nested1" aria-labelledby="ariaid-title3" id="version-2-features"><h2 class="title topictitle2" id="ariaid-title3">Version 2 features</h2><div class="body"><p class="p">These features are exclusive to version 2 of the inventory file.</p></div><article class="topic nested2" aria-labelledby="ariaid-title4" id="creating-a-node-with-a-human-readable-name-and-ip-address"><h3 class="title topictitle3" id="ariaid-title4">Creating a node with a human readable name and IP address</h3><div class="body"><p class="p">With version 2 of the inventory file, you can create a node with a human readable name even when an IP address is used for connecting.</p><p class="p">You do so by setting both a <code class="ph codeph">uri</code> and <code class="ph codeph">name</code>, or by setting <code class="ph codeph">host</code> in the transport config in addition to the <code class="ph codeph">name</code>.</p><pre class="pre codeblock"><code>targets:
+  - name: my_device
+    config:
+      transport: remote
+      remote:
+        host: 192.168.100.179
+  - name: my_device2
+    uri: 192.168.100.179</code></pre></div></article><article class="topic nested2" aria-labelledby="ariaid-title5" id="plugins-and-dynamic-inventory"><h3 class="title topictitle3" id="ariaid-title5">Plugins and dynamic inventory</h3><div class="body"><p class="p">Inventory plugins can be used to dynamically load information into the inventroy file.</p><p class="p">To use a plugin, replace a static value in the inventory file with an Object containing a <code class="ph codeph">_plugin</code> key and any required plugin- specific options.The location where you do this replacement determines how the plugin behaves. Currently, plugins are only supported for <code class="ph codeph">inventory_targets</code>, in the <code class="ph codeph">targets</code> section of inventory, and <code class="ph codeph">inventory_config</code>, in the config section of inventory. Most plugins only work in one location or the other.</p></div><article class="topic nested3" aria-labelledby="ariaid-title6" id="target-plugins"><h4 class="title topictitle4" id="ariaid-title6">Target plugins</h4><div class="body"><p class="p">To use an<code class="ph codeph">inventory_target</code> plugin, replace an item in the <code class="ph codeph">targets</code> array with a plugin object.</p><pre class="pre codeblock"><code>targets:
+ - _plugin: my_plugin
+   plugin_specific_option: exampleoption
+            </code></pre><p class="p">Use the following optional plugins for targets:</p><ul class="ul"><li class="li"><p class="p"><code class="ph codeph">config</code> - use it to look up a value.</p></li><li class="li"><p class="p"><code class="ph codeph">puppetdb</code> - query PuppetDB to populate the targets.</p></li><li class="li"><p class="p"><code class="ph codeph">terraform</code> - load a Terraform state file to populate the targets.</p></li></ul><p class="p"><strong class="ph b">Config plugins</strong></p><p class="p">Config plugins can be used inside the <code class="ph codeph">config</code> section of a target or group to look up a value. Config lookup plugins that return a value with a <code class="ph codeph">_plugin</code> are not reevaluated.</p><pre class="pre codeblock"><code>config: 
+  transport:
+   _plugin: my_plugin
+   plugin_specific_option: exampleoption
+            </code></pre><p class="p">These plugins can be used for <code class="ph codeph">config</code>:</p><ul class="ul"><li class="li"><p class="p"><code class="ph codeph">prompt</code> - prompts a user for a configuration value.</p></li><li class="li"><p class="p"><code class="ph codeph">pkcs7</code> - decrypts a pkcs7 encrypted value from the inventory file.</p></li></ul><p class="p"><strong class="ph b">Task</strong></p><p class="p">The Task plugin runs a task on <code class="ph codeph">localhost</code> to look up configuration information or target lists for the inventory.</p><p class="p">For both use cases, the plugin accepts two keys:</p><ul class="ul"><li class="li"><p class="p"><code class="ph codeph">task</code> - the task to run.</p></li><li class="li"><p class="p"><code class="ph codeph">parameters</code> - the parameters to pass to the task.</p></li></ul><p class="p">For example the following runs the <code class="ph codeph">my_json_file::targets</code> task to look up targets and the <code class="ph codeph">my_db::secret_lookup</code> task to look up the SSH password.</p><pre class="pre codeblock"><code>version: 2
+targets:
+  - _plugin: task
+    task: my_json_file::targets
+    parameters:
+      # These parameters are specific to the task
+      file: /etc/targets/data.json
+      environment: production
+      app: my_app
+config:
+  ssh:
+    password:
+      _plugin: task
+      task: my_db::secret_lookup
+      parameters:
+        # These parameters are task specific
+        key: ssh_password</code></pre><p class="p"><strong class="ph b">Inventory config tasks</strong></p><p class="p">To look up configuration information for the inventory return a <code class="ph codeph">config</code> key in the task result containing the data that will be used in place where the plugin entry is. The value of config can be any type of data that is appropriate for the specific location in config. For example <code class="ph codeph">host-key-check</code> for SSH must be a Boolean, <code class="ph codeph">password</code> must be a string, and <code class="ph codeph">run-as-command</code> must be an array of strings. This result is appropriate for an entire <code class="ph codeph">ssh</code> section of config.</p><pre class="pre codeblock"><code>{
+  "config": {
+    "host-key-check": true,
+    "password": "hunter2",
+    "run-as-command": [ "sudo", "-k", "-S", "-E", "-u", "user", "-p", "password"]
+  }
+}</code></pre><p class="p">This task looks up a password value from a secret database and returns it.</p><pre class="pre codeblock"><code>#!/usr/bin/env python
+import json, sys
+from my_secret import Client
+
+params = json.load(sys.stdin)
+
+client = Client
+secret = client.get_secret(data['key'])
+# secret can be any value that can be dumped to json.
+json.dump({'config': secret}, sys.stdout)</code></pre><p class="p"><strong class="ph b">Inventory target tasks</strong></p><p class="p">To look up a list of targets for inventory, return a hash or JSON object that includes a <code class="ph codeph">targets</code> key with an <code class="ph codeph">array</code> value from task. Each item in this list should be a Target JSON object matching the <code class="ph codeph">Object</code> format you use in a <code class="ph codeph">targets</code> section of the inventory file. Bare string targets are not valid.</p><p class="p">This task reads in a JSON file and looks up a value.</p><pre class="pre codeblock"><code>#!/usr/bin/env python
+import json, sys
+
+params = json.load(sys.stdin)
+with open(params['file']) as fh:
+  data = json.load(fh)
+targets = data[params['environment']][params['app']]
+json.dump({'targets': targets}, sys.stdout)
+</code></pre><p class="p"><strong class="ph b">PuppetDB</strong></p><p class="p">The PuppetDB plugin supports looking up target objects from PuppetDB. It takes a <code class="ph codeph">query</code> field, which is either a string containing a <a class="xref" href="https://puppet.com/docs/puppetdb/latest/api/query/v4/ast.html" target="_blank">PuppetDB AST</a> query. The query is used to determine which targets should be included in the group. If <code class="ph codeph">name</code> or <code class="ph codeph">uri</code> is not specified with a fact lookup, then the <a class="xref" href="https://puppet.com/docs/puppet/latest/lang_facts_and_builtin_vars.html#trusted-facts" target="_blank">certname</a> for each target in the query result will be used as the <code class="ph codeph">uri</code> for the new target.</p><pre class="pre codeblock"><code>groups:
+  - name: windows
+    targets:
+     - _plugin: puppetdb
+        query: "inventory[certname] { facts.osfamily = 'windows' }"
+    config:
+      transport: winrm
+  - name: redhat
+    targets:
+      - _plugin: puppetdb
+        query: "inventory[certname] { facts.osfamily = 'RedHat' }"
+    config:
+      transport: ssh</code></pre><p class="p">Make sure you've <a class="xref" href="bolt_connect_puppetdb.html">configured PuppetDB</a>.</p><p class="p">If target-specific configuration is required, the PuppetDB plugin can be used to look up configuration values for the <code class="ph codeph">name</code>, <code class="ph codeph">uri</code>, and <code class="ph codeph">config</code> inventory options for each target. The fact lookup values can be either <code class="ph codeph">certname</code>, to reference the <a class="xref" href="https://puppet.com/docs/puppet/latest/lang_facts_and_builtin_vars.html#trusted-facts" target="_blank">certname</a> of the target, or a <a class="xref" href="https://puppet.com/docs/puppetdb/latest/api/query/v4/ast.html#dot-notation" target="_blank">PQL dot notation</a> facts string, such as <code class="ph codeph">facts.os.family</code>, to reference fact value. Dot notation is required for both structured and unstructured facts.</p><p class="p"><strong class="ph b">Note:</strong> If the <code class="ph codeph">name</code> or <code class="ph codeph">uri</code> values are set to a lookup, the PuppetDB plugin will <strong class="ph b">not</strong> set the <code class="ph codeph">uri</code> to the certname of the target.</p><p class="p">For example, to set the user to be the user from the <a class="xref" href="https://puppet.com/docs/facter/latest/core_facts.html#identity" target="_blank">identity fact</a>:</p><pre class="pre codeblock"><code>version: 2
+groups:
+  - name: dynamic_config
+    targets:
+      - _plugin: puppetdb
+        query: "inventory[certname] { facts.osfamily = 'RedHat' }"
+        config:
+          ssh:
+            # Lookup config from PuppetDB facts
+            user: facts.identity.user
+    # And include static config
+    config:
+      ssh:
+        tmpdir: /tmp/mytmp</code></pre><p class="p">And to use the certname of a target as the <code class="ph codeph">name</code>:</p><pre class="pre codeblock"><code>version: 2
+groups:
+  - name: dynamic_config
+    targets:
+      - _plugin: puppetdb
+        query: "inventory[certname] { facts.osfamily = 'RedHat' }"
+        name: certname
+        config:
+          ssh:
+            # Lookup config from PuppetDB facts
+            hostname: facts.networking.interfaces.en0.ipaddress</code></pre><p class="p"><strong class="ph b">Terraform</strong></p><p class="p">The Terraform plugin supports looking up target objects from a Terraform state file. It accepts several fields:</p><ul class="ul"><li class="li"><p class="p"><code class="ph codeph">dir</code>: The directory from which to load Terraform state.</p></li><li class="li"><p class="p"><code class="ph codeph">resource_type</code>: The Terraform resources to match, as a regular expression.</p></li><li class="li"><p class="p"><code class="ph codeph">uri</code>: \(Optional\) The property of the Terraform resource to use as the target URI.</p></li><li class="li"><p class="p"><code class="ph codeph">statefile</code>: \(Optional\) The name of the Terraform state file to load within <code class="ph codeph">dir</code>. Defaults to <code class="ph codeph">terraform.tfstate</code>.</p></li><li class="li"><p class="p"><code class="ph codeph">name</code>: \(Optional\) The property of the Terraform resource to use as the target name.</p></li><li class="li"><p class="p"><code class="ph codeph">config</code>: A Bolt config map where each value is the Terraform property to use for that config setting.</p></li></ul><p class="p">Either<code class="ph codeph">uri</code> or <code class="ph codeph">name</code> is required. If only <code class="ph codeph">uri</code> is set, then the value of <code class="ph codeph">uri</code> is used as the <code class="ph codeph">name</code>.</p><pre class="pre codeblock"><code>groups:
+  - name: cloud-webs
+    targets:
+      - _plugin: terraform
+        dir: /path/to/terraform/project1
+        resource_type: google_compute_instance.web
+        uri: network_interface.0.access_config.0.nat_ip
+      - _plugin: terraform
+        dir: /path/to/terraform/project2
+        resource_type: aws_instance.web
+        uri: public_ip</code></pre><p class="p">Multiple resources with the same name are identified as &lt;resource\&gt;.0, &lt;resource\&gt;.1, etc.</p><p class="p">The path to nested properties must be separated with <code class="ph codeph">.</code>: for example, <code class="ph codeph">network_interface.0.access_config.0.nat_ip</code>.</p><p class="p">For example, the following truncated output creates two targets, named <code class="ph codeph">34.83.150.52</code> and <code class="ph codeph">34.83.16.240</code>. These targets are created by matching the resources <code class="ph codeph">google_compute_instance.web.0</code> and <code class="ph codeph">google_compute_instance.web.1</code>. The <code class="ph codeph">uri</code> for each target is the value of their <code class="ph codeph">network_interface.0.access_config.0.nat_ip</code> property, which corresponds to the externally routable IP address in Google Cloud.</p><pre class="pre codeblock"><code>google_compute_instance.web.0:
+  id = web-0
+  cpu_platform = Intel Broadwell
+  machine_type = f1-micro
+  name = web-0
+  network_interface.# = 1
+  network_interface.0.access_config.# = 1
+  network_interface.0.access_config.0.assigned_nat_ip = 
+  network_interface.0.access_config.0.nat_ip = 34.83.150.52
+  network_interface.0.address = 
+  network_interface.0.name = nic0
+  network_interface.0.network = https://www.googleapis.com/compute/v1/projects/cloud-app1/global/networks/default
+  network_interface.0.network_ip = 10.138.0.22
+  project = cloud-app1
+  self_link = https://www.googleapis.com/compute/v1/projects/cloud-app1/zones/us-west1-a/instances/web-0
+  zone = us-west1-a
+google_compute_instance.web.1:
+  id = web-1
+  cpu_platform = Intel Broadwell
+  machine_type = f1-micro
+  name = web-1
+  network_interface.# = 1
+  network_interface.0.access_config.# = 1
+  network_interface.0.access_config.0.assigned_nat_ip = 
+  network_interface.0.access_config.0.nat_ip = 34.83.16.240
+  network_interface.0.address = 
+  network_interface.0.name = nic0
+  network_interface.0.network = https://www.googleapis.com/compute/v1/projects/cloud-app1/global/networks/default
+  network_interface.0.network_ip = 10.138.0.21
+  project = cloud-app1
+  self_link = https://www.googleapis.com/compute/v1/projects/cloud-app1/zones/us-west1-a/instances/web-1
+  zone = us-west1-a
+google_compute_instance.app.1:
+  id = app-1
+  cpu_platform = Intel Broadwell
+  machine_type = f1-micro
+  name = app-1
+  network_interface.# = 1
+  network_interface.0.access_config.# = 1
+  network_interface.0.access_config.0.assigned_nat_ip = 
+  network_interface.0.access_config.0.nat_ip = 35.197.93.137
+  network_interface.0.address = 
+  network_interface.0.name = nic0
+  network_interface.0.network = https://www.googleapis.com/compute/v1/projects/cloud-app1/global/networks/default
+  network_interface.0.network_ip = 10.138.0.23
+  project = cloud-app1
+  self_link = https://www.googleapis.com/compute/v1/projects/cloud-app1/zones/us-west1-a/instances/app-1
+  zone = us-west1-a</code></pre><p class="p"><strong class="ph b">Prompt plugin</strong></p><p class="p">The <code class="ph codeph">prompt</code> plugin can be used to allow users to interactively enter sensitive configuration information on the CLI instead of storing that data in the inventory file. Data is looked up only when the value is needed for the target and once the value has been stored, it is re-used for the rest of the run. The <code class="ph codeph">prompt</code> plugin can be used only when nested under <code class="ph codeph">config</code>. The prompt plugin can be used by replacing the config value with a hash that has the following keys:</p><ul class="ul"><li class="li"><p class="p"><code class="ph codeph">_plugin</code>: The value of <code class="ph codeph">_plugin</code> must be <code class="ph codeph">prompt</code></p></li><li class="li"><p class="p"><code class="ph codeph">message</code>: The value of <code class="ph codeph">message</code> must be the text to show when prompting the user on the CLI</p></li></ul><pre class="pre codeblock"><code>version: 2
+targets:
+  - uri: 192.168.100.179
+    config:
+      transport: ssh
+      ssh:
+        user: root
+        password: 
+          _plugin: prompt
+          message: please enter your ssh password</code></pre><p class="p"><strong class="ph b">pkcs7 plugin</strong></p><p class="p">This plugin allows config values to be stored in encrypted in the inventory file and decrypted only as needed.</p><p class="p"><code class="ph codeph">_plugin</code>: The value of <code class="ph codeph">_plugin</code> must be <code class="ph codeph">pkcs7</code></p><p class="p"><code class="ph codeph">encrypted-value</code>: The encrypted value. Generate encrypted values with <code class="ph codeph">bolt secret encrypt &lt;plaintext&gt;</code></p><pre class="pre codeblock"><code>version: 2
+targets:
+  - uri: 192.168.100.179
+    config:
+      transport: ssh
+      ssh:
+        user: root
+        password:
+          _plugin: pkcs7
+          encrypted-value: |
+                ENC[PKCS7,MIIBeQYJKoZIhvcNAQcDoIIBajCCAWYCAQAxggEhMIIBHQIBADAFMAACAQEw
+                DQYJKoZIhvcNAQEBBQAEggEAdCVkiddtK8jHz4g1y1pkB27VHCZx7dVzEiyT
+                33BgFv9atk8Ns/WE1tveFvyuEaDpk9y/FKisuh8DsTnR2mfGvHtX+BQdNqV6
+                L8/nIdwoEqYFd5sKFJnOlpdm7BMX4QDoCfGb+b2UB8A/7eJJ5AcgBVtrJLLE
+                VvqSCtqME12ltifdMivMP1hnVJOAhIpib8CwOIIP+Dtv7P7cPaHGTdQpR6Dp
+                jbe+AUDM6kcKGADLOYriPQ1UV6zDz5aeUbrwbr4FicHL/sQBPDcWIJR2elwY
+                bh8hCDe/IIWE7TOiauXOPyMPKohz622KNoJDJbmv5MhBwNFHSjgKAlOAxL3i
+                DK7XXzA8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBCvjDMKTjsHloKP04WO
+                Dq0ogBAUjTZMjbKjkndMSqPC5mGC]</code></pre><p class="p">Before using the pkcs7 plugin you need to create encryption keys. You can create these keys automatically with <code class="ph codeph">bolt secret createkeys</code> or reuse existing hiera-eyaml pkcs7 keys with <code class="ph codeph">bolt secret</code>. You can then encrypt values with the <code class="ph codeph">bolt secret encrypt &lt;plaintext&gt;</code> command and copy the result into your inventory file. If you need to inspect an encrypted value from the inventory, you can decrypt it with <code class="ph codeph">bolt secret decrypt &lt;encrypted-value&gt;</code>.</p><p class="p"><strong class="ph b">Configuration</strong></p><p class="p">By default, keys are stores in the <code class="ph codeph">keys</code> directory of the Bolt project repo. If you're sharing your project directory, you can move the private key outside the project directory by configuring the key location in bolt.yaml</p><pre class="pre codeblock"><code>---
+plugins:
+  pkcs7:
+    private-key: ~/bolt_private_key.pem</code></pre><ul class="ul"><li class="li"><p class="p"><code class="ph codeph">keysize</code>: They size of the key to generate with <code class="ph codeph">bolt secret createkeys</code>. The default is <code class="ph codeph">2048</code></p></li><li class="li"><p class="p"><code class="ph codeph">private-key</code>: The path to the private key file. The default is <code class="ph codeph">keys/private_key.pkcs7.pem</code></p></li><li class="li"><p class="p"><code class="ph codeph">public-key</code>: The path to the public key file. The default is <code class="ph codeph">keys/public_key.pkcs7.pem</code></p></li></ul></div></article></article></article><article class="topic nested1" aria-labelledby="ariaid-title7" id="inventory-config"><h2 class="title topictitle2" id="ariaid-title7">Inventory config</h2><div class="body"><p class="p">You can set transport configuration only in the inventory file. This means using a top level <code class="ph codeph">transport</code> value to assign a transport to the target and all values in the section named for the transport. You can set config on targets or groups in the inventory file. Bolt performs a depth first search of targets, followed by a search of groups, and uses the first value it finds. Nested hashes are merged.</p><p class="p">This inventory file example defines two top-level groups:&nbsp;<code class="ph codeph">ssh_targets</code>&nbsp;and&nbsp;<code class="ph codeph">win_targets</code>. The&nbsp;<code class="ph codeph">ssh_targets</code>&nbsp;group contains two other groups:&nbsp;<code class="ph codeph">webservers</code>&nbsp;and&nbsp;<code class="ph codeph">memcached</code>. Five targets are configured to use ssh transport and four other nodes to use WinRM transport.</p><pre class="pre codeblock"><code>groups:
+  - name: ssh_targets
+    groups:
+      - name: webservers
+        targets:
+          - name: my_node1
+            uri: 192.168.100.179
+          - 192.168.100.180
+          - 192.168.100.181
+      - name: memcached
+        targets:
+          - 192.168.101.50
+          - 192.168.101.60
+        config:
+          ssh:
+            user: root
+    config:
+      transport: ssh
+      ssh:
+        user: centos
+        private-key: ~/.ssh/id_rsa
+        host-key-check: false
+  - name: win_targets
+    groups:
+      - name: domaincontrollers
+        targets:
+          - 192.168.110.10
+          - 192.168.110.20
+      - name: testservers
+        targets:
+          - 172.16.219.20
+          - 172.16.219.30
+        config:
+          winrm:
+            user: vagrant
+            password: vagrant
+            ssl: false
+    config:
+      transport: winrm
+      winrm:
+        user: DOMAIN\opsaccount
+        password: S3cretP@ssword
+        ssl: true
+</code></pre></div><article class="topic nested2" aria-labelledby="ariaid-title8" id="override-a-user-for-a-specific-target"><h3 class="title topictitle3" id="ariaid-title8">Override a user for a specific target</h3><div class="body"><pre class="pre codeblock"><code>targets:
+  - uri: linux1.example.com
+    config:
+      ssh:
+        user: me</code></pre></div></article><article class="topic nested2" aria-labelledby="ariaid-title9" id="provide-an-alias-to-a-target"><h3 class="title topictitle3" id="ariaid-title9">Provide an alias to a target</h3><div class="body"><p class="p">The inventory can be used to create aliases to refer to a target. Aliases can be useful to refer to nodes with long or complicated names, like db.uswest.acme.example.com, or for targets that include protocol or port for uniqueness, such as 127.0.0.1:2222 and 127.0.0.1:2223. Aliases can also be useful when generating targets in a dynamic environment to give generated targets stable names to refer to.</p><p class="p">An alias can be a single name or list of names. Each alias must match the regex <code class="ph codeph">/[a-zA-Z]\w+/</code>. When using Bolt, you may refer to a target by its alias anywhere the target name would be applicable, such as the <code class="ph codeph">--targets</code> command line argument or a <code class="ph codeph">TargetSpec</code>.</p><pre class="pre codeblock"><code>targets:
+  - uri: linux1.example.com
+    alias: linux1
+    config:
+      ssh:
+        port: 2222</code></pre><p class="p">Aliases must be unique across the entire inventory. You can use the same alias multiple places, but they must all refer to the same target. Alias names must not match any group or target names used in the inventory.</p><p class="p">A list of targets may refer to a target by its alias, for example:</p><pre class="pre codeblock"><code>targets:
+  - uri: 192.168.110.10
+    alias: linux1
+groups:
+  - name: group1
+    targets:
+      - linux1</code></pre></div></article></article><article class="topic nested1" aria-labelledby="ariaid-title10" id="inventory-facts-vars-and-features"><h2 class="title topictitle2" id="ariaid-title10">Inventory facts, vars, and features</h2><div class="body"><p class="p">In addition to config values you can store information relating to <code class="ph codeph">facts</code>, <code class="ph codeph">vars</code> and <code class="ph codeph">features</code> for targets in the inventory. <code class="ph codeph">facts</code> represent observed information about the target including what can be collected by Facter. <code class="ph codeph">vars</code> contain arbitrary data that may be passed to run\\\_\\\* functions or used for logic in plans. <code class="ph codeph">features</code>&nbsp;represent capabilities of the target that can be used to select a specific task implementation.</p><pre class="pre codeblock"><code>groups:
+  - uri: centos_targets
+    targets:
+      - foo.example.com
+      - bar.example.com
+      - baz.example.com
+    facts:
+      operatingsystem: CentOS
+  - name: production_targets
+    vars:
+      environment: production
+    features: ['puppet-agent']
+</code></pre></div></article><article class="topic nested1" aria-labelledby="ariaid-title11" id="objects"><h2 class="title topictitle2" id="ariaid-title11">Objects</h2><div class="body"><p class="p">The inventory file uses the following objects.</p><ul class="ul"><li class="li"><p class="p"><strong class="ph b">Config</strong></p><p class="p">A config is a map that contains transport specific configuration options.</p></li><li class="li"><p class="p"><strong class="ph b">Group</strong></p><p class="p">A group is a map that requires a <code class="ph codeph">name</code> and can contain any of the following:</p><ul class="ul"><li class="li"><p class="p"><code class="ph codeph">targets</code> : <code class="ph codeph">Array[Node]</code></p></li><li class="li"><p class="p"><code class="ph codeph">groups</code>&nbsp;: Groups object</p></li><li class="li"><p class="p"><code class="ph codeph">config</code> : Config object</p></li><li class="li"><p class="p"><code class="ph codeph">facts</code> : Facts object</p></li><li class="li"><p class="p"><code class="ph codeph">vars</code> : Vars object</p></li><li class="li"><p class="p"><code class="ph codeph">features</code> : <code class="ph codeph">Array[Feature]</code></p></li></ul><p class="p">A group name must match the regular expression values <code class="ph codeph">/[a-zA-Z]\w+/</code>. These are the same values used for environments.</p><p class="p">A group may contain other groups. Any nodes in the nested groups will also be in the parent group. The configuration of nested groups will override the parent group.</p></li><li class="li"><p class="p"><strong class="ph b">Groups</strong></p><p class="p">An array of group objects.</p></li><li class="li"><p class="p"><strong class="ph b">Facts</strong></p><p class="p">A map of fact names and values. Values may include arrays or nested maps.</p></li><li class="li"><p class="p"><strong class="ph b">Feature</strong></p><p class="p">A string describing a feature of the target.</p></li><li class="li"><p class="p"><strong class="ph b">Target</strong></p><p class="p">A target can be just the string of its target URI or a map that requires a name key and can contain a config. For example, a target block can contain any of the following:</p><pre class="pre codeblock"><code>"host1.example.com"</code></pre><pre class="pre codeblock"><code>uri: "host1.example.com"</code></pre><pre class="pre codeblock"><code>uri: "host1.example.com"
+config:
+					   transport: "ssh"</code></pre><p class="p">If the target entry is a map, it may contain any of the following:</p><ul class="ul"><li class="li"><p class="p"><code class="ph codeph">alias</code> : <code class="ph codeph">String</code> or <code class="ph codeph">Array[String]</code></p></li><li class="li"><p class="p"><code class="ph codeph">config</code> : Config object</p></li><li class="li"><p class="p"><code class="ph codeph">facts</code> : Facts object</p></li><li class="li"><p class="p"><code class="ph codeph">vars</code> : Vars object</p></li><li class="li"><p class="p"><code class="ph codeph">features</code> : <code class="ph codeph">Array[Feature]</code></p></li></ul></li><li class="li"><p class="p"><strong class="ph b">Target name</strong></p><p class="p">The name used to refer to a target.</p></li><li class="li"><p class="p"><strong class="ph b">Targets</strong></p><p class="p">An array of target objects.</p></li><li class="li"><p class="p"><strong class="ph b">Vars</strong></p><p class="p">A map of value names and values. Values may include arrays or nested maps.</p></li></ul></div></article><article class="topic nested1" aria-labelledby="ariaid-title12" id="file-format"><h2 class="title topictitle2" id="ariaid-title12">File format</h2><div class="body"><p class="p">The inventory file is a yaml file that contains a single group. This group can be referred to as "all". In addition to the normal group fields, the top level has an inventory file version key that defaults to 1.</p></div></article><article class="topic nested1" aria-labelledby="ariaid-title13" id="precedence"><h2 class="title topictitle2" id="ariaid-title13">Precedence</h2><div class="body"><p class="p">If a target specifies a <code class="ph codeph">uri</code> or is created from a URI string any URI-based configuration information like host, transport or port will override config values even those defined in the same block. For config values, the first value found for a target is used. Node values take precedence over group values and are searched first. Values are searched for in a depth first order. The first item in an array is searched first.</p><p class="p">Configure transport for targets.</p><pre class="pre codeblock"><code>groups:
+  - name: linux
+    targets:
+      - linux1.example.com
+      - linux2.example.com
+      - linux3.example.com
+  - name: win
+    targets:
+      - win1.example.com
+      - win2.example.com
+      - win3.example.com
+    config:
+      transport: winrm</code></pre><p class="p">Configure login and escalation for a specific target.</p><pre class="pre codeblock"><code>targets:
+  - uri: host1.example.com
+    config:
+      ssh:
+          user: me
+          run-as: root</code></pre></div></article><article class="topic nested1" aria-labelledby="ariaid-title14" id="remote-targets"><h2 class="title topictitle2" id="ariaid-title14">Remote targets</h2><div class="body"><p class="p">Configure a remote target. When using the remote transport, the protocol of the target name does not have to map to the transport if you set the transport config option. This is useful if the target is an http API, for example:</p><pre class="pre codeblock"><code>targets:
+  - host1.example.com
+  - uri: https://user1:secret@remote.example.com
+    config:
+      transport: remote
+      remote:
+        # The remote transport will use the host1.example.com target from
+        # inventory to proxy tasks execution on.
+        run-on: host1.example.com
+  # This will execute on localhost.
+  - remote://my_aws_account</code></pre><p class="p"><strong class="ph b">Related information</strong></p><p class="p"><a class="xref" href="writing_tasks.html#">Naming tasks</a></p></div></article></article></main></body></html>

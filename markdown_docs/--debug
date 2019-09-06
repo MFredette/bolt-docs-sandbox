@@ -1,0 +1,36 @@
+ [gen-list] [DOTX008E][ERROR] File 'file:/Users/heston.hoffman/Documents/bolt-md/github_markdown/bolt_known_issues.dita.md' does not exist or cannot be loaded.
+ [gen-list] [DOTX008E][ERROR] File 'file:/Users/heston.hoffman/Documents/bolt-md/github_markdown/bolt_install_windows.md' does not exist or cannot be loaded.
+ [gen-list] [DOTX008E][ERROR] File 'file:/Users/heston.hoffman/Documents/bolt-md/github_markdown/bolt_install_msi.md' does not exist or cannot be loaded.
+ [gen-list] [DOTX008E][ERROR] File 'file:/Users/heston.hoffman/Documents/bolt-md/github_markdown/bolt_install_package_chocolatey.md' does not exist or cannot be loaded.
+ [gen-list] [DOTX008E][ERROR] File 'file:/Users/heston.hoffman/Documents/bolt-md/github_markdown/reference.dita' does not exist or cannot be loaded.
+ [gen-list] [DOTX008E][ERROR] File 'file:/Users/heston.hoffman/Documents/bolt-md/github_markdown/packaged_modules.md' does not exist or cannot be loaded.
+[topicpull] I/O error reported by XML parser processing file:/var/folders/8d/8p8xwm_14j79w1zk5xzjy8k00000gq/T/temp20190906095711001/reference.dita: /var/folders/8d/8p8xwm_14j79w1zk5xzjy8k00000gq/T/temp20190906095711001/reference.dita (No such file or directory)
+[topicpull] file:/Users/heston.hoffman/Documents/bolt-md/github_markdown/plan_functions.md:182:3: [DOTX031E][ERROR]: The file reference.dita#get_targets is not available to resolve link information. 
+[topicpull] Document has been marked not available: file:/var/folders/8d/8p8xwm_14j79w1zk5xzjy8k00000gq/T/temp20190906095711001/reference.dita
+[topicpull] file:/Users/heston.hoffman/Documents/bolt-md/github_markdown/plan_functions.md:182:3: [DOTX031E][ERROR]: The file reference.dita#get_targets is not available to resolve link information. 
+[topicpull] Document has been marked not available: file:/var/folders/8d/8p8xwm_14j79w1zk5xzjy8k00000gq/T/temp20190906095711001/reference.dita
+[topicpull] file:/Users/heston.hoffman/Documents/bolt-md/github_markdown/plan_functions.md:182:3: [DOTX031E][ERROR]: The file reference.dita#get_targets is not available to resolve link information. 
+[topicpull] Document has been marked not available: file:/var/folders/8d/8p8xwm_14j79w1zk5xzjy8k00000gq/T/temp20190906095711001/reference.dita
+[topicpull] file:/Users/heston.hoffman/Documents/bolt-md/github_markdown/plan_functions.md:182:3: [DOTX031E][ERROR]: The file reference.dita#get_targets is not available to resolve link information. 
+[topicpull] Document has been marked not available: file:/var/folders/8d/8p8xwm_14j79w1zk5xzjy8k00000gq/T/temp20190906095711001/reference.dita
+[topicpull] file:/Users/heston.hoffman/Documents/bolt-md/github_markdown/plan_functions.md:182:3: [DOTX031E][ERROR]: The file reference.dita#get_targets is not available to resolve link information. 
+[topicpull] Document has been marked not available: file:/var/folders/8d/8p8xwm_14j79w1zk5xzjy8k00000gq/T/temp20190906095711001/reference.dita
+[topicpull] file:/Users/heston.hoffman/Documents/bolt-md/github_markdown/plan_functions.md:182:3: [DOTX031E][ERROR]: The file reference.dita#get_targets is not available to resolve link information. 
+[topicpull] Document has been marked not available: file:/var/folders/8d/8p8xwm_14j79w1zk5xzjy8k00000gq/T/temp20190906095711001/reference.dita
+[topicpull] file:/Users/heston.hoffman/Documents/bolt-md/github_markdown/plan_functions.md:182:3: [DOTX031E][ERROR]: The file reference.dita#get_targets is not available to resolve link information. 
+[topicpull] Document has been marked not available: file:/var/folders/8d/8p8xwm_14j79w1zk5xzjy8k00000gq/T/temp20190906095711001/reference.dita
+[topicpull] file:/Users/heston.hoffman/Documents/bolt-md/github_markdown/plan_functions.md:182:3: [DOTX031E][ERROR]: The file reference.dita#get_targets is not available to resolve link information. 
+[topicpull] Document has been marked not available: file:/var/folders/8d/8p8xwm_14j79w1zk5xzjy8k00000gq/T/temp20190906095711001/reference.dita
+[topicpull] file:/Users/heston.hoffman/Documents/bolt-md/github_markdown/plan_functions.md:182:3: [DOTX031E][ERROR]: The file reference.dita#get_targets is not available to resolve link information. 
+[topicpull] Document has been marked not available: file:/var/folders/8d/8p8xwm_14j79w1zk5xzjy8k00000gq/T/temp20190906095711001/reference.dita
+[topicpull] file:/Users/heston.hoffman/Documents/bolt-md/github_markdown/plan_functions.md:182:3: [DOTX031E][ERROR]: The file reference.dita#get_targets is not available to resolve link information. 
+[topicpull] Document has been marked not available: file:/var/folders/8d/8p8xwm_14j79w1zk5xzjy8k00000gq/T/temp20190906095711001/reference.dita
+[topicpull] file:/Users/heston.hoffman/Documents/bolt-md/github_markdown/plan_functions.md:182:3: [DOTX031E][ERROR]: The file reference.dita#get_targets is not available to resolve link information. 
+[topicpull] Document has been marked not available: file:/var/folders/8d/8p8xwm_14j79w1zk5xzjy8k00000gq/T/temp20190906095711001/reference.dita
+[topicpull] file:/Users/heston.hoffman/Documents/bolt-md/github_markdown/plan_functions.md:182:3: [DOTX031E][ERROR]: The file reference.dita#get_targets is not available to resolve link information. 
+[topicpull] I/O error reported by XML parser processing file:/var/folders/8d/8p8xwm_14j79w1zk5xzjy8k00000gq/T/temp20190906095711001/packaged_modules.md: /var/folders/8d/8p8xwm_14j79w1zk5xzjy8k00000gq/T/temp20190906095711001/packaged_modules.md (No such file or directory)
+[topicpull] file:/Users/heston.hoffman/Documents/bolt-md/github_markdown/inspecting_tasks_and_plans.md:182:3: [DOTX031E][ERROR]: The file packaged_modules.md is not available to resolve link information. 
+[topicpull] Document has been marked not available: file:/var/folders/8d/8p8xwm_14j79w1zk5xzjy8k00000gq/T/temp20190906095711001/packaged_modules.md
+[topicpull] file:/Users/heston.hoffman/Documents/bolt-md/github_markdown/bolt_running_plans.md:182:3: [DOTX031E][ERROR]: The file packaged_modules.md is not available to resolve link information. 
+[topicpull] Document has been marked not available: file:/var/folders/8d/8p8xwm_14j79w1zk5xzjy8k00000gq/T/temp20190906095711001/packaged_modules.md
+[topicpull] file:/Users/heston.hoffman/Documents/bolt-md/github_markdown/bolt_running_tasks.md:182:3: [DOTX031E][ERROR]: The file packaged_modules.md is not available to resolve link information. 
